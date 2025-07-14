@@ -163,9 +163,9 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
     }
 
     return (
-      <div className="relative flex flex-col w-full h-full gap-2 justify-between">
+      <div className="relative flex flex-col w-full h-full gap-8 justify-between">
 
-        <div className="flex flex-col gap-1 px-2">
+        <div className="flex flex-col px-2 flex-grow">
           <Textarea
             ref={ref}
             value={value}
@@ -181,7 +181,7 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
           />
         </div>
 
-        <div className="flex items-center justify-between mt-0 mb-1 px-2">
+        <div className="flex items-center justify-between mt-0 mb-1 px-2 flex-shrink-0">
           <div className='flex items-center gap-2 w-full'>
             {/* ModeSwitcher at the leftmost side of the button row */}
             <ModeSwitcher activeMode={activeMode} onModeChange={setActiveMode} />

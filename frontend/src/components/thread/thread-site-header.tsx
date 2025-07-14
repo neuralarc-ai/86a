@@ -135,10 +135,11 @@ export function SiteHeader({
 
   return (
     <>
-      <header className={cn(
-        "bg-background sticky top-0 flex h-14 shrink-0 items-center gap-2 z-20 w-full",
-        isMobile && "px-2"
-      )}>
+      <div className="w-full h-10 bg-[#FFFFFF08] flex items-center justify-between px-2 sm:px-4" style={{ position: 'relative', zIndex: 20 }}>
+        <header className={cn(
+          "w-full flex h-10 items-center gap-2",
+          isMobile && "px-2"
+        )}>
         {isMobile && (
           <Button
             variant="ghost"
@@ -283,6 +284,7 @@ export function SiteHeader({
           )}
         </div>
       </header>
+      </div>
       <ShareModal
         isOpen={showShareModal}
         onClose={() => setShowShareModal(false)}
