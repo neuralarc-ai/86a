@@ -16,6 +16,9 @@ import { Tooltip } from '@/components/ui/tooltip';
 import { TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';
 import { BillingModal } from '@/components/billing/billing-modal';
 import ChatDropdown from './chat-dropdown';
+import ModeSwitcher from './mode-switcher';
+import { WebModeButton } from './web-mode';
+import { ConnectButton } from './connector';
 
 interface MessageInputProps {
   value: string;
@@ -93,6 +96,7 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
   ) => {
     const [billingModalOpen, setBillingModalOpen] = useState(false);
     const { enabled: customAgentsEnabled, loading: flagsLoading } = useFeatureFlag('custom_agents');
+    const [activeMode, setActiveMode] = useState('modeA');
 
     useEffect(() => {
       const textarea = ref as React.RefObject<HTMLTextAreaElement>;
@@ -177,9 +181,16 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
           />
         </div>
 
-
         <div className="flex items-center justify-between mt-0 mb-1 px-2">
-          <div className="flex items-center gap-3">
+          <div className='flex items-center gap-2 w-full'>
+            {/* ModeSwitcher at the leftmost side of the button row */}
+            <ModeSwitcher activeMode={activeMode} onModeChange={setActiveMode} />
+
+            {/* Spacer to push the rest of the buttons to the right */}
+            <div className='flex-1' />
+
+            {/* Show model selector inline if custom agents are disabled, otherwise show settings dropdown */}
+            {renderDropdown()}
             {!hideAttachments && (
               <FileUploadHandler
                 ref={fileInputRef}
@@ -195,25 +206,8 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
                 isLoggedIn={isLoggedIn}
               />
             )}
-
-          </div>
-
-          {subscriptionStatus === 'no_subscription' && !isLocalMode() &&
-            <TooltipProvider>
-              <Tooltip>
-                <TooltipTrigger>
-                  <p role='button' className='text-sm text-amber-500 hidden sm:block cursor-pointer' onClick={() => setBillingModalOpen(true)}>Upgrade for more usage</p>
-                </TooltipTrigger>
-                <TooltipContent>
-                  <p>The free tier is severely limited by the amount of usage. Upgrade to experience the full power of Suna.</p>
-                </TooltipContent>
-              </Tooltip>
-            </TooltipProvider>
-          }
-
-          <div className='flex items-center gap-2'>
-            {/* Show model selector inline if custom agents are disabled, otherwise show settings dropdown */}
-            {renderDropdown()}
+            <WebModeButton onClick={() => {}} />
+            <ConnectButton onClick={() => {}} />
 
             {/* Billing Modal */}
             <BillingModal
@@ -230,9 +224,9 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
             <Button
               type="submit"
               onClick={isAgentRunning && onStopAgent ? onStopAgent : onSubmit}
-              size="sm"
+              size="icon"
               className={cn(
-                'w-8 h-8 flex-shrink-0 self-end rounded-xl',
+                'w-10 h-10 rounded-full flex items-center justify-center bg-[#F7F7F726]',
                 (!value.trim() && uploadedFiles.length === 0 && !isAgentRunning) ||
                   loading ||
                   (disabled && !isAgentRunning)
@@ -246,14 +240,26 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
               }
             >
               {loading ? (
-                <Loader2 className="h-5 w-5 animate-spin" />
+                <Loader2 className="h-5 w-5 animate-spin" style={{ width: 20, height: 20 }} />
               ) : isAgentRunning ? (
-                <div className="min-h-[14px] min-w-[14px] w-[14px] h-[14px] rounded-sm bg-current" />
+                <div className="min-h-[14px] min-w-[14px] w-5 h-5 rounded-sm bg-current" />
               ) : (
-                <ArrowUp className="h-5 w-5" />
+                <ArrowUp className="h-5 w-5" style={{ width: 20, height: 20 }} />
               )}
             </Button>
           </div>
+          {subscriptionStatus === 'no_subscription' && !isLocalMode() &&
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger>
+                  <p role='button' className='text-sm text-amber-500 hidden sm:block cursor-pointer' onClick={() => setBillingModalOpen(true)}>Upgrade for more usage</p>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <p>The free tier is severely limited by the amount of usage. Upgrade to experience the full power of Suna.</p>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+          }
         </div>
         {subscriptionStatus === 'no_subscription' && !isLocalMode() &&
           <div className='sm:hidden absolute -bottom-8 left-0 right-0 flex justify-center'>

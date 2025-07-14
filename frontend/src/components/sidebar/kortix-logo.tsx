@@ -7,26 +7,15 @@ import { useEffect, useState } from 'react';
 interface KortixLogoProps {
   size?: number;
 }
-export function KortixLogo({ size = 24 }: KortixLogoProps) {
-  const { theme, systemTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-
-  // After mount, we can access the theme
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  const shouldInvert = mounted && (
-    theme === 'dark' || (theme === 'system' && systemTheme === 'dark')
-  );
-
+export function KortixLogo() {
   return (
     <Image
-        src="/kortix-symbol.svg"
-        alt="Kortix"
-        width={size}
-        height={size}
-        className={`${shouldInvert ? 'invert' : ''} flex-shrink-0`}
-      />
+      src="/86/A.svg"
+      alt="Kortix"
+      width={46}
+      height={35}
+      className="flex-shrink-0"
+      style={{ transform: 'rotate(0deg)' }}
+    />
   );
 }

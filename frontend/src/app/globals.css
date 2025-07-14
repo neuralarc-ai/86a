@@ -261,7 +261,7 @@
 }
 
 .dark {
-  --background: oklch(0.185 0.005 285.823);
+  --background: oklch(0.235 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.2 0.005 285.823);
   --card-foreground: oklch(0.985 0 0);
@@ -285,7 +285,7 @@
   --chart-3: oklch(0.769 0.188 70.08);
   --chart-4: oklch(0.627 0.265 303.9);
   --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.185 0.005 285.823);
+  --sidebar: oklch(0 0 0 / 25.1%);
   --sidebar-foreground: oklch(0.985 0 0);
   --sidebar-primary: oklch(0.488 0.243 264.376);
   --sidebar-primary-foreground: oklch(0.985 0 0);
@@ -307,7 +307,7 @@
     -moz-osx-font-smoothing: grayscale;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-[var(--background)] text-[var(--foreground)];
     font-feature-settings: 'palt'; /* Adjusts spacing for CJK text */
   }
 
@@ -653,4 +653,27 @@
       background-position: calc(100% + var(--shiny-width)) 0;
     }
   }
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 8px;
+  background: #44434369;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #44434369;
+  border-radius: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #616161;
+  border-radius: 8px;
+  min-height: 48px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:vertical {
+  min-height: 48px;
+}
+
+/* For Firefox */
+.custom-scrollbar {
+  scrollbar-color: #616161 #44434369;
+  scrollbar-width: thin;
 }
