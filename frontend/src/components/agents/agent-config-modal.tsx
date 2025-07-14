@@ -105,7 +105,7 @@ export const AgentConfigModal: React.FC<AgentConfigModalProps> = ({
     }
   };
 
-  const displayName = agent?.name || 'Suna';
+  const displayName = agent?.name || '86/A';
 
   return (
     <>

@@ -7,6 +7,7 @@ import {
   BadgeCheck,
   Bell,
   ChevronDown,
+  ChevronUp,
   ChevronsUpDown,
   Command,
   CreditCard,
@@ -63,6 +64,7 @@ export function NavUserWithTeams({
   const { data: accounts } = useAccounts();
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
   const { theme, setTheme } = useTheme();
+  const [menuOpen, setMenuOpen] = React.useState(false);
 
   // Prepare personal account and team accounts
   const personalAccount = React.useMemo(
@@ -162,11 +164,11 @@ export function NavUserWithTeams({
     <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
       <SidebarMenu>
         <SidebarMenuItem>
-          <DropdownMenu>
+          <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground mb-6 bg-[#FFFFFF1F] h-[64px]"
               >
                 <Avatar className="h-8 w-8 rounded-lg">
                   <AvatarImage src={user.avatar} alt={user.name} />
@@ -175,10 +177,17 @@ export function NavUserWithTeams({
                   </AvatarFallback>
                 </Avatar>
                 <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate font-medium">{user.name}</span>
-                  <span className="truncate text-xs">{user.email}</span>
+                  <span className="truncate text-[16px]">{user.name}</span>
+                  <span className="truncate text-[16px]">{user.email}</span>
                 </div>
-                <ChevronsUpDown className="ml-auto size-4" />
+                {/* Animated Chevron */}
+                <span className="ml-auto flex items-center">
+                  {menuOpen ? (
+                    <ChevronDown className="size-4 transition-transform duration-200" />
+                  ) : (
+                    <ChevronUp className="size-4 transition-transform duration-200" />
+                  )}
+                </span>
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent

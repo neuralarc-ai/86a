@@ -1,11 +1,10 @@
 export const siteConfig = {
-  name: 'Kortix Suna',
-  url: 'https://suna.so/',
-  description: 'Kortix AI',
+  name: '86/A NeuralArc',
+  url: 'https://86c.neuralarc.ai/',
+  description: 'NeuralArc&apos;s 86/A',
   links: {
-    twitter: 'https://x.com/kortixai',
-    github: 'https://github.com/kortix-ai/',
-    linkedin: 'https://www.linkedin.com/company/kortix/',
+    twitter: 'https://x.com/neuralarc_ai',
+    linkedin: 'https://www.linkedin.com/company/neuralarcsai/',
   },
 };
 

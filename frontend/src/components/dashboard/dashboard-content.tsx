@@ -31,6 +31,7 @@ import { useModal } from '@/hooks/use-modal-store';
 import { Examples } from './examples';
 import { useThreadQuery } from '@/hooks/react-query/threads/use-threads';
 import { normalizeFilenameToNFC } from '@/lib/utils/unicode';
+import { useAuth } from '@/components/AuthProvider';
 
 const PENDING_PROMPT_KEY = 'pendingAgentPrompt';
 
@@ -51,6 +52,26 @@ export function DashboardContent() {
   const chatInputRef = useRef<ChatInputHandles>(null);
   const initiateAgentMutation = useInitiateAgentWithInvalidation();
   const { onOpen } = useModal();
+  const { user } = useAuth();
+  const getUserName = () => {
+    if (!user) return '';
+    let name = user.user_metadata?.name || user.email?.split('@')[0] || '';
+    // Get only the first name (split by space or dot/underscore/hyphen)
+    name = name.split(/[ ._-]/)[0];
+    // Capitalize first letter, lowercase the rest
+    if (name.length > 0) {
+      name = name.charAt(0).toUpperCase() + name.slice(1).toLowerCase();
+    }
+    return name;
+  };
+  const userName = getUserName();
+  const getGreeting = () => {
+    const hour = new Date().getHours();
+    if (hour < 12) return 'Good Morning!';
+    if (hour < 18) return 'Good Afternoon!';
+    return 'Good Evening!';
+  };
+  const greeting = getGreeting();
 
   // Fetch agents to get the selected agent's name
   const { data: agentsResponse } = useAgents({
@@ -63,7 +84,7 @@ export function DashboardContent() {
   const selectedAgent = selectedAgentId
     ? agents.find(agent => agent.agent_id === selectedAgentId)
     : null;
-  const displayName = selectedAgent?.name || 'Suna';
+  const displayName = selectedAgent?.name || '86/A';
   const agentAvatar = selectedAgent?.avatar;
 
   const threadQuery = useThreadQuery(initiatedThreadId || '');
@@ -204,42 +225,47 @@ export function DashboardContent() {
           </div>
         )}
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[650px] max-w-[90%]">
-          <div className="flex flex-col items-center text-center w-full">
-            {/* <div className="flex items-center gap-1">
-              <h1 className="tracking-tight text-4xl text-muted-foreground leading-tight">
-                Hey, I am
-              </h1>
-              <h1 className="ml-1 tracking-tight text-4xl font-semibold leading-tight text-primary">
-                {displayName}
-                {agentAvatar && (
-                  <span className="text-muted-foreground ml-2">
-                    {agentAvatar}
-                  </span>
-                )}
-              </h1>
-            </div> */}
-            <p className="tracking-tight text-3xl font-normal text-muted-foreground/80 mt-2">
-              What would you like to do today?
-            </p>
-          </div>
-          <div className={cn(
-            "w-full mb-2",
-            "max-w-full",
-            "sm:max-w-3xl"
-          )}>
-            <ChatInput
-              ref={chatInputRef}
-              onSubmit={handleSubmit}
-              loading={isSubmitting}
-              placeholder="Describe what you need help with..."
-              value={inputValue}
-              onChange={setInputValue}
-              hideAttachments={false}
-              selectedAgentId={selectedAgentId}
-              onAgentSelect={setSelectedAgentId}
-              enableAdvancedConfig={true}
-              onConfigureAgent={(agentId) => router.push(`/agents/config/${agentId}`)}
-            />
+          <div className="w-full max-w-full sm:max-w-3xl mx-auto">
+            <div
+              className="flex items-center mt-2"
+              style={{
+                fontFamily: 'Fustat, sans-serif',
+                fontWeight: 400,
+                fontStyle: 'normal',
+                fontSize: 32,
+                lineHeight: '49.7px',
+                letterSpacing: '-3%',
+                verticalAlign: 'middle',
+              }}
+            >
+              <span style={{ color: '#fff' }}>{greeting}&nbsp;</span>
+              <span
+                style={{
+                  fontWeight: 700,
+                  background: 'linear-gradient(90deg, #3987BE 0%, #74A8CC 100%)',
+                  WebkitBackgroundClip: 'text',
+                  WebkitTextFillColor: 'transparent',
+                  backgroundClip: 'text',
+                }}
+              >
+                {userName}
+              </span>
+            </div>
+            <div className="w-full mb-2">
+              <ChatInput
+                ref={chatInputRef}
+                onSubmit={handleSubmit}
+                loading={isSubmitting}
+                placeholder="Assign tasks or ask anything....."
+                value={inputValue}
+                onChange={setInputValue}
+                hideAttachments={false}
+                selectedAgentId={selectedAgentId}
+                onAgentSelect={setSelectedAgentId}
+                enableAdvancedConfig={true}
+                onConfigureAgent={(agentId) => router.push(`/agents/config/${agentId}`)}
+              />
+            </div>
           </div>
           <Examples onSelectPrompt={setInputValue} />
         </div>
