@@ -1,4 +1,4 @@
-# Suna Frontend
+# 86/A Frontend
 
 ## Quick Setup
 

@@ -415,15 +415,20 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
             <div className='w-full'>
               <DropdownMenuItem
                 className={cn(
-                  "text-sm px-3 py-2 mx-2 my-0.5 flex items-center justify-between cursor-pointer",
-                  isHighlighted && "bg-accent",
+                  // Use default font, keep other styles
+                  "text-[16px] font-normal leading-[30px] text-white font-sans",
+                  "px-3 py-2 mx-2 my-0.5 flex items-center justify-between cursor-pointer",
+                  isHighlighted && "bg-[#45454569]",
                   !accessible && "opacity-70"
                 )}
+                style={{ fontWeight: 400, fontStyle: 'normal', letterSpacing: 0 }}
                 onClick={() => handleSelect(opt.id)}
                 onMouseEnter={() => setHighlightedIndex(index)}
               >
                 <div className="flex items-center">
-                  <span className="font-medium">{opt.label}</span>
+                  <span className="font-normal text-[16px] leading-[30px] text-white font-sans">
+                    {opt.label}
+                  </span>
                 </div>
                 <div className="flex items-center gap-2">
                   {/* Show capabilities */}
@@ -514,11 +519,11 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  size="sm"
-                  className="h-8 px-2 py-2 bg-transparent border-0 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent/50 flex items-center gap-2"
+                  size="icon"
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-[#F7F7F726]"
                 >
-                  <div className="relative flex items-center justify-center">
-                    <Cpu className="h-4 w-4" />
+                  <div className="relative flex items-center justify-center w-full h-full">
+                    <Cpu className="h-5 w-5" style={{ width: 18, height: 18 }} />
                     {MODELS[selectedModel]?.lowQuality && (
                       <AlertTriangle className="h-2.5 w-2.5 text-amber-500 absolute -top-1 -right-1" />
                     )}
@@ -526,15 +531,21 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                 </Button>
               </DropdownMenuTrigger>
             </TooltipTrigger>
-            <TooltipContent side="top" className="text-xs">
+            <TooltipContent side="bottom" className="text-xs">
               <p>Choose a model</p>
             </TooltipContent>
           </Tooltip>
         </TooltipProvider>
 
         <DropdownMenuContent
-          align="end"
-          className="w-72 p-0 overflow-hidden"
+          align="center"
+          className="w-72 p-0 overflow-hidden bg-[\#00000030] shadow-[0_4px_24px_0_#00000040] [box-shadow:inset_0_2px_8px_0_#00000008] backdrop-blur-md"
+          style={{
+            // Custom scrollbar thumb color
+            scrollbarColor: '#616161 #0000',
+            // Add padding to the right for spacing between items and scrollbar
+            paddingRight: '2px',
+          }}
           sideOffset={4}
         >
           <div className="overflow-y-auto w-full scrollbar-hide relative">
@@ -670,32 +681,19 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
               </div>
             ) : (
               /* Subscription or other status view */
-              <div className='max-h-[320px] overflow-y-auto w-full'>
-                <div className="px-3 py-3 flex justify-between items-center">
-                  <span className="text-xs font-medium text-muted-foreground">All Models</span>
+              <div
+                className='max-h-[320px] overflow-y-scroll w-full pr-2 custom-scrollbar'
+                style={{
+                  scrollbarColor: '#616161 #44434369',
+                  scrollbarWidth: 'thin',
+                }}
+              >
+                {/* <div className="px-3 py-3 flex justify-between items-center">
+                 
                   {isLocalMode() && (
-                    <TooltipProvider>
-                      <Tooltip>
-                        <TooltipTrigger asChild>
-                          <Button
-                            size="sm"
-                            variant="ghost"
-                            className="h-6 w-6 p-0"
-                            onClick={(e) => {
-                              e.stopPropagation();
-                              openAddCustomModelDialog(e);
-                            }}
-                          >
-                            <Plus className="h-3.5 w-3.5" />
-                          </Button>
-                        </TooltipTrigger>
-                        <TooltipContent side="bottom" className="text-xs">
-                          Add a custom model
-                        </TooltipContent>
-                      </Tooltip>
-                    </TooltipProvider>
+                    <></>
                   )}
-                </div>
+                </div> */}
                 {uniqueModels
                   .filter(m =>
                     m.label.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -711,31 +709,13 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
               </div>
             )}
           </div>
-          {!shouldDisplayAll && <div className="px-3 py-2 border-t border-border">
-            <div className="relative flex items-center">
-              <Search className="absolute left-2.5 h-3.5 w-3.5 text-muted-foreground pointer-events-none" />
-              <input
-                ref={searchInputRef}
-                type="text"
-                placeholder="Search models..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                onKeyDown={handleSearchInputKeyDown}
-                className="w-full h-8 px-8 py-1 rounded-lg text-sm focus:outline-none bg-muted"
-              />
-            </div>
-          </div>}
+          {/* Remove the search bar and search input for models */}
+          {/* The search input and its container have been removed as per request */}
         </DropdownMenuContent>
       </DropdownMenu>
 
       {/* Custom Model Dialog - moved to separate component */}
-      <CustomModelDialog
-        isOpen={isCustomModelDialogOpen}
-        onClose={closeCustomModelDialog}
-        onSave={handleSaveCustomModel}
-        initialData={dialogInitialData}
-        mode={dialogMode}
-      />
+      {/* Removed CustomModelDialog as per request */}
 
       {paywallOpen && (
         <PaywallDialog

@@ -62,10 +62,10 @@ export const UploadedFilesDisplay: React.FC<UploadedFilesDisplayProps> = ({
                 type="button"
                 variant="ghost"
                 size="icon"
-                className="h-4 w-4 rounded-full p-0 hover:bg-gray-200 dark:hover:bg-gray-700"
+                className="h-[22px] w-[22px] rounded-full p-0 hover:bg-gray-200 dark:hover:bg-gray-700"
                 onClick={() => onRemoveFile(index)}
               >
-                <X className="h-3 w-3" />
+                <X className="h-[22px] w-[22px]" style={{ width: 22, height: 22 }} />
               </Button>
             </motion.div>
           ))}

@@ -12,7 +12,8 @@ import {
   Share2,
   X,
   Check,
-  History
+  History,
+  MoreVertical
 } from "lucide-react"
 import { toast } from "sonner"
 import { usePathname, useRouter } from "next/navigation"
@@ -350,47 +351,44 @@ export function NavAgents() {
 
   return (
     <SidebarGroup>
-      <div className="flex justify-between items-center">
-        <SidebarGroupLabel>Tasks</SidebarGroupLabel>
-        {state !== 'collapsed' ? (
-          <div className="flex items-center space-x-1">
-            {selectedThreads.size > 0 ? (
-              <>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={deselectAllThreads}
-                  className="h-7 w-7"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={selectAllThreads}
-                  disabled={selectedThreads.size === combinedThreads.length}
-                  className="h-7 w-7"
-                >
-                  <Check className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={handleMultiDelete}
-                  className="h-7 w-7 text-destructive"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </>
-            ) : null}
-          </div>
-        ) : null}
-      </div>
+      {state === 'expanded' && (
+        <div className="flex items-center space-x-1 mb-2">
+          {selectedThreads.size > 0 ? (
+            <>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={deselectAllThreads}
+                className="h-7 w-7"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={selectAllThreads}
+                disabled={selectedThreads.size === combinedThreads.length}
+                className="h-7 w-7"
+              >
+                <Check className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleMultiDelete}
+                className="h-7 w-7 text-destructive"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </>
+          ) : null}
+        </div>
+      )}
 
       <SidebarMenu className="overflow-y-auto max-h-[calc(100vh-200px)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
 
 
-        {state !== 'collapsed' && (
+        {state === 'expanded' && (
           <>
             {isLoading ? (
               // Show skeleton loaders while loading
@@ -413,98 +411,85 @@ export function NavAgents() {
 
                   return (
                     <SidebarMenuItem key={`thread-${thread.threadId}`} className="group/row">
-                      <SidebarMenuButton
-                        asChild
-                        className={`relative ${isActive
-                          ? 'bg-accent text-accent-foreground font-medium'
-                          : isSelected
-                            ? 'bg-primary/10'
-                            : ''
-                          }`}
-                      >
-                        <div className="flex items-center w-full">
-                          <Link
-                            href={thread.url}
-                            onClick={(e) =>
-                              handleThreadClick(e, thread.threadId, thread.url)
-                            }
-                            className="flex items-center flex-1 min-w-0"
+                      <div className="flex items-center w-full min-h-[48px] py-2">
+                        {/* Loader or icon */}
+                        {isThreadLoading && (
+                          <Loader2 className="h-4 w-4 animate-spin mr-2 flex-shrink-0" />
+                        )}
+                        {/* Title */}
+                        <span className="font-normal text-[16px] leading-[1] truncate flex-1">
+                          {thread.projectName}
+                        </span>
+                        {/* Date */}
+                        <span className="ml-2 text-[14px] leading-[1] text-white/50 flex-shrink-0">
+                          {new Date(thread.updatedAt).toLocaleDateString('en-US', { weekday: 'short' })}
+                        </span>
+                        {/* Three dots menu */}
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <button
+                              className="ml-2 flex-shrink-0 w-4 h-6 flex items-center justify-center hover:bg-muted/50 rounded transition-all duration-150 text-muted-foreground hover:text-foreground"
+                              onClick={(e) => {
+                                e.preventDefault();
+                                e.stopPropagation();
+                                document.body.style.pointerEvents = 'auto';
+                              }}
+                            >
+                              <MoreVertical className="h-4 w-4" />
+                              <span className="sr-only">More actions</span>
+                            </button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent
+                            className="w-56 rounded-lg"
+                            side={isMobile ? 'bottom' : 'right'}
+                            align={isMobile ? 'end' : 'start'}
                           >
-                            {isThreadLoading ? (
-                              <Loader2 className="h-4 w-4 animate-spin mr-2 flex-shrink-0" />
-                            ) : null}
-                            <span className="truncate">{thread.projectName}</span>
-                          </Link>
-                          
-                          {/* Checkbox - only visible on hover of this specific area */}
+                            <DropdownMenuItem onClick={() => {
+                              setSelectedItem({ threadId: thread?.threadId, projectId: thread?.projectId })
+                              setShowShareModal(true)
+                            }}>
+                              <Share2 className="text-muted-foreground" />
+                              <span>Share Chat</span>
+                            </DropdownMenuItem>
+                            <DropdownMenuItem asChild>
+                              <a
+                                href={thread.url}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                              >
+                                <ArrowUpRight className="text-muted-foreground" />
+                                <span>Open in New Tab</span>
+                              </a>
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem
+                              onClick={() =>
+                                handleDeleteThread(
+                                  thread.threadId,
+                                  thread.projectName,
+                                )
+                              }
+                            >
+                              <Trash2 className="text-muted-foreground" />
+                              <span>Delete</span>
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                        {/* Checkbox */}
+                        <div
+                          className="ml-2 flex-shrink-0 w-4 h-4 flex items-center justify-center group/checkbox"
+                          onClick={(e) => toggleThreadSelection(thread.threadId, e)}
+                        >
                           <div
-                            className="mr-1 flex-shrink-0 w-4 h-4 flex items-center justify-center group/checkbox"
-                            onClick={(e) => toggleThreadSelection(thread.threadId, e)}
+                            className={`h-4 w-4 border rounded cursor-pointer transition-all duration-150 flex items-center justify-center ${isSelected
+                              ? 'opacity-100 bg-primary border-primary hover:bg-primary/90'
+                              : 'border-muted-foreground/30 bg-background hover:bg-muted/50'
+                              }`}
                           >
-                            <div
-                              className={`h-4 w-4 border rounded cursor-pointer transition-all duration-150 flex items-center justify-center ${isSelected
-                                ? 'opacity-100 bg-primary border-primary hover:bg-primary/90'
-                                : 'opacity-0 group-hover/checkbox:opacity-100 border-muted-foreground/30 bg-background hover:bg-muted/50'
-                                }`}
-                            >
-                              {isSelected && <Check className="h-3 w-3 text-primary-foreground" />}
-                            </div>
+                            {isSelected && <Check className="h-3 w-3 text-primary-foreground" />}
                           </div>
-
-                          {/* Dropdown Menu - inline with content */}
-                          <DropdownMenu>
-                            <DropdownMenuTrigger asChild>
-                              <button
-                                className="flex-shrink-0 w-4 h-4 flex items-center justify-center hover:bg-muted/50 rounded transition-all duration-150 text-muted-foreground hover:text-foreground opacity-0 group-hover/row:opacity-100"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  e.stopPropagation();
-                                  // Ensure pointer events are enabled when dropdown opens
-                                  document.body.style.pointerEvents = 'auto';
-                                }}
-                              >
-                                <MoreHorizontal className="h-4 w-4" />
-                                <span className="sr-only">More actions</span>
-                              </button>
-                            </DropdownMenuTrigger>
-                            <DropdownMenuContent
-                              className="w-56 rounded-lg"
-                              side={isMobile ? 'bottom' : 'right'}
-                              align={isMobile ? 'end' : 'start'}
-                            >
-                              <DropdownMenuItem onClick={() => {
-                                setSelectedItem({ threadId: thread?.threadId, projectId: thread?.projectId })
-                                setShowShareModal(true)
-                              }}>
-                                <Share2 className="text-muted-foreground" />
-                                <span>Share Chat</span>
-                              </DropdownMenuItem>
-                              <DropdownMenuItem asChild>
-                                <a
-                                  href={thread.url}
-                                  target="_blank"
-                                  rel="noopener noreferrer"
-                                >
-                                  <ArrowUpRight className="text-muted-foreground" />
-                                  <span>Open in New Tab</span>
-                                </a>
-                              </DropdownMenuItem>
-                              <DropdownMenuSeparator />
-                              <DropdownMenuItem
-                                onClick={() =>
-                                  handleDeleteThread(
-                                    thread.threadId,
-                                    thread.projectName,
-                                  )
-                                }
-                              >
-                                <Trash2 className="text-muted-foreground" />
-                                <span>Delete</span>
-                              </DropdownMenuItem>
-                            </DropdownMenuContent>
-                          </DropdownMenu>
                         </div>
-                      </SidebarMenuButton>
+                      </div>
                     </SidebarMenuItem>
                   );
                 })}
@@ -519,6 +504,7 @@ export function NavAgents() {
           </>
         )}
       </SidebarMenu>
+      <div className="w-full h-px bg-[#FFFFFF1A] mt-6" />
 
       {(isDeletingSingle || isDeletingMultiple) && totalToDelete > 0 && (
         <div className="mt-2 px-2">
