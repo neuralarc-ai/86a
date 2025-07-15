@@ -686,7 +686,7 @@
 }
 
 /* Playfair Display variable font utility */
-.playfair-display-auth-title {
+.playfair-display {
   font-family: "Playfair Display", serif;
   font-optical-sizing: auto;
   font-weight: 700;
