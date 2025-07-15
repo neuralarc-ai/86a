@@ -684,3 +684,13 @@
   font-optical-sizing: auto;
   font-style: normal;
 }
+
+/* Playfair Display variable font utility */
+.playfair-display-auth-title {
+  font-family: "Playfair Display", serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* To use a different weight, override font-weight in a custom class or inline style. */

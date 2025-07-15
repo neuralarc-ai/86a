@@ -4,14 +4,13 @@ import Link from 'next/link';
 import { SubmitButton } from '@/components/ui/submit-button';
 import { Input } from '@/components/ui/input';
 import GoogleSignIn from '@/components/GoogleSignIn';
-import { FlickeringGrid } from '@/components/home/ui/flickering-grid';
 import { useMediaQuery } from '@/hooks/use-media-query';
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useScroll } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { signIn, signUp, forgotPassword } from './actions';
 import { useSearchParams, useRouter } from 'next/navigation';
 import {
-  ArrowLeft,
   X,
   CheckCircle,
   AlertCircle,
@@ -233,9 +232,9 @@ function LoginContent() {
   // Registration success view
   if (registrationSuccess) {
     return (
-      <main className="flex min-h-screen w-full bg-muted">
+      <main className="flex min-h-screen w-full bg-[#1E221B]">
         {/* Left image/branding */}
-        <div className="hidden lg:flex flex-col justify-center items-center w-1/2 bg-black/90 relative overflow-hidden">
+        <div className="hidden lg:flex flex-col justify-center items-center w-1/2 relative overflow-hidden">
           {mounted && (
             <Image
               src={resolvedTheme === 'dark' ? '/auth/auth-dark.png' : '/auth/auth-light.png'}
@@ -247,8 +246,8 @@ function LoginContent() {
           )}
           <div className="absolute inset-0 bg-black/60 z-10" />
           <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-8">
-            <h1 className="text-5xl font-bold text-white mb-2 drop-shadow-lg">86/A</h1>
-            <p className="text-2xl font-medium text-white/90 mb-8 text-center drop-shadow-lg">Built for What’s Beyond.</p>
+            <h1 className="text-5xl font-bold text-white mb-2 drop-shadow-lg playfair-display-auth-title">86/A</h1>
+            <p className="text-2xl font-medium text-white/90 mb-8 text-center drop-shadow-lg playfair-display-auth-title">Built for What’s Beyond.</p>
             <span className="text-white/70 text-sm mt-auto mb-8">neuralarc.ai</span>
           </div>
         </div>
@@ -260,10 +259,10 @@ function LoginContent() {
               <div className="bg-green-50 dark:bg-green-950/20 rounded-full p-4 mb-6">
                 <MailCheck className="h-12 w-12 text-green-500 dark:text-green-400" />
               </div>
-              <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tighter text-center text-balance text-primary mb-4">
+              <h1 className="text-3xl md:text-4xl lg:text-5xl font-medium tracking-tighter text-center text-balance text-primary mb-4 playfair-display-auth-title">
                 Check your email
               </h1>
-              <p className="text-base md:text-lg text-center text-muted-foreground font-medium text-balance leading-relaxed tracking-tight max-w-md mb-2">
+              <p className="text-base md:text-lg text-center text-muted-foreground font-medium text-balance leading-relaxed tracking-tight max-w-md mb-2 playfair-display-auth-title">
                 We've sent a confirmation link to:
               </p>
               <p className="text-lg font-medium mb-6">
@@ -296,28 +295,44 @@ function LoginContent() {
   }
   // Main auth view
   return (
-    <main className="flex min-h-screen w-full bg-muted">
-      {/* Left image/branding */}
-      <div className="hidden lg:flex flex-col justify-center items-center w-[35%] bg-black/90 relative overflow-hidden">
-        {mounted && (
+    <main className="flex min-h-screen w-full bg-[#191919]">
+      {/* Left image/branding - new Helium hero style */}
+      <div className="hidden lg:flex w-[40%] relative h-full min-h-screen items-center justify-center overflow-hidden">
+        <Image
+          src={resolvedTheme === 'dark' ? '/auth/auth-dark.png' : '/auth/auth-dark.png'}
+          alt="Helium Hero Background"
+          fill
+          className="object-cover object-center z-0"
+          priority
+        />
+        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-8">
           <Image
-            src={resolvedTheme === 'dark' ? '/auth/auth-dark.png' : '/auth/auth-light.png'}
-            alt="Auth Illustration"
-            fill
-            className="object-cover object-center z-0"
+            src="/auth/neuralarc.svg"
+            alt="NeuralArc Logo"
+            width={130}
+            height={130}
+            className="mb-24 max-w-[130px] w-auto h-auto"
             priority
           />
-        )}
-        <div className="absolute inset-0 bg-black/60 z-10" />
-        <div className="absolute inset-0 top-12 flex flex-col items-center justify-center z-20 px-8">
-          <h1 className="text-5xl font-semibold text-white mb-2 drop-shadow-lg">86/A</h1>
-          <p className="text-2xl font-medium text-white/90 mb-8 text-center drop-shadow-lg">Built for What’s Beyond.</p>
-          <span className="text-white/70 text-sm mt-auto mb-8">neuralarc.ai</span>
+          <span className="text-2xl lg:text-5xl font-normal text-white text-center mb-8 playfair-display-auth-title" style={{fontWeight: 400}}>
+            Enterprise Entry to<br/>Limitless AI
+          </span>
+          <span className="text-6xl lg:text-[100px] font-light text-white text-center">
+            Helium
+          </span>
         </div>
       </div>
       {/* Right card and legal footer container */}
-      <div className="flex flex-[0_0_65%] items-center justify-center min-h-screen w-full bg-background relative">
-        <div className="w-full max-w-[600px] rounded-[16px] bg-[#F3F4F6] dark:bg-[#F9FAFB]/[0.02] border border-border p-8 mx-4 shadow-xl flex flex-col min-h-fit">
+      <motion.div
+        layout
+        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+        className="flex flex-[0_0_60%] items-center justify-center min-h-screen w-full bg-[#191919] relative"
+      >
+        <motion.div
+          layout
+          transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+          className="w-full max-w-[600px] rounded-[16px] bg-[#F3F4F6] dark:bg-[#E4E7DF0D] border border-border p-8 mx-4 shadow-md flex flex-col min-h-fit"
+        >
           {/* Non-registration related messages */}
           {message && !isSuccessMessage && (
             <div className="mb-6 p-4 rounded-[16px] flex items-center gap-3 bg-secondary/10 border border-secondary/20 text-secondary">
@@ -328,24 +343,24 @@ function LoginContent() {
           {/* Form */}
           <form className="space-y-5">
             <div>
-              <Label htmlFor="email" className="block mb-1 text-sm font-medium text-left">Email</Label>
+              <Label htmlFor="email" className="block lg:text-base mb-2 text-sm font-medium text-left">Email</Label>
               <Input
                 id="email"
                 name="email"
                 type="email"
                 placeholder="Email address"
-                className="h-15 rounded-[16px] bg-background border-border"
+                className="h-12 lg:h-18 rounded-[16px] bg-[#0000004D] dark:bg-[#0000004D] border-[#E2E2E23D] text-lg placeholder:text-lg"
                 required
               />
             </div>
             <div>
-              <div className="flex items-center justify-between mb-1">
-                <Label htmlFor="password" className="text-sm font-medium text-left">Password</Label>
+              <div className="flex items-center justify-between mb-2">
+                <Label htmlFor="password" className="text-sm font-medium text-left lg:text-base">Password</Label>
                 {!isSignUp && (
                   <button
                     type="button"
                     onClick={() => setForgotPasswordOpen(true)}
-                    className="text-sm text-primary cursor-pointer hover:underline"
+                    className="text-sm text-[#949494] hover:text-primary cursor-pointer underline lg:text-base"
                   >
                     Forgot password?
                   </button>
@@ -356,39 +371,50 @@ function LoginContent() {
                 name="password"
                 type="password"
                 placeholder="Password"
-                className="h-15 rounded-[16px] bg-background border-border"
+                className="h-12 lg:h-18 rounded-[16px] bg-background dark:bg-[#0000004D] border-[#E2E2E23D] text-lg placeholder:text-lg"
                 required
               />
             </div>
-            {isSignUp && (
-              <div>
-                <Label htmlFor="confirmPassword" className="block mb-1 text-sm font-medium text-left">Confirm Password</Label>
-                <Input
-                  id="confirmPassword"
-                  name="confirmPassword"
-                  type="password"
-                  placeholder="Confirm password"
-                  className="h-15 rounded-[16px] bg-background border-border"
-                  required
-                />
-              </div>
-            )}
+            <AnimatePresence initial={false}>
+              {isSignUp && (
+                <motion.div
+                  key="confirm-password"
+                  initial={{ opacity: 0, y: -12, height: 0 }}
+                  animate={{ opacity: 1, y: 0, height: 'auto' }}
+                  exit={{ opacity: 0, y: -12, height: 0 }}
+                  transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
+                  className="overflow-hidden lg:text-base"
+                >
+                  <Label htmlFor="confirmPassword" className="block mb-1 text-sm lg:text-base font-medium text-left">Confirm Password</Label>
+                  <Input
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    type="password"
+                    placeholder="Confirm password"
+                    className="h-12 lg:h-18 rounded-[16px] text-lg bg-background dark:bg-[#0000004D] border-[#E2E2E23D] placeholder:textlg"
+                    required
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
             <div className="flex gap-2 pt-4">
               {!isSignUp ? (
                 <>
+                <div className='grid grid-cols-3 gap-2 w-full'>
                   <SubmitButton
                     formAction={handleSignIn}
-                    className="w-full h-14 rounded-sm cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-md"
+                    className="w-full col-span-1 h-14 rounded-sm cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-md"
                     pendingText="Signing in..."
                   >
                     Sign in
                   </SubmitButton>
                   <Link
                     href={`/auth?mode=signup${returnUrl ? `&returnUrl=${returnUrl}` : ''}`}
-                    className="flex h-14 bg-transparent items-center justify-center w-full text-center rounded-sm border border-border hover:bg-accent/20 transition-all"
+                    className="flex col-span-2 h-14 bg-transparent items-center justify-center w-full text-center rounded-sm border border-border hover:bg-accent/20 transition-all"
                   >
                     Don't have an account? <span className="ml-1 underline">Sign Up</span>
                   </Link>
+                </div>
                 </>
               ) : (
                 <>
@@ -417,9 +443,9 @@ function LoginContent() {
           <div className="w-full">
             <GoogleSignIn returnUrl={returnUrl || undefined} />
           </div>
-        </div>
+        </motion.div>
         {/* Legal footer absolutely positioned at bottom center */}
-        <div className="hidden lg:flex flex-row items-center gap-x-4 gap-y-2 text-xs text-muted-foreground absolute bottom-6 z-20">
+        <div className="hidden lg:flex flex-row items-center gap-x-2 gap-y-2 text-xs text-muted-foreground absolute bottom-10 z-20">
           <Link href="/terms" className="hover:underline flex-shrink-0">Terms of use</Link>
           <span className="mx-1">•</span>
           <Link href="/privacy" className="hover:underline flex-shrink-0">Privacy Policy</Link>
@@ -428,9 +454,9 @@ function LoginContent() {
           <span className="mx-1 flex-shrink-0">•</span>
           <span className='flex-shrink-0'>Copyright 2025. All rights reserved.</span>
           <span className="mx-1 flex-shrink-0">•</span>
-          <span className='flex-shrink-0'>86/a, a product by <span className="font-bold">NeuralArc</span></span>
+          <span className='flex-shrink-0'>86/a, a product by <Link href="https://neuralarc.ai" className="font-bold hover:underline" target="_blank" rel="noopener noreferrer">NeuralArc</Link></span>
         </div>
-      </div>
+      </motion.div>
       {/* Forgot Password Dialog (unchanged) */}
       <Dialog open={forgotPasswordOpen} onOpenChange={setForgotPasswordOpen}>
         <DialogContent className="sm:max-w-md rounded-[16px] bg-[#F3F4F6] dark:bg-[#17171A] border border-border [&>button]:hidden">

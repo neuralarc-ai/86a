@@ -14,6 +14,7 @@ const fustat = Fustat({
   weight: ["200", "300", "400", "500", "600", "700", "800"],
 });
 
+
 export const viewport: Viewport = {
   themeColor: 'black',
 };
@@ -110,11 +111,12 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head>
         <Script async src="https://cdn.tolt.io/tolt.js" data-tolt={process.env.NEXT_PUBLIC_TOLT_REFERRAL_ID}></Script>
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="" />
+        <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet" />
       </head>
 
-      <body
-        className={`${fustat.className} antialiased bg-background`}
-      >
+      <body className={`${fustat.className} antialiased bg-background`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
