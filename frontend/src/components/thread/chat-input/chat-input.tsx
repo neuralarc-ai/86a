@@ -295,7 +295,7 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
         />
         
         <Card
-          className={`-mb-2 shadow-none w-full max-w-4xl mx-auto bg-transparent border-none overflow-hidden ${enableAdvancedConfig && selectedAgentId ? '' : 'rounded-3xl'}`}
+          className={`-mb-2 shadow-none w-full max-w-4xl mx-auto bg-transparent border-none overflow-hidden min-h-[160px] ${enableAdvancedConfig && selectedAgentId ? '' : 'rounded-3xl'}`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={(e) => {
@@ -319,12 +319,12 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
           <div className="w-full text-sm flex flex-col justify-between items-start rounded-lg">
             {/* Gradient border wrapper for CardContent */}
             <div style={{
-              padding: '2px',
+              padding: '1px',
               borderRadius: enableAdvancedConfig && selectedAgentId ? '1.5rem 1.5rem 0 0' : '1.5rem',
-              background: 'linear-gradient(90deg, #3987BE 0%, #75974C 100%)',
-              width: '100%'
+              background: 'linear-gradient(90deg, #EE2F82 0%, #FFD160 100%)',
+              width: '100%',
             }}>
-              <CardContent className={`w-full p-2 ${enableAdvancedConfig && selectedAgentId ? 'pb-1' : 'pb-2'} ${bgColor} border ${enableAdvancedConfig && selectedAgentId ? 'rounded-t-3xl' : 'rounded-3xl'}`}>
+              <CardContent className={`w-full p-2 ${enableAdvancedConfig && selectedAgentId ? 'pb-1' : 'pb-2'} ${bgColor} border ${enableAdvancedConfig && selectedAgentId ? 'rounded-t-3xl' : 'rounded-3xl'} min-h-[160px]`}>
                 <AttachmentGroup
                   files={uploadedFiles || []}
                   sandboxId={sandboxId}
