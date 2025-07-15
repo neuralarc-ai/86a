@@ -8,6 +8,7 @@ import {
   TooltipTrigger,
 } from '@/components/ui/tooltip';
 import { useTranscription } from '@/hooks/react-query/transcription/use-transcription';
+import { cn } from '@/lib/utils';
 
 interface VoiceRecorderProps {
     onTranscription: (text: string) => void;
@@ -153,11 +154,11 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
     const getIcon = () => {
         switch (state) {
             case 'recording':
-                return <Square className="h-4 w-4" />;
+                return <Square className="h-[22px] w-[22px]" style={{ width: 22, height: 22 }} />;
             case 'processing':
-                return <Loader2 className="h-4 w-4 animate-spin" />;
+                return <Loader2 className="h-[22px] w-[22px] animate-spin" style={{ width: 22, height: 22 }} />;
             default:
-                return <Mic className="h-4 w-4" />;
+                return <Mic className="h-[22px] w-[22px]" style={{ width: 22, height: 22 }} />;
         }
     };
 
@@ -168,16 +169,20 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
                     <Button
                         type="button"
                         variant="ghost"
-                        size="sm"
+                        size="icon"
                         onClick={handleClick}
                         onContextMenu={handleRightClick}
                         disabled={disabled || state === 'processing'}
-                        className={`h-8 px-2 py-2 bg-transparent border-0 rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent/50 flex items-center gap-2 transition-colors ${getButtonClass()}`}
+                        className={cn(`w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-tr from-[#F03487] to-[#FCBB42] transition-colors`, getButtonClass())}
                     >
-                        {getIcon()}
+                        <span className="flex items-center justify-center w-full h-full">
+                          {state === 'recording' ? <Square className="h-5 w-5" style={{ width: 20, height: 20 }} /> :
+                           state === 'processing' ? <Loader2 className="h-5 w-5 animate-spin" style={{ width: 20, height: 20 }} /> :
+                           <Mic className="h-5 w-5" style={{ width: 18, height: 18 }} />}
+                        </span>
                     </Button>
                 </TooltipTrigger>
-                <TooltipContent side="top" className="text-xs">
+                <TooltipContent side="bottom" className="text-xs">
                     <p>
                         {state === 'recording' 
                             ? 'Click to stop recording' 

@@ -590,14 +590,36 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
 
                                         return (
                                             <div key={group.key} className="flex justify-end">
-                                                <div className="flex max-w-[85%] rounded-3xl rounded-br-lg bg-card border px-4 py-3 break-words overflow-hidden">
-                                                    <div className="space-y-3 min-w-0 flex-1">
-                                                        {cleanContent && (
-                                                            <Markdown className="text-sm prose prose-sm dark:prose-invert chat-markdown max-w-none [&>:first-child]:mt-0 prose-headings:mt-3 break-words overflow-wrap-anywhere">{cleanContent}</Markdown>
-                                                        )}
+                                                <div
+                                                    className="flex max-w-[85%]"
+                                                    style={{
+                                                        gap: '4px',
+                                                        opacity: 1,
+                                                    }}
+                                                >
+                                                    <div
+                                                        style={{
+                                                            background: '#FFFFFF24',
+                                                            color: '#FFFFFF',
+                                                            paddingTop: '16px',
+                                                            paddingRight: '24px',
+                                                            paddingBottom: '16px',
+                                                            paddingLeft: '24px',
+                                                            borderTopLeftRadius: '24px',
+                                                            borderTopRightRadius: '24px',
+                                                            borderBottomRightRadius: '8px',
+                                                            borderBottomLeftRadius: '24px',
+                                                        }}
+                                                        className="break-words overflow-hidden"
+                                                    >
+                                                        <div className="space-y-3 min-w-0 flex-1">
+                                                            {cleanContent && (
+                                                                <Markdown className="text-sm prose prose-sm chat-markdown max-w-none [&>:first-child]:mt-0 prose-headings:mt-3 break-words overflow-wrap-anywhere" style={{ color: '#FFFFFF' }}>{cleanContent}</Markdown>
+                                                            )}
 
-                                                        {/* Use the helper function to render user attachments */}
-                                                        {renderAttachments(attachments as string[], handleOpenFileViewer, sandboxId, project)}
+                                                            {/* Use the helper function to render user attachments */}
+                                                            {renderAttachments(attachments as string[], handleOpenFileViewer, sandboxId, project)}
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>

@@ -244,28 +244,15 @@ export const AgentSelector: React.FC<AgentSelectorProps> = ({
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
-                  size="sm"
+                  size="icon"
                   className={cn(
-                    "px-2.5 py-1.5 text-sm font-normal hover:bg-accent/40 transition-all duration-200 rounded-xl",
-                    "focus:ring-1 focus:ring-ring focus:ring-offset-1 focus:outline-none",
-                    isOpen && "bg-accent/40"
+                    "w-12 h-12 rounded-full flex items-center justify-center bg-[#F7F7F726]",
+                    isOpen && "ring-2 ring-accent"
                   )}
                   disabled={disabled}
                 >
-                  <div className="flex items-center gap-2">
-                    <div className="flex-shrink-0">
-                      {agentDisplay.icon}
-                    </div>
-                    <span className="hidden sm:inline-block truncate max-w-[80px] font-normal">
-                      {agentDisplay.name}
-                    </span>
-                    <ChevronDown 
-                      size={12} 
-                      className={cn(
-                        "opacity-50 transition-transform duration-200",
-                        isOpen && "rotate-180"
-                      )} 
-                    />
+                  <div className="flex items-center justify-center w-full h-full">
+                    {agentDisplay.icon}
                   </div>
                 </Button>
               </DropdownMenuTrigger>

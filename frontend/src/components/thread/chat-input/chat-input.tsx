@@ -68,7 +68,7 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
   (
     {
       onSubmit,
-      placeholder = 'Describe what you need help with...',
+      placeholder = 'Assign tasks or ask anything.....',
       loading = false,
       disabled = false,
       isAgentRunning = false,
@@ -295,7 +295,7 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
         />
         
         <Card
-          className={`-mb-2 shadow-none w-full max-w-4xl mx-auto bg-transparent border-none overflow-hidden ${enableAdvancedConfig && selectedAgentId ? '' : 'rounded-3xl'}`}
+          className={`-mb-2 shadow-none w-full max-w-4xl mx-auto bg-transparent border-none overflow-hidden min-h-[160px] ${enableAdvancedConfig && selectedAgentId ? '' : 'rounded-3xl'}`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={(e) => {
@@ -317,51 +317,59 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
           }}
         >
           <div className="w-full text-sm flex flex-col justify-between items-start rounded-lg">
-            <CardContent className={`w-full p-1.5 ${enableAdvancedConfig && selectedAgentId ? 'pb-1' : 'pb-2'} ${bgColor} border ${enableAdvancedConfig && selectedAgentId ? 'rounded-t-3xl' : 'rounded-3xl'}`}>
-              <AttachmentGroup
-                files={uploadedFiles || []}
-                sandboxId={sandboxId}
-                onRemove={removeUploadedFile}
-                layout="inline"
-                maxHeight="216px"
-                showPreviews={true}
-              />
-              <MessageInput
-                ref={textareaRef}
-                value={value}
-                onChange={handleChange}
-                onSubmit={handleSubmit}
-                onTranscription={handleTranscription}
-                placeholder={placeholder}
-                loading={loading}
-                disabled={disabled}
-                isAgentRunning={isAgentRunning}
-                onStopAgent={onStopAgent}
-                isDraggingOver={isDraggingOver}
-                uploadedFiles={uploadedFiles}
+            {/* Gradient border wrapper for CardContent */}
+            <div style={{
+              padding: '1px',
+              borderRadius: enableAdvancedConfig && selectedAgentId ? '1.5rem 1.5rem 0 0' : '1.5rem',
+              background: 'linear-gradient(90deg, #EE2F82 0%, #FFD160 100%)',
+              width: '100%',
+            }}>
+              <CardContent className={`w-full p-2 ${enableAdvancedConfig && selectedAgentId ? 'pb-1' : 'pb-2'} ${bgColor} border ${enableAdvancedConfig && selectedAgentId ? 'rounded-t-3xl' : 'rounded-3xl'} min-h-[160px]`}>
+                <AttachmentGroup
+                  files={uploadedFiles || []}
+                  sandboxId={sandboxId}
+                  onRemove={removeUploadedFile}
+                  layout="inline"
+                  maxHeight="216px"
+                  showPreviews={true}
+                />
+                <MessageInput
+                  ref={textareaRef}
+                  value={value}
+                  onChange={handleChange}
+                  onSubmit={handleSubmit}
+                  onTranscription={handleTranscription}
+                  placeholder={placeholder}
+                  loading={loading}
+                  disabled={disabled}
+                  isAgentRunning={isAgentRunning}
+                  onStopAgent={onStopAgent}
+                  isDraggingOver={isDraggingOver}
+                  uploadedFiles={uploadedFiles}
 
-                fileInputRef={fileInputRef}
-                isUploading={isUploading}
-                sandboxId={sandboxId}
-                setPendingFiles={setPendingFiles}
-                setUploadedFiles={setUploadedFiles}
-                setIsUploading={setIsUploading}
-                hideAttachments={hideAttachments}
-                messages={messages}
+                  fileInputRef={fileInputRef}
+                  isUploading={isUploading}
+                  sandboxId={sandboxId}
+                  setPendingFiles={setPendingFiles}
+                  setUploadedFiles={setUploadedFiles}
+                  setIsUploading={setIsUploading}
+                  hideAttachments={hideAttachments}
+                  messages={messages}
 
-                selectedModel={selectedModel}
-                onModelChange={handleModelChange}
-                modelOptions={modelOptions}
-                subscriptionStatus={subscriptionStatus}
-                canAccessModel={canAccessModel}
-                refreshCustomModels={refreshCustomModels}
-                isLoggedIn={isLoggedIn}
+                  selectedModel={selectedModel}
+                  onModelChange={handleModelChange}
+                  modelOptions={modelOptions}
+                  subscriptionStatus={subscriptionStatus}
+                  canAccessModel={canAccessModel}
+                  refreshCustomModels={refreshCustomModels}
+                  isLoggedIn={isLoggedIn}
 
-                selectedAgentId={selectedAgentId}
-                onAgentSelect={onAgentSelect}
-                hideAgentSelection={hideAgentSelection}
-              />
-            </CardContent>
+                  selectedAgentId={selectedAgentId}
+                  onAgentSelect={onAgentSelect}
+                  hideAgentSelection={hideAgentSelection}
+                />
+              </CardContent>
+            </div>
             
             {enableAdvancedConfig && selectedAgentId && (
               <div className="w-full border-t border-border/30 bg-muted/20 px-4 py-2.5 rounded-b-3xl border-l border-r border-b border-border">

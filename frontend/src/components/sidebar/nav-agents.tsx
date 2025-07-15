@@ -435,7 +435,7 @@ export function NavAgents() {
                             ) : null}
                             <span className="truncate">{thread.projectName}</span>
                           </Link>
-                          
+
                           {/* Checkbox - only visible on hover of this specific area */}
                           <div
                             className="mr-1 flex-shrink-0 w-4 h-4 flex items-center justify-center group/checkbox"
@@ -552,4 +552,4 @@ export function NavAgents() {
       )}
     </SidebarGroup>
   );
-}
+} 

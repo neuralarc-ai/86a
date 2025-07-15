@@ -1,38 +1,50 @@
-import { Button } from '@/components/ui/button';
 import Link from 'next/link';
-import { Briefcase, ExternalLink } from 'lucide-react';
-import { KortixProcessModal } from '@/components/sidebar/kortix-enterprise-modal';
 
 export function CTACard() {
   return (
-    <div className="rounded-xl bg-gradient-to-br from-blue-50 to-blue-200 dark:from-blue-950/40 dark:to-blue-900/40 shadow-sm border border-blue-200/50 dark:border-blue-800/50 p-4 transition-all">
-      <div className="flex flex-col space-y-4">
-        <div className="flex flex-col">
-          <span className="text-sm font-medium text-foreground">
-            Enterprise Demo
-          </span>
-          <span className="text-xs text-muted-foreground mt-0.5">
-            AI employees for your company
-          </span>
-        </div>
-
-        <div>
-          <KortixProcessModal />
-        </div>
-
-        <div className="flex items-center pt-1 border-t border-blue-200/50 dark:border-blue-800/30 mt-1">
-          <Link
-            href="https://www.kortix.ai/careers"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center text-xs text-blue-600 hover:text-blue-700 dark:text-blue-400 dark:hover:text-blue-300 transition-colors"
-          >
-            <Briefcase className="mr-1.5 h-3.5 w-3.5" />
-            Join Our Team! 🚀
-            <ExternalLink className="ml-1 h-3 w-3" />
-          </Link>
-        </div>
+    <div className="rounded-2xl border border-[#FFFFFF33] p-3 flex flex-col gap-3 transition-all">
+      {/* Title */}
+      <div className="text-[13px] font-medium leading-4 text-white">
+        Tokens Used
       </div>
+      {/* Description */}
+      <div className="text-[12px] font-light leading-4 text-[#FFFFFF66]">
+        Your team has used 80% of your credits. Need more?
+      </div>
+      {/* Progress Bar */}
+      <div className="w-full h-1.5 rounded-full bg-[#FFFFFF1A] overflow-hidden">
+        <div
+          className="h-full rounded-full"
+          style={{
+            width: '80%',
+            background: 'linear-gradient(90deg, #F7B2D9 0%, #7EC6E3 100%)',
+          }}
+        />
+      </div>
+      {/* Upgrades Button */}
+      <Link
+        href="#"
+        className="mt-1 flex items-center justify-center gap-3 h-[36px] min-w-[100px] opacity-100 rounded border border-[#FFFFFF33] bg-[#FFFFFF14] pt-2 pb-2 text-sm font-medium text-[#fff]"
+      >
+        Upgrades
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="icon icon-tabler icons-tabler-outline icon-tabler-arrow-narrow-right"
+        >
+          <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+          <path d="M5 12l14 0" />
+          <path d="M15 16l4 -4" />
+          <path d="M15 8l4 4" />
+        </svg>
+      </Link>
     </div>
   );
 }

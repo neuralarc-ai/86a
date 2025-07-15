@@ -252,23 +252,22 @@ export const FileUploadHandler = forwardRef<
                 <Button
                   type="button"
                   onClick={handleFileUpload}
-                  variant="outline"
-                  size="sm"
-                  className="h-8 px-3 py-2 bg-transparent border border-border rounded-xl text-muted-foreground hover:text-foreground hover:bg-accent/50 flex items-center gap-2"
+                  variant="ghost"
+                  size="icon"
+                  className="w-10 h-10 rounded-full flex items-center justify-center bg-[#F7F7F726]"
                   disabled={
                     !isLoggedIn || loading || (disabled && !isAgentRunning) || isUploading
                   }
                 >
                   {isUploading ? (
-                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <Loader2 className="h-5 w-5 animate-spin" style={{ width: 20, height: 20 }} />
                   ) : (
-                    <Paperclip className="h-4 w-4" />
+                    <Paperclip className="h-5 w-5" style={{ width: 18, height: 18 }} />
                   )}
-                  <span className="text-sm">Attach</span>
                 </Button>
               </span>
             </TooltipTrigger>
-            <TooltipContent side="top">
+            <TooltipContent side="bottom">
               <p>{isLoggedIn ? 'Attach files' : 'Please login to attach files'}</p>
             </TooltipContent>
           </Tooltip>
