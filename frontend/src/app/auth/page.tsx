@@ -16,6 +16,8 @@ import {
   AlertCircle,
   MailCheck,
   Loader2,
+  Eye,
+  EyeOff,
 } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import Image from 'next/image';
@@ -73,6 +75,10 @@ function LoginContent() {
     success?: boolean;
     message?: string;
   }>({});
+
+  // Password visibility toggles
+  const [showPassword, setShowPassword] = useState(false);
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
   useEffect(() => {
     setMounted(true);
@@ -305,19 +311,19 @@ function LoginContent() {
           className="object-cover object-center z-0"
           priority
         />
-        <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-8">
+        <div className="absolute inset-0 -translate-y-6 flex flex-col items-center justify-center z-20 px-8">
           <Image
             src="/auth/neuralarc.svg"
             alt="NeuralArc Logo"
             width={130}
             height={130}
-            className="mb-24 max-w-[130px] w-auto h-auto"
+            className="mb-24 object-contain w-auto h-auto"
             priority
           />
-          <span className="text-2xl lg:text-5xl font-normal text-white text-center mb-8 playfair-display-auth-title" style={{fontWeight: 400}}>
+          <span className="text-2xl lg:text-5xl font-normal text-white text-center mb-8 playfair-display" style={{fontWeight: 400}}>
             Enterprise Entry to<br/>Limitless AI
           </span>
-          <span className="text-6xl lg:text-[100px] font-light text-white text-center">
+          <span className="text-6xl lg:text-[100px] font-light tracking-tight text-white text-center">
             Helium
           </span>
         </div>
@@ -349,7 +355,7 @@ function LoginContent() {
                 name="email"
                 type="email"
                 placeholder="Email address"
-                className="h-12 lg:h-18 rounded-[16px] bg-[#0000004D] dark:bg-[#0000004D] border-[#E2E2E23D] text-lg placeholder:text-lg"
+                className="h-12 lg:h-16 rounded-[16px] lg:text-base lg:placeholder:text-base bg-[#0000004D] dark:bg-[#0000004D] border-[#E2E2E23D]"
                 required
               />
             </div>
@@ -366,14 +372,25 @@ function LoginContent() {
                   </button>
                 )}
               </div>
-              <Input
-                id="password"
-                name="password"
-                type="password"
-                placeholder="Password"
-                className="h-12 lg:h-18 rounded-[16px] bg-background dark:bg-[#0000004D] border-[#E2E2E23D] text-lg placeholder:text-lg"
-                required
-              />
+              <div className="relative">
+                <Input
+                  id="password"
+                  name="password"
+                  type={showPassword ? 'text' : 'password'}
+                  placeholder="Password"
+                  className="h-12 lg:h-16 rounded-[16px] bg-background dark:bg-[#0000004D] border-[#E2E2E23D] pr-12 lg:text-base lg:placeholder:text-base"
+                  required
+                />
+                <button
+                  type="button"
+                  tabIndex={-1}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-primary focus:outline-none"
+                  onClick={() => setShowPassword((v) => !v)}
+                  aria-label={showPassword ? 'Hide password' : 'Show password'}
+                >
+                  {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
             </div>
             <AnimatePresence initial={false}>
               {isSignUp && (
@@ -383,34 +400,45 @@ function LoginContent() {
                   animate={{ opacity: 1, y: 0, height: 'auto' }}
                   exit={{ opacity: 0, y: -12, height: 0 }}
                   transition={{ duration: 0.25, ease: [0.4, 0, 0.2, 1] }}
-                  className="overflow-hidden lg:text-base"
+                  className="overflow-visible lg:text-base"
                 >
-                  <Label htmlFor="confirmPassword" className="block mb-1 text-sm lg:text-base font-medium text-left">Confirm Password</Label>
-                  <Input
-                    id="confirmPassword"
-                    name="confirmPassword"
-                    type="password"
-                    placeholder="Confirm password"
-                    className="h-12 lg:h-18 rounded-[16px] text-lg bg-background dark:bg-[#0000004D] border-[#E2E2E23D] placeholder:textlg"
-                    required
-                  />
+                  <Label htmlFor="confirmPassword" className="block mb-2 text-sm lg:text-base font-medium text-left">Confirm Password</Label>
+                  <div className="relative">
+                    <Input
+                      id="confirmPassword"
+                      name="confirmPassword"
+                      type={showConfirmPassword ? 'text' : 'password'}
+                      placeholder="Confirm password"
+                      className="h-12 lg:h-16 rounded-[16px] bg-background dark:bg-[#0000004D] border-[#E2E2E23D] pr-12 lg:text-base lg:placeholder:text-base"
+                      required
+                    />
+                    <button
+                      type="button"
+                      tabIndex={-1}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1 text-muted-foreground hover:text-primary focus:outline-none"
+                      onClick={() => setShowConfirmPassword((v) => !v)}
+                      aria-label={showConfirmPassword ? 'Hide password' : 'Show password'}
+                    >
+                      {showConfirmPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                    </button>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
             <div className="flex gap-2 pt-4">
               {!isSignUp ? (
                 <>
-                <div className='grid grid-cols-3 gap-2 w-full'>
+                <div className='grid grid-cols-3 gap-2 w-full '>
                   <SubmitButton
                     formAction={handleSignIn}
-                    className="w-full col-span-1 h-14 rounded-sm cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-md"
+                    className="w-full col-span-1 h-16 rounded-sm cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-md"
                     pendingText="Signing in..."
                   >
                     Sign in
                   </SubmitButton>
                   <Link
                     href={`/auth?mode=signup${returnUrl ? `&returnUrl=${returnUrl}` : ''}`}
-                    className="flex col-span-2 h-14 bg-transparent items-center justify-center w-full text-center rounded-sm border border-border hover:bg-accent/20 transition-all"
+                    className="flex col-span-2 h-16 bg-transparent items-center justify-center w-full text-center rounded-sm border-2 border-border hover:bg-accent/20 transition-all"
                   >
                     Don't have an account? <span className="ml-1 underline">Sign Up</span>
                   </Link>
@@ -418,19 +446,21 @@ function LoginContent() {
                 </>
               ) : (
                 <>
+                <div className='grid grid-cols-3 gap-2 w-full '>
                   <SubmitButton
                     formAction={handleSignUp}
-                    className="w-full h-14 rounded-sm cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-md"
+                    className="w-full h-14 col-span-1 rounded-sm cursor-pointer bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-md"
                     pendingText="Creating account..."
                   >
                     Sign up
                   </SubmitButton>
                   <Link
                     href={`/auth${returnUrl ? `?returnUrl=${returnUrl}` : ''}`}
-                    className="flex h-14 bg-transparent items-center justify-center w-full text-center rounded-sm border border-border hover:bg-accent/20 transition-all"
+                    className="flex h-14 col-span-2 bg-transparent items-center justify-center w-full text-center rounded-sm border-2 border-border hover:bg-accent/20 transition-all"
                   >
                     Already have an account? <span className="ml-1 underline">Sign in</span>
                   </Link>
+                </div>
                 </>
               )}
             </div>
@@ -445,7 +475,7 @@ function LoginContent() {
           </div>
         </motion.div>
         {/* Legal footer absolutely positioned at bottom center */}
-        <div className="hidden lg:flex flex-row items-center gap-x-2 gap-y-2 text-xs text-muted-foreground absolute bottom-10 z-20">
+        <div className="hidden lg:flex flex-row items-center space-x-1 gap-y-2 text-xs text-muted-foreground absolute bottom-10 z-20">
           <Link href="/terms" className="hover:underline flex-shrink-0">Terms of use</Link>
           <span className="mx-1">•</span>
           <Link href="/privacy" className="hover:underline flex-shrink-0">Privacy Policy</Link>
@@ -454,7 +484,7 @@ function LoginContent() {
           <span className="mx-1 flex-shrink-0">•</span>
           <span className='flex-shrink-0'>Copyright 2025. All rights reserved.</span>
           <span className="mx-1 flex-shrink-0">•</span>
-          <span className='flex-shrink-0'>86/a, a product by <Link href="https://neuralarc.ai" className="font-bold hover:underline" target="_blank" rel="noopener noreferrer">NeuralArc</Link></span>
+          <span className='flex-shrink-0'>Helium, a product by <Link href="https://neuralarc.ai" className="font-bold hover:underline" target="_blank" rel="noopener noreferrer">NeuralArc</Link></span>
         </div>
       </motion.div>
       {/* Forgot Password Dialog (unchanged) */}

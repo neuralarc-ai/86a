@@ -19,6 +19,9 @@ import ChatDropdown from './chat-dropdown';
 import ModeSwitcher from './mode-switcher';
 import { WebModeButton } from './web-mode';
 import { ConnectButton } from './connector';
+import ModeSwitcher from './mode-switcher';
+import { WebModeButton } from './web-mode';
+import { ConnectButton } from './connector';
 
 interface MessageInputProps {
   value: string;
@@ -133,39 +136,10 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
       }
     };
 
-    const renderDropdown = () => {
-      if (isLoggedIn) {
-        const showAdvancedFeatures = enableAdvancedConfig || (customAgentsEnabled && !flagsLoading);
-        
-        return (
-          <div className="flex items-center gap-2">
-            {showAdvancedFeatures && !hideAgentSelection && (
-              <AgentSelector
-                selectedAgentId={selectedAgentId}
-                onAgentSelect={onAgentSelect}
-                disabled={loading || (disabled && !isAgentRunning)}
-              />
-            )}
-            <ModelSelector
-              selectedModel={selectedModel}
-              onModelChange={onModelChange}
-              modelOptions={modelOptions}
-              subscriptionStatus={subscriptionStatus}
-              canAccessModel={canAccessModel}
-              refreshCustomModels={refreshCustomModels}
-              billingModalOpen={billingModalOpen}
-              setBillingModalOpen={setBillingModalOpen}
-            />
-          </div>
-        );
-      }
-      return <ChatDropdown />;
-    }
-
     return (
-      <div className="relative flex flex-col w-full h-full gap-2 justify-between">
+      <div className="relative flex flex-col w-full h-full gap-10 justify-between">
 
-        <div className="flex flex-col gap-1 px-2">
+        <div className="flex flex-col px-2 flex-grow">
           <Textarea
             ref={ref}
             value={value}
@@ -181,16 +155,12 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
           />
         </div>
 
-        <div className="flex items-center justify-between mt-0 mb-1 px-2">
+        <div className="flex items-center justify-between mt-0 mb-1 px-2 flex-shrink-0">
           <div className='flex items-center gap-2 w-full'>
             {/* ModeSwitcher at the leftmost side of the button row */}
             <ModeSwitcher activeMode={activeMode} onModeChange={setActiveMode} />
 
-            {/* Spacer to push the rest of the buttons to the right */}
-            <div className='flex-1' />
-
-            {/* Show model selector inline if custom agents are disabled, otherwise show settings dropdown */}
-            {renderDropdown()}
+            {/* Attach button right after ModeSwitcher */}
             {!hideAttachments && (
               <FileUploadHandler
                 ref={fileInputRef}
@@ -206,8 +176,21 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
                 isLoggedIn={isLoggedIn}
               />
             )}
-            <WebModeButton onClick={() => {}} />
-            <ConnectButton onClick={() => {}} />
+
+            {/* Spacer to push the rest of the buttons to the right */}
+            <div className='flex-1' />
+
+            {/* Show model selector inline if custom agents are disabled, otherwise show settings dropdown */}
+            <ModelSelector
+              selectedModel={selectedModel}
+              onModelChange={onModelChange}
+              modelOptions={modelOptions}
+              subscriptionStatus={subscriptionStatus}
+              canAccessModel={canAccessModel}
+              refreshCustomModels={refreshCustomModels}
+              billingModalOpen={billingModalOpen}
+              setBillingModalOpen={setBillingModalOpen}
+            />
 
             {/* Billing Modal */}
             <BillingModal
