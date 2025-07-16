@@ -18,6 +18,7 @@ import {
   Loader2,
   Eye,
   EyeOff,
+  ArrowLeft,
 } from 'lucide-react';
 import { useAuth } from '@/components/AuthProvider';
 import Image from 'next/image';
@@ -332,8 +333,15 @@ function LoginContent() {
       <motion.div
         layout
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="flex flex-[0_0_60%] items-center justify-center min-h-screen w-full bg-[#191919] relative"
+        className="flex flex-[0_0_60%] flex-col items-center justify-center min-h-screen w-full bg-[#191919] relative"
       >
+        {/* Back to Home link - now in normal flow above the auth card */}
+        <div className="w-full flex justify-center mb-6">
+          <Link href="/" className="flex items-center gap-2 text-muted-foreground hover:text-primary transition-colors text-sm font-medium rounded-lg px-3 py-2 bg-background/80 shadow-md border border-border">
+            <ArrowLeft className="h-4 w-4" />
+            <span>Back to Home</span>
+          </Link>
+        </div>
         <motion.div
           layout
           transition={{ type: 'spring', stiffness: 300, damping: 30 }}

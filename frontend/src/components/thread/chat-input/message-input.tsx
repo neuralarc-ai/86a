@@ -19,9 +19,6 @@ import ChatDropdown from './chat-dropdown';
 import ModeSwitcher from './mode-switcher';
 import { WebModeButton } from './web-mode';
 import { ConnectButton } from './connector';
-import ModeSwitcher from './mode-switcher';
-import { WebModeButton } from './web-mode';
-import { ConnectButton } from './connector';
 
 interface MessageInputProps {
   value: string;
