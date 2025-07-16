@@ -96,7 +96,7 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
   ) => {
     const [billingModalOpen, setBillingModalOpen] = useState(false);
     const { enabled: customAgentsEnabled, loading: flagsLoading } = useFeatureFlag('custom_agents');
-    const [activeMode, setActiveMode] = useState('modeA');
+    const [activeMode, setActiveMode] = useState('modeB');
 
     useEffect(() => {
       const textarea = ref as React.RefObject<HTMLTextAreaElement>;
@@ -135,7 +135,6 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
 
     return (
       <div className="relative flex flex-col w-full h-full gap-10 justify-between">
-
         <div className="flex flex-col px-2 flex-grow">
           <Textarea
             ref={ref}

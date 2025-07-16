@@ -28,7 +28,6 @@ const drawerVariants = {
     y: 0,
     rotate: 0,
     transition: {
-      type: 'spring',
       damping: 15,
       stiffness: 200,
       staggerChildren: 0.03,

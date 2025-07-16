@@ -56,7 +56,7 @@ export function CompleteToolView({
         const contentStr = normalizeContentToString(assistantContent);
         if (!contentStr) return;
 
-        let cleanContent = contentStr
+        const cleanContent = contentStr
           .replace(/<function_calls>[\s\S]*?<\/function_calls>/g, '')
           .replace(/<invoke name="complete"[\s\S]*?<\/invoke>/g, '')
           .trim();

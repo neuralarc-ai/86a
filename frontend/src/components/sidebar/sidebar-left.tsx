@@ -2,7 +2,7 @@
 
 import * as React from 'react';
 import Link from 'next/link';
-import { Bot, Menu, Store, Plus, Zap, Plug } from 'lucide-react';
+import { Bot, Menu, Store, Plus, Zap, Plug, X } from 'lucide-react';
 
 import { NavAgents } from '@/components/sidebar/nav-agents';
 import { NavUserWithTeams } from '@/components/sidebar/nav-user-with-teams';
@@ -46,12 +46,13 @@ export function SidebarLeft({
     email: 'loading@example.com',
     avatar: '',
   });
+  const [showSearchBar, setShowSearchBar] = useState(false);
 
   const pathname = usePathname();
   const { flags, loading: flagsLoading } = useFeatureFlags(['custom_agents', 'agent_marketplace']);
   const customAgentsEnabled = flags.custom_agents;
   const marketplaceEnabled = flags.agent_marketplace;
-  
+
   useEffect(() => {
     const fetchUserData = async () => {
       const supabase = createClient();
@@ -157,7 +158,7 @@ export function SidebarLeft({
           <SidebarHeader className="px-2 py-2">
             <div className="flex flex-row h-[48px] sm:h-[52px] md:h-[56px] items-center w-full transition-all duration-300 ease-in-out">
               <Link href="/dashboard">
-                <div className="w-[160px] h-[40px] sm:w-[180px] sm:h-[45px] md:w-[130px] md:h-[30px] flex items-center justify-center transition-all duration-300 ease-in-out">
+                <div className="w-[160px] h-[40px] sm:w-[180px] sm:h-[45px] md:w-[40px] md:h-[30px] flex items-center justify-center transition-all duration-300 ease-in-out">
                   <img src="/full-logo.svg" alt="Logo" style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
                 </div>
               </Link>
@@ -185,8 +186,7 @@ export function SidebarLeft({
             </div>
           </SidebarHeader>
           <SidebarContent className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] transition-all duration-300 ease-in-out">
-            {/* Only render search bar and New Task button when expanded */}
-            {state === 'expanded' && (
+            {state === 'expanded' ? (
               <>
                 {/* Search bar */}
                 <div
@@ -195,90 +195,104 @@ export function SidebarLeft({
                   <input
                     type="text"
                     placeholder="Search Tasks"
-                    className="bg-transparent outline-none text-base sm:text-lg flex-1 placeholder:text-[#fff]/60 transition-all duration-300 ease-in-out"
-                    style={{ border: 'none', color: 'white', fontSize: 16 }}
+                    className="bg-transparent outline-none text-base flex-1 placeholder:text-[#fff]/60"
+                    style={{ border: 'none', color: 'white', fontSize: 18 }}
                   />
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="18"
-                    height="18"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className="icon icon-tabler icons-tabler-outline icon-tabler-search ml-2 transition-all duration-300 ease-in-out"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                    <path d="M21 21l-6 -6" />
-                  </svg>
+                  <button onClick={() => setShowSearchBar(false)} className="ml-2">
+                    <X width={20} height={20} color="#fff" />
+                  </button>
                 </div>
-                <SidebarGroup>
-                  <Link href="/dashboard">
-                    <SidebarMenuButton
-                      className="h-9 sm:h-10 md:h-11 min-w-[90px] sm:min-w-[100px] opacity-100 rounded border border-[#FFFFFF33] bg-[#FFFFFF14] flex items-center justify-center text-base sm:text-lg font-medium text-[#fff] transition-all duration-300 ease-in-out"
-                    >
-                      <span className="mr-2 transition-all duration-300 ease-in-out">New Task</span>
+              </>
+            ) : (
+              <>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button className="h-6 w-6 flex items-center justify-center rounded-lg hover:bg-[#EFEDE70D]">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
-                        width="18"
-                        height="18"
+                        width="20"
+                        height="20"
                         viewBox="0 0 24 24"
                         fill="none"
                         stroke="currentColor"
                         strokeWidth="2"
                         strokeLinecap="round"
                         strokeLinejoin="round"
-                        className="icon icon-tabler icons-tabler-outline icon-tabler-plus transition-all duration-300 ease-in-out"
+                        className="icon icon-tabler icons-tabler-outline icon-tabler-plus"
                       >
                         <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                         <path d="M12 5l0 14" />
                         <path d="M5 12l14 0" />
                       </svg>
-                    </SidebarMenuButton>
-                  </Link>
-                </SidebarGroup>
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">New Task</TooltipContent>
+                </Tooltip>
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <button className="h-6 w-6 flex items-center justify-center rounded-lg hover:bg-[#EFEDE70D]" onClick={() => setShowSearchBar(true)}>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="20"
+                        height="20"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        className="icon icon-tabler icons-tabler-outline icon-tabler-search"
+                      >
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                      </svg>
+                    </button>
+                  </TooltipTrigger>
+                  <TooltipContent side="bottom">Search</TooltipContent>
+                </Tooltip>
               </>
             )}
+          </SidebarContent>
+          <SidebarContent className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] transition-all duration-300 ease-in-out">
+            {/* Remove search bar and New Task button from expanded sidebar */}
             {/* Always render the rest of the sidebar content */}
             {!flagsLoading && marketplaceEnabled && (
-                <Link href="/marketplace">
-                  <SidebarMenuButton className={cn({
-                    'bg-accent text-accent-foreground font-medium': pathname === '/marketplace',
-                  })}>
-                    <Store className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 transition-all duration-300 ease-in-out" />
-                    <span className="flex items-center justify-between w-full text-sm sm:text-base transition-all duration-300 ease-in-out">
-                      Marketplace
-                    </span>
-                  </SidebarMenuButton>
-                </Link>
-              )}
-              {!flagsLoading && customAgentsEnabled && (
-                <Link href="/agents">
-                  <SidebarMenuButton className={cn({
-                    'bg-accent text-accent-foreground font-medium': pathname === '/agents',
-                  })}>
-                    <Bot className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 sm:mr-1 transition-all duration-300 ease-in-out" />
-                    <span className="flex items-center justify-between w-full text-sm sm:text-base transition-all duration-300 ease-in-out">
+              <Link href="/marketplace">
+                <SidebarMenuButton className={cn({
+                  'bg-accent text-accent-foreground font-medium': pathname === '/marketplace',
+                })}>
+                  <Store className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1.5 sm:mr-2 transition-all duration-300 ease-in-out" />
+                  <span className="flex items-center justify-between w-full text-sm sm:text-base transition-all duration-300 ease-in-out">
+                    Marketplace
+                  </span>
+                </SidebarMenuButton>
+              </Link>
+            )}
+            {!flagsLoading && customAgentsEnabled && (
+              <Link href="/agents">
+                <SidebarMenuButton className={cn({
+                  'bg-accent text-accent-foreground font-medium': pathname === '/agents',
+                })}>
+                  <Bot className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 sm:mr-1 transition-all duration-300 ease-in-out" />
+                  <span className="flex items-center justify-between w-full text-sm sm:text-base transition-all duration-300 ease-in-out">
                     Agents
-                    </span>
-                  </SidebarMenuButton>
-                </Link>
-              )}
-              {!flagsLoading && customAgentsEnabled && (
-                <Link href="/settings/credentials">
-                  <SidebarMenuButton className={cn({
-                    'bg-accent text-accent-foreground font-medium': pathname === '/settings/credentials',
-                  })}>
-                    <Plug className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 sm:mr-1 transition-all duration-300 ease-in-out" />
-                    <span className="flex items-center justify-between w-full text-sm sm:text-base transition-all duration-300 ease-in-out">
-                      Integrations
-                    </span>
-                  </SidebarMenuButton>
-                </Link>
-              )}
+                  </span>
+                </SidebarMenuButton>
+              </Link>
+            )}
+            {!flagsLoading && customAgentsEnabled && (
+              <Link href="/settings/credentials">
+                <SidebarMenuButton className={cn({
+                  'bg-accent text-accent-foreground font-medium': pathname === '/settings/credentials',
+                })}>
+                  <Plug className="h-3.5 w-3.5 sm:h-4 sm:w-4 mr-1 sm:mr-1 transition-all duration-300 ease-in-out" />
+                  <span className="flex items-center justify-between w-full text-sm sm:text-base transition-all duration-300 ease-in-out">
+                    Integrations
+                  </span>
+                </SidebarMenuButton>
+              </Link>
+            )}
             <NavAgents />
           </SidebarContent>
           <SidebarFooter>
