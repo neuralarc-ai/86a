@@ -20,13 +20,13 @@ const MessageSquareIcon = () => (
 );
 
 const MODES = [
-  { icon: <ModeAIcon />, key: 'modeA' },
   { icon: <AtomIcon />, key: 'modeB' },
+  { icon: <ModeAIcon />, key: 'modeA' },
   { icon: <MessageSquareIcon />, key: 'modeC' },
 ];
 
 export default function ModeSwitcher({ activeMode, onModeChange }) {
-  const [selected, setSelected] = useState(activeMode || 'modeA');
+  const [selected, setSelected] = useState(activeMode || 'modeB');
 
   const handleClick = (key) => {
     setSelected(key);

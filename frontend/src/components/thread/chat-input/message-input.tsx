@@ -96,7 +96,7 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
   ) => {
     const [billingModalOpen, setBillingModalOpen] = useState(false);
     const { enabled: customAgentsEnabled, loading: flagsLoading } = useFeatureFlag('custom_agents');
-    const [activeMode, setActiveMode] = useState('modeA');
+    const [activeMode, setActiveMode] = useState('modeB');
 
     useEffect(() => {
       const textarea = ref as React.RefObject<HTMLTextAreaElement>;
