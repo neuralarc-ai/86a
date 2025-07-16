@@ -4,11 +4,11 @@ import { siteConfig } from '@/lib/site';
 export const metadata: Metadata = {
   title: siteConfig.name,
   description: siteConfig.description,
-  keywords: ['86/A', 'AI', 'Agent', 'God Agent'],
+  keywords: ['Helium AI', 'AI', 'Agent', 'God Agent'],
   authors: [
     {
       name: 'NeuralArc',
-      url: 'https://86a.neuralarc.ai',
+      url: 'https://helium.neuralarc.ai',
     },
   ],
   creator: 'NeuralArc',

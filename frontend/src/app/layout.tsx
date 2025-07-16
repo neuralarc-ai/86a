@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description:
-    '86/A is a God Agent that helps you accomplish real-world tasks with ease. Through natural conversation, 86/A becomes your digital companion for research, data analysis, and everyday challenges.',
+    'Helium AI is a God Agent that helps you accomplish real-world tasks with ease. Through natural conversation, Helium becomes your digital companion for research, data analysis, and everyday challenges.',
   keywords: [
     'AI',
     'artificial intelligence',
@@ -38,13 +38,13 @@ export const metadata: Metadata = {
     'research',
     'data analysis',
   ],
-  authors: [{ name: 'NeuralArc', url: 'https://86a.neuralarc.ai' }],
+  authors: [{ name: 'NeuralArc', url: 'https://helium.neuralarc.ai' }],
   creator:
     'NeuralArc Team',
   publisher:
     'NeuralArc Team',
   category: 'Technology',
-  applicationName: '86/A',
+  applicationName: 'Helium AI',
   formatDetection: {
     telephone: false,
     email: false,
@@ -59,17 +59,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: '86/A - The God Agent',
+    title: 'Helium AI - The God Agent',
     description:
-      '86/A is a God Agent that helps you accomplish real-world tasks with ease through natural conversation.',
+      'Helium AI is a God Agent that helps you accomplish real-world tasks with ease through natural conversation.',
     url: siteConfig.url,
-    siteName: '86/A',
+    siteName: 'Helium AI',
     images: [
       {
         url: '/banner.png',
         width: 1200,
         height: 630,
-        alt: '86/A - The God Agent',
+        alt: 'Helium AI - The God Agent',
         type: 'image/png',
       },
     ],
@@ -78,9 +78,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: '86/A - The God Agent',
+    title: 'Helium AI - The God Agent',
     description:
-      '86/A is a God Agent that that helps you accomplish real-world tasks with ease through natural conversation.',
+      'Helium AI is a God Agent that that helps you accomplish real-world tasks with ease through natural conversation.',
     creator: '@neuralarc_ai',
     site: '@nueralarc_ai',
     images: [
@@ -88,7 +88,7 @@ export const metadata: Metadata = {
         url: '/banner.png',
         width: 1200,
         height: 630,
-        alt: '86/A - The God Agent',
+        alt: 'Helium AI - The God Agent',
       },
     ],
   },

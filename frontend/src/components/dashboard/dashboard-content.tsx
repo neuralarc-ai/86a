@@ -84,7 +84,7 @@ export function DashboardContent() {
   const selectedAgent = selectedAgentId
     ? agents.find(agent => agent.agent_id === selectedAgentId)
     : null;
-  const displayName = selectedAgent?.name || '86/A';
+  const displayName = selectedAgent?.name || 'Helium AI';
   const agentAvatar = selectedAgent?.avatar;
 
   const threadQuery = useThreadQuery(initiatedThreadId || '');

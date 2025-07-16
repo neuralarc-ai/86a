@@ -57,7 +57,7 @@ export interface PricingTier {
 }
 
 export const siteConfig = {
-  name: '86/A',
+  name: 'Helium AI',
   description: 'The God Agent that can act on your behalf.',
   cta: 'Start Free',
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
@@ -103,10 +103,10 @@ export const siteConfig = {
       </svg>
     ),
     badge: '100% OPEN SOURCE',
-    title: '86/A, the GOD MODE Agent',
+    title: 'Helium AI, the GOD MODE Agent',
     description:
-      '86/A by NeuralArc – is a God Agent that acts on your behalf.',
-    inputPlaceholder: 'Ask 86/A to...',
+      'Helium AI by NeuralArc – is a God Agent that acts on your behalf.',
+    inputPlaceholder: 'Ask Helium to...',
   },
   cloudPricingItems: [
     {
@@ -495,15 +495,15 @@ export const siteConfig = {
     ],
   },
   featureSection: {
-    title: 'How 86/A Works',
+    title: 'How Helium AI Works',
     description:
-      'Discover how Kortix 86/A transforms your commands into action in four easy steps',
+      'Discover how Helium transforms your commands into action in four easy steps',
     items: [
       {
         id: 1,
         title: 'Request an Action',
         content:
-          'Speak or type your command—let 86/A capture your intent. Your request instantly sets the process in motion.',
+          'Speak or type your command—let Helium AI capture your intent. Your request instantly sets the process in motion.',
         image:
           'https://images.unsplash.com/photo-1720371300677-ba4838fa0678?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
@@ -511,7 +511,7 @@ export const siteConfig = {
         id: 2,
         title: 'AI Understanding & Planning',
         content:
-          '86/A analyzes your request, understands the context, and develops a structured plan to complete the task efficiently.',
+          'Helium AI analyzes your request, understands the context, and develops a structured plan to complete the task efficiently.',
         image:
           'https://images.unsplash.com/photo-1686170287433-c95faf6d3608?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8fA%3D%3D',
       },
@@ -519,7 +519,7 @@ export const siteConfig = {
         id: 3,
         title: 'Autonomous Execution',
         content:
-          'Using its capabilities and integrations, 86/A executes the task independently, handling any complexities along the way.',
+          'Using its capabilities and integrations, Helium AI executes the task independently, handling any complexities along the way.',
         image:
           'https://images.unsplash.com/photo-1720378042271-60aff1e1c538?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxMHx8fGVufDB8fHx8fA%3D%3D',
       },
@@ -527,30 +527,30 @@ export const siteConfig = {
         id: 4,
         title: 'Results & Learning',
         content:
-          '86/A delivers results and learns from each interaction, continuously improving its performance to better serve your needs.',
+          'Helium AI delivers results and learns from each interaction, continuously improving its performance to better serve your needs.',
         image:
           'https://images.unsplash.com/photo-1666882990322-e7f3b8df4f75?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D',
       },
     ],
   },
   bentoSection: {
-    title: 'Empower Your Workflow with 86/A',
+    title: 'Empower Your Workflow with Helium AI',
     description:
-      'Let 86/A act on your behalf with advanced AI capabilities, seamless integrations, and autonomous task execution.',
+      'Let Helium act on your behalf with advanced AI capabilities, seamless integrations, and autonomous task execution.',
     items: [
       {
         id: 1,
         content: <FirstBentoAnimation />,
         title: 'Autonomous Task Execution',
         description:
-          'Experience true automation with 86/A. Ask your AI Agent to complete tasks, research information, and handle complex workflows with minimal supervision.',
+          'Experience true automation with Helium AI. Ask your AI Agent to complete tasks, research information, and handle complex workflows with minimal supervision.',
       },
       {
         id: 2,
         content: <SecondBentoAnimation />,
         title: 'Seamless Integrations',
         description:
-          'Connect 86/A to your existing tools for a unified workflow. Boost productivity through AI-powered interconnected systems.',
+          'Connect Helium AI to your existing tools for a unified workflow. Boost productivity through AI-powered interconnected systems.',
       },
       {
         id: 3,
@@ -564,21 +564,21 @@ export const siteConfig = {
         ),
         title: 'Intelligent Data Analysis',
         description:
-          "Transform raw data into actionable insights in seconds. Make better decisions with 86/A's real-time, adaptive intelligence.",
+          "Transform raw data into actionable insights in seconds. Make better decisions with Helium's real-time, adaptive intelligence.",
       },
       {
         id: 4,
         content: <FourthBentoAnimation once={false} />,
         title: 'Complete Customization',
         description:
-          'Tailor 86/A to your specific needs. As an open source solution, you have full control over its capabilities, integrations, and implementation.',
+          'Tailor Helium AI to your specific needs. As an open source solution, you have full control over its capabilities, integrations, and implementation.',
       },
     ],
   },
   benefits: [
     {
       id: 1,
-      text: "Automate everyday tasks with 86/A's powerful AI capabilities.",
+      text: "Automate everyday tasks with Helium's powerful AI capabilities.",
       image: '/Device-6.png',
     },
     {
@@ -588,7 +588,7 @@ export const siteConfig = {
     },
     {
       id: 3,
-      text: 'Improve focus on high-value work as 86/A handles the routine.',
+      text: 'Improve focus on high-value work as Helium AI handles the routine.',
       image: '/Device-8.png',
     },
     {
@@ -894,13 +894,13 @@ export const siteConfig = {
 
         title: 'Community Powered',
         description:
-          "Join a thriving community of developers and users continuously enhancing and expanding 86/A's capabilities.",
+          "Join a thriving community of developers and users continuously enhancing and expanding Helium's capabilities.",
       },
     ],
   },
   quoteSection: {
     quote:
-      '86/A has transformed how we approach everyday tasks. The level of automation it provides, combined with its open source nature, makes it an invaluable tool for our entire organization.',
+      'Helium AI has transformed how we approach everyday tasks. The level of automation it provides, combined with its open source nature, makes it an invaluable tool for our entire organization.',
     author: {
       name: 'Alex Johnson',
       role: 'CTO, Innovatech',
@@ -910,7 +910,7 @@ export const siteConfig = {
   pricing: {
     title: 'Open Source & Free Forever',
     description:
-      '86/A is 100% open source and free to use. No hidden fees, no premium features locked behind paywalls.',
+      'Helium AI is 100% open source and free to use. No hidden fees, no premium features locked behind paywalls.',
     pricingItems: [
       {
         name: 'Community',
@@ -925,7 +925,7 @@ export const siteConfig = {
           'Community support',
         ],
         description: 'Perfect for individual users and developers',
-        buttonText: 'Hire 86/A',
+        buttonText: 'Hire Helium AI',
         buttonColor: 'bg-accent text-primary',
         isPopular: false,
       },
@@ -1185,39 +1185,39 @@ export const siteConfig = {
       },
       {
         id: 2,
-        question: 'How does 86/A work?',
+        question: 'How does Helium AI work?',
         answer:
-          'Kortix 86/A works by analyzing your requirements, leveraging advanced AI algorithms to understand context, and executing tasks based on your instructions. It can integrate with your workflow, learn from feedback, and continuously improve its performance.',
+          'Helium works by analyzing your requirements, leveraging advanced AI algorithms to understand context, and executing tasks based on your instructions. It can integrate with your workflow, learn from feedback, and continuously improve its performance.',
       },
       {
         id: 3,
-        question: 'Is Kortix 86/A really free?',
+        question: 'Is Kortix Helium AI really free?',
         answer:
-          'Yes, Kortix 86/A is completely free and open source. We believe in democratizing AI technology and making it accessible to everyone. You can use it, modify it, and contribute to its development without any cost.',
+          'Yes, Helium is completely free and open source. We believe in democratizing AI technology and making it accessible to everyone. You can use it, modify it, and contribute to its development without any cost.',
       },
       {
         id: 4,
-        question: 'Can I integrate 86/A with my existing tools?',
+        question: 'Can I integrate Helium AI with my existing tools?',
         answer:
-          'Yes, Kortix 86/A is designed to be highly compatible with popular tools and platforms. We offer APIs and pre-built integrations for seamless connection with your existing workflow tools and systems.',
+          'Yes, Helium is designed to be highly compatible with popular tools and platforms. We offer APIs and pre-built integrations for seamless connection with your existing workflow tools and systems.',
       },
       {
         id: 5,
-        question: 'How can I contribute to 86/A?',
+        question: 'How can I contribute to Helium AI?',
         answer:
-          'You can contribute to Kortix 86/A by submitting pull requests on GitHub, reporting bugs, suggesting new features, or helping with documentation. Join our Discord community to connect with other contributors and Hire 86/A.',
+          'You can contribute to Helium by submitting pull requests on GitHub, reporting bugs, suggesting new features, or helping with documentation. Join our Discord community to connect with other contributors and Hire 86/A.',
       },
       {
         id: 6,
-        question: 'How does Kortix 86/A save me time?',
+        question: 'How does Helium AI save me time?',
         answer:
-          '86/A automates repetitive tasks, streamlines workflows, and provides quick solutions to common challenges. This automation and efficiency can save hours of manual work, allowing you to focus on more strategic activities.',
+          'Helium automates repetitive tasks, streamlines workflows, and provides quick solutions to common challenges. This automation and efficiency can save hours of manual work, allowing you to focus on more strategic activities.',
       },
     ],
   },
   ctaSection: {
     id: 'cta',
-    title: 'Start Using Kortix 86/A Today',
+    title: 'Start Using Helium AI Today',
     backgroundImage: '/holo.png',
     button: {
       text: 'Get Started for free',
@@ -1608,7 +1608,7 @@ export const siteConfig = {
       id: 'seo-analysis',
       title: 'SEO Analysis',
       description:
-        "Based on my website 86/A, generate an SEO report analysis, find top-ranking pages by keyword clusters, and identify topics I'm missing.",
+        "Based on my website Helium AI, generate an SEO report analysis, find top-ranking pages by keyword clusters, and identify topics I'm missing.",
       category: 'marketing',
       featured: true,
       icon: (

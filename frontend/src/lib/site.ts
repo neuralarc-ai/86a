@@ -1,7 +1,7 @@
 export const siteConfig = {
-  name: '86/A NeuralArc',
-  url: 'https://86c.neuralarc.ai/',
-  description: 'NeuralArc&apos;s 86/A',
+  name: 'Helium AI',
+  url: 'https://helium.neuralarc.ai/',
+  description: 'NeuralArc&apos;s Helium AI',
   links: {
     twitter: 'https://x.com/neuralarc_ai',
     linkedin: 'https://www.linkedin.com/company/neuralarcsai/',

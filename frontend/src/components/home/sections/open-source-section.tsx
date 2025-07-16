@@ -15,7 +15,7 @@ export function OpenSourceSection() {
             The God Agent
           </h2>
           <p className="text-muted-foreground text-center text-balance font-medium">
-            86/A is fully open source. Join our community and help shape the
+            Helium AI is fully open source. Join our community and help shape the
             future of AI.
           </p>
         </SectionHeader>
