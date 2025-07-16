@@ -6,6 +6,7 @@ import { BillingErrorAlert } from '@/components/billing/usage-limit-alert';
 import { Project } from '@/lib/api';
 import { ApiMessageType, BillingData } from '../_types';
 import { ToolCallInput } from '@/components/thread/tool-call-side-panel';
+import { useIsMobile } from '@/hooks/use-mobile';
 
 interface ThreadLayoutProps {
   children: React.ReactNode;
@@ -74,50 +75,98 @@ export function ThreadLayout({
   initialLoadCompleted,
   agentName
 }: ThreadLayoutProps) {
+  const isMobileDevice = useIsMobile();
   return (
-    <div className="flex h-screen">
+    <div className="flex h-screen overflow-hidden">
       {debugMode && (
         <div className="fixed top-16 right-4 bg-amber-500 text-black text-xs px-2 py-1 rounded-md shadow-md z-50">
           Debug Mode
         </div>
       )}
 
-      <div
-        className={`flex flex-col flex-1 overflow-hidden transition-all duration-200 ease-in-out ${(!initialLoadCompleted || isSidePanelOpen)
-          ? 'mr-[90%] sm:mr-[450px] md:mr-[500px] lg:mr-[550px] xl:mr-[650px]'
-          : ''
-          }`}
-      >
-        <SiteHeader
-          threadId={threadId}
-          projectName={projectName}
-          projectId={projectId}
-          onViewFiles={onViewFiles}
-          onToggleSidePanel={onToggleSidePanel}
-          onProjectRenamed={onProjectRenamed}
-          isMobileView={isMobile}
-          debugMode={debugMode}
-        />
-
-        {children}
-      </div>
-
-      <ToolCallSidePanel
-        isOpen={isSidePanelOpen && initialLoadCompleted}
-        onClose={onSidePanelClose}
-        toolCalls={toolCalls}
-        messages={messages}
-        externalNavigateToIndex={externalNavIndex}
-        agentStatus={agentStatus}
-        currentIndex={currentToolIndex}
-        onNavigate={onSidePanelNavigate}
-        project={project || undefined}
-        renderAssistantMessage={renderAssistantMessage}
-        renderToolResult={renderToolResult}
-        isLoading={!initialLoadCompleted || isLoading}
-        onFileClick={onViewFiles}
-        agentName={agentName}
-      />
+      {/* Responsive layout: side-by-side on desktop, overlay on mobile */}
+      {isSidePanelOpen && !isMobileDevice ? (
+        <>
+          <div className="flex flex-col h-full w-3/5 min-w-[350px] transition-all duration-200 ease-in-out">
+            <SiteHeader
+              threadId={threadId}
+              projectName={projectName}
+              projectId={projectId}
+              onViewFiles={onViewFiles}
+              onToggleSidePanel={onToggleSidePanel}
+              onProjectRenamed={onProjectRenamed}
+              isMobileView={isMobile}
+              debugMode={debugMode}
+            />
+            <div className="flex flex-col flex-1 w-full h-full items-center justify-between">
+              <div className="flex-1 w-full flex flex-col items-center justify-start h-0">
+                {/* Center chat messages and input, constrain max width for both */}
+                <div className="w-full max-w-3xl flex flex-col flex-1 h-0">
+                  {children}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="h-full w-full bg-background border-l p-4 border-border overflow-hidden">
+            <ToolCallSidePanel
+              isOpen={isSidePanelOpen && initialLoadCompleted}
+              onClose={onSidePanelClose}
+              toolCalls={toolCalls}
+              messages={messages}
+              externalNavigateToIndex={externalNavIndex}
+              agentStatus={agentStatus}
+              currentIndex={currentToolIndex}
+              onNavigate={onSidePanelNavigate}
+              project={project || undefined}
+              renderAssistantMessage={renderAssistantMessage}
+              renderToolResult={renderToolResult}
+              isLoading={!initialLoadCompleted || isLoading}
+              onFileClick={onViewFiles}
+              agentName={agentName}
+              inlineMode={true}
+            />
+          </div>
+        </>
+      ) : (
+        <div
+          className={
+            'flex flex-col flex-1 overflow-hidden transition-all duration-200 ease-in-out' +
+            ((!initialLoadCompleted || isSidePanelOpen) && isMobileDevice
+              ? ' mr-[90%] sm:mr-[450px] md:mr-[500px] lg:mr-[550px] xl:mr-[650px]'
+              : '')
+          }
+        >
+          <SiteHeader
+            threadId={threadId}
+            projectName={projectName}
+            projectId={projectId}
+            onViewFiles={onViewFiles}
+            onToggleSidePanel={onToggleSidePanel}
+            onProjectRenamed={onProjectRenamed}
+            isMobileView={isMobile}
+            debugMode={debugMode}
+          />
+          {children}
+          {/* Overlay mode for mobile or when not open */}
+          <ToolCallSidePanel
+            isOpen={isSidePanelOpen && initialLoadCompleted && isMobileDevice}
+            onClose={onSidePanelClose}
+            toolCalls={toolCalls}
+            messages={messages}
+            externalNavigateToIndex={externalNavIndex}
+            agentStatus={agentStatus}
+            currentIndex={currentToolIndex}
+            onNavigate={onSidePanelNavigate}
+            project={project || undefined}
+            renderAssistantMessage={renderAssistantMessage}
+            renderToolResult={renderToolResult}
+            isLoading={!initialLoadCompleted || isLoading}
+            onFileClick={onViewFiles}
+            agentName={agentName}
+            inlineMode={false}
+          />
+        </div>
+      )}
 
       {sandboxId && (
         <FileViewerModal

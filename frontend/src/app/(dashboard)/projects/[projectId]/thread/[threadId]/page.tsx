@@ -636,16 +636,19 @@ export default function ThreadPage({
           agentAvatar={agent && agent.avatar}
         />
 
+        {/* Chat Input Bar */}
         <div
           className={cn(
-            "fixed bottom-0 z-10 bg-gradient-to-t from-background via-background/90 to-transparent px-4 pt-8 transition-all duration-200 ease-in-out",
-            leftSidebarState === 'expanded' ? 'left-[72px] lg:left-[256px]' : 'left-[72px]',
-            isSidePanelOpen ? 'right-[90%] sm:right-[450px] md:right-[500px] lg:right-[550px] xl:right-[650px]' : 'right-0',
-            isMobile ? 'left-0 right-0' : ''
-          )}>
+            "fixed bottom-0 z-10 bg-gradient-to-t from-background via-background/90 to-transparent px-4 transition-all duration-200 ease-in-out",
+            leftSidebarState === 'expanded' ? 'left-[72px] lg:left-[256px]' : 'left-[65px]',
+            isMobile ? 'left-0 right-0' : isSidePanelOpen ? 'right-[60vw] w-[40vw] min-w-[350px] max-w-3xl' : 'right-0 w-full',
+            "flex flex-col justify-end min-h-[320px]"
+          )}
+          style={isMobile ? undefined : isSidePanelOpen ? {maxWidth: '34vw'} : {maxWidth: '98vw'}}
+        >
           <div className={cn(
-            "mx-auto",
-            isMobile ? "w-full" : "max-w-3xl"
+            "mx-auto w-full",
+            isMobile ? "w-full" : isSidePanelOpen ? "max-w-3xl w-full" : "max-w-[800px]"
           )}>
             <ChatInput
               value={newMessage}

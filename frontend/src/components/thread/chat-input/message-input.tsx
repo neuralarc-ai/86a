@@ -135,7 +135,6 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
 
     return (
       <div className="relative flex flex-col w-full h-full gap-10 justify-between">
-
         <div className="flex flex-col px-2 flex-grow">
           <Textarea
             ref={ref}
