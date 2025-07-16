@@ -502,7 +502,7 @@ export function NavAgents() {
                             </DropdownMenuContent>
                           </DropdownMenu>
                         </div>
-                      </div>
+                      </SidebarMenuButton>
                     </SidebarMenuItem>
                   );
                 })}

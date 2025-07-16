@@ -614,7 +614,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
                                                     >
                                                         <div className="space-y-3 min-w-0 flex-1">
                                                             {cleanContent && (
-                                                                <Markdown className="text-sm prose prose-sm chat-markdown max-w-none [&>:first-child]:mt-0 prose-headings:mt-3 break-words overflow-wrap-anywhere" style={{ color: '#FFFFFF' }}>{cleanContent}</Markdown>
+                                                                <Markdown className="text-sm prose prose-sm chat-markdown max-w-none [&>:first-child]:mt-0 prose-headings:mt-3 break-words overflow-wrap-anywhere text-white">{cleanContent}</Markdown>
                                                             )}
 
                                                             {/* Use the helper function to render user attachments */}

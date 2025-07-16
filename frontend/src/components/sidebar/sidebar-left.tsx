@@ -186,7 +186,7 @@ export function SidebarLeft({
           </SidebarHeader>
           <SidebarContent className="[&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] transition-all duration-300 ease-in-out">
             {/* Only render search bar and New Task button when expanded */}
-            {state !== 'collapsed' && (
+            {state === 'expanded' && (
               <>
                 {/* Search bar */}
                 <div
