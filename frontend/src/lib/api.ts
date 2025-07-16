@@ -1,3 +1,9 @@
+declare global {
+  interface Window {
+    tolt_referral?: string;
+  }
+}
+
 import { createClient } from '@/lib/supabase/client';
 import { handleApiError } from './error-handler';
 

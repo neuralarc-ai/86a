@@ -48,6 +48,7 @@ interface ToolCallSidePanelProps {
   isLoading?: boolean;
   agentName?: string;
   onFileClick?: (filePath: string) => void;
+  inlineMode?: boolean;
 }
 
 interface ToolCallSnapshot {
@@ -73,6 +74,7 @@ export function ToolCallSidePanel({
   externalNavigateToIndex,
   agentName,
   onFileClick,
+  inlineMode,
 }: ToolCallSidePanelProps) {
   const [dots, setDots] = React.useState('');
   const [internalIndex, setInternalIndex] = React.useState(0);
@@ -435,7 +437,7 @@ export function ToolCallSidePanel({
                   <div className="flex items-center justify-between">
                     <div className="ml-2 flex items-center gap-2">
                       <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
-                        {agentName ? `${agentName}'s Computer` : 'Suna\'s Computer'}
+                        {agentName ? `${agentName}'s Computer` : 'Helium\'s Brain'}
                       </h2>
                     </div>
                     <Button
@@ -473,7 +475,7 @@ export function ToolCallSidePanel({
             <div className="flex items-center justify-between">
               <div className="ml-2 flex items-center gap-2">
                 <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
-                  {agentName ? `${agentName}'s Computer` : 'Suna\'s Computer'}
+                  {agentName ? `${agentName}'s Computer` : 'Helium\'s Brain'}
                 </h2>
               </div>
               <Button
@@ -519,7 +521,7 @@ export function ToolCallSidePanel({
               <div className="flex items-center justify-between">
                 <div className="ml-2 flex items-center gap-2">
                   <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
-                    {agentName ? `${agentName}'s Computer` : 'Suna\'s Computer'}
+                    {agentName ? `${agentName}'s Computer` : 'Helium\'s Brain'}
                   </h2>
                 </div>
                 <div className="flex items-center gap-2">
@@ -565,7 +567,7 @@ export function ToolCallSidePanel({
             <div className="flex items-center justify-between">
               <div className="ml-2 flex items-center gap-2">
                 <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
-                  {agentName ? `${agentName}'s Computer` : 'Suna\'s Computer'}
+                  {agentName ? `${agentName}'s Computer` : 'Helium\'s Brain'}
                 </h2>
               </div>
               <Button
@@ -615,7 +617,7 @@ export function ToolCallSidePanel({
           <div className="flex items-center justify-between">
             <motion.div layoutId="tool-icon" className="ml-2 flex items-center gap-2">
               <h2 className="text-lg font-medium text-zinc-900 dark:text-zinc-100">
-                {agentName ? `${agentName}'s Computer` : 'Suna\'s Computer'}
+                {agentName ? `${agentName}'s Computer` : 'Helium\'s Brain'}
               </h2>
             </motion.div>
 
@@ -690,13 +692,16 @@ export function ToolCallSidePanel({
             }
           }}
           className={cn(
-            'fixed top-2 right-2 bottom-4 border rounded-3xl flex flex-col z-30',
-            isMobile
+            inlineMode
+              ? 'h-full w-full border-l border-border flex flex-col bg-card rounded-2xl relative'
+              : 'fixed top-2 right-2 bottom-4 border rounded-3xl flex flex-col z-30 bg-card',
+            !inlineMode && (isMobile
               ? 'left-2'
-              : 'w-[40vw] sm:w-[450px] md:w-[500px] lg:w-[550px] xl:w-[645px]',
+              : 'w-[40vw] sm:w-[450px] md:w-[500px] lg:w-[550px] xl:w-[645px]')
           )}
           style={{
             overflow: 'hidden',
+            ...(inlineMode ? {} : undefined),
           }}
         >
           <div className="flex-1 flex flex-col overflow-hidden bg-card">

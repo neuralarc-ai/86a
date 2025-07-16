@@ -15,10 +15,8 @@ import { useModelSelection } from './_use-model-selection';
 import { useFileDelete } from '@/hooks/react-query/files';
 import { useQueryClient } from '@tanstack/react-query';
 import { FloatingToolPreview, ToolCallInput } from './floating-tool-preview';
-import { Settings2, Sparkles, Brain, ChevronRight, Zap, Workflow, Database, Wrench } from 'lucide-react';
-import { FaGoogle, FaDiscord } from 'react-icons/fa';
-import { SiNotion } from 'react-icons/si';
 import { AgentConfigModal } from '@/components/agents/agent-config-modal';
+import { BorderBeam } from "@/components/magicui/border-beam";
 
 export interface ChatInputHandles {
   getPendingFiles: () => File[];
@@ -295,7 +293,7 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
         />
         
         <Card
-          className={`-mb-2 shadow-none w-full max-w-4xl mx-auto bg-transparent border-none overflow-hidden min-h-[160px] ${enableAdvancedConfig && selectedAgentId ? '' : 'rounded-3xl'}`}
+          className={`relative py-0 mb-4 mt-5 shadow-none w-full max-w-4xl mx-auto bg-transparent border-none overflow-hidden min-h-[160px] ${enableAdvancedConfig && selectedAgentId ? '' : 'rounded-3xl'}`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={(e) => {
@@ -317,140 +315,55 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
           }}
         >
           <div className="w-full text-sm flex flex-col justify-between items-start rounded-lg">
-            {/* Gradient border wrapper for CardContent */}
-            <div style={{
-              padding: '1px',
-              borderRadius: enableAdvancedConfig && selectedAgentId ? '1.5rem 1.5rem 0 0' : '1.5rem',
-              background: 'linear-gradient(90deg, #EE2F82 0%, #FFD160 100%)',
-              width: '100%',
-            }}>
-              <CardContent className={`w-full p-2 ${enableAdvancedConfig && selectedAgentId ? 'pb-1' : 'pb-2'} ${bgColor} border ${enableAdvancedConfig && selectedAgentId ? 'rounded-t-3xl' : 'rounded-3xl'} min-h-[160px]`}>
-                <AttachmentGroup
-                  files={uploadedFiles || []}
-                  sandboxId={sandboxId}
-                  onRemove={removeUploadedFile}
-                  layout="inline"
-                  maxHeight="216px"
-                  showPreviews={true}
-                />
-                <MessageInput
-                  ref={textareaRef}
-                  value={value}
-                  onChange={handleChange}
-                  onSubmit={handleSubmit}
-                  onTranscription={handleTranscription}
-                  placeholder={placeholder}
-                  loading={loading}
-                  disabled={disabled}
-                  isAgentRunning={isAgentRunning}
-                  onStopAgent={onStopAgent}
-                  isDraggingOver={isDraggingOver}
-                  uploadedFiles={uploadedFiles}
+            <CardContent className={`w-full p-2 ${enableAdvancedConfig && selectedAgentId ? 'pb-1' : 'pb-2'} ${bgColor} border ${enableAdvancedConfig && selectedAgentId ? 'rounded-t-3xl' : 'rounded-3xl'} min-h-[160px]`}>
+            <BorderBeam duration={6} initialOffset={10} size={1600} borderWidth={2} className="from-[#EE2F82] via-transparent to-[#FFD160]" />
+            {/* <BorderBeam duration={8} size={800} className="from-[#FFD160] via-[#FFD160] to-[#EE2F82]" /> */}
+              <AttachmentGroup
+                files={uploadedFiles || []}
+                sandboxId={sandboxId}
+                onRemove={removeUploadedFile}
+                layout="inline"
+                maxHeight="216px"
+                showPreviews={true}
+              />
+              <MessageInput
+                ref={textareaRef}
+                value={value}
+                onChange={handleChange}
+                onSubmit={handleSubmit}
+                onTranscription={handleTranscription}
+                placeholder={placeholder}
+                loading={loading}
+                disabled={disabled}
+                isAgentRunning={isAgentRunning}
+                onStopAgent={onStopAgent}
+                isDraggingOver={isDraggingOver}
+                uploadedFiles={uploadedFiles}
 
-                  fileInputRef={fileInputRef}
-                  isUploading={isUploading}
-                  sandboxId={sandboxId}
-                  setPendingFiles={setPendingFiles}
-                  setUploadedFiles={setUploadedFiles}
-                  setIsUploading={setIsUploading}
-                  hideAttachments={hideAttachments}
-                  messages={messages}
+                fileInputRef={fileInputRef}
+                isUploading={isUploading}
+                sandboxId={sandboxId}
+                setPendingFiles={setPendingFiles}
+                setUploadedFiles={setUploadedFiles}
+                setIsUploading={setIsUploading}
+                hideAttachments={hideAttachments}
+                messages={messages}
 
-                  selectedModel={selectedModel}
-                  onModelChange={handleModelChange}
-                  modelOptions={modelOptions}
-                  subscriptionStatus={subscriptionStatus}
-                  canAccessModel={canAccessModel}
-                  refreshCustomModels={refreshCustomModels}
-                  isLoggedIn={isLoggedIn}
+                selectedModel={selectedModel}
+                onModelChange={handleModelChange}
+                modelOptions={modelOptions}
+                subscriptionStatus={subscriptionStatus}
+                canAccessModel={canAccessModel}
+                refreshCustomModels={refreshCustomModels}
+                isLoggedIn={isLoggedIn}
 
-                  selectedAgentId={selectedAgentId}
-                  onAgentSelect={onAgentSelect}
-                  hideAgentSelection={hideAgentSelection}
-                />
-              </CardContent>
-            </div>
+                selectedAgentId={selectedAgentId}
+                onAgentSelect={onAgentSelect}
+                hideAgentSelection={hideAgentSelection}
+              />
+            </CardContent>
+            {/* Animated BorderBeam(s) for the message input border */}
             
-            {enableAdvancedConfig && selectedAgentId && (
-              <div className="w-full border-t bg-muted/20 px-4 py-2.5 rounded-b-3xl border-l border-r border-b border-border">
-                <div className="flex items-center justify-center">
-                  <div className="flex items-center gap-1 sm:gap-2 overflow-x-auto scrollbar-none">
-                    <button
-                      onClick={() => {
-                        setConfigModalTab('integrations');
-                        setConfigModalOpen(true);
-                      }}
-                      className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-all duration-200 px-2.5 py-1.5 rounded-md hover:bg-muted/50 border border-transparent hover:border-border/30 flex-shrink-0"
-                    >
-                      <div className="flex items-center -space-x-0.5">
-                        <div className="w-4 h-4 bg-white border border-border rounded-full flex items-center justify-center shadow-sm">
-                          <FaGoogle className="w-2 h-2" />
-                        </div>
-                        <div className="w-4 h-4 bg-white border border-border rounded-full flex items-center justify-center shadow-sm">
-                          <FaDiscord className="w-2 h-2" />
-                        </div>
-                        <div className="w-4 h-4 bg-white border border-border rounded-full flex items-center justify-center shadow-sm">
-                          <SiNotion className="w-2 h-2" />
-                        </div>
-                      </div>
-                      <span className="text-xs font-medium">Integrations</span>
-                    </button>
-                    
-                    <div className="w-px h-4 bg-border/60" />
-                    
-                    <button
-                      onClick={() => {
-                        setConfigModalTab('instructions');
-                        setConfigModalOpen(true);
-                      }}
-                      className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-all duration-200 px-2.5 py-1.5 rounded-md hover:bg-muted/50 border border-transparent hover:border-border/30 flex-shrink-0"
-                    >
-                      <Brain className="h-3.5 w-3.5 flex-shrink-0" />
-                      <span className="text-xs font-medium">Instructions</span>
-                    </button>
-                    
-                    <div className="w-px h-4 bg-border/60" />
-                    
-                    <button
-                      onClick={() => {
-                        setConfigModalTab('knowledge');
-                        setConfigModalOpen(true);
-                      }}
-                      className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-all duration-200 px-2.5 py-1.5 rounded-md hover:bg-muted/50 border border-transparent hover:border-border/30 flex-shrink-0"
-                    >
-                      <Database className="h-3.5 w-3.5 flex-shrink-0" />
-                      <span className="text-xs font-medium">Knowledge</span>
-                    </button>
-                    
-                    <div className="w-px h-4 bg-border/60" />
-                    
-                    <button
-                      onClick={() => {
-                        setConfigModalTab('triggers');
-                        setConfigModalOpen(true);
-                      }}
-                      className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-all duration-200 px-2.5 py-1.5 rounded-md hover:bg-muted/50 border border-transparent hover:border-border/30 flex-shrink-0"
-                    >
-                      <Zap className="h-3.5 w-3.5 flex-shrink-0" />
-                      <span className="text-xs font-medium">Triggers</span>
-                    </button>
-                    
-                    <div className="w-px h-4 bg-border/60" />
-                    
-                    <button
-                      onClick={() => {
-                        setConfigModalTab('workflows');
-                        setConfigModalOpen(true);
-                      }}
-                      className="flex items-center gap-1.5 text-muted-foreground hover:text-foreground transition-all duration-200 px-2.5 py-1.5 rounded-md hover:bg-muted/50 border border-transparent hover:border-border/30 flex-shrink-0"
-                    >
-                      <Workflow className="h-3.5 w-3.5 flex-shrink-0" />
-                      <span className="text-xs font-medium">Workflows</span>
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
           </div>
         </Card>
 

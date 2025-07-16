@@ -72,10 +72,10 @@ export const AgentSelector: React.FC<AgentSelectorProps> = ({
   const allAgents = [
     {
       id: undefined,
-      name: 'Suna',
-      description: 'Your personal AI assistant',
+      name: 'Helium AI',
+      description: 'The God Agent',
       type: 'default' as const,
-      icon: <Image src="/kortix-symbol.svg" alt="Suna" width={16} height={16} className="h-4 w-4 dark:invert" />
+      icon: <Image src="/kortix-symbol.svg" alt="Helium AI" width={16} height={16} className="h-4 w-4 dark:invert" />
     },
     ...PREDEFINED_AGENTS.map(agent => ({
       ...agent,
@@ -119,7 +119,7 @@ export const AgentSelector: React.FC<AgentSelectorProps> = ({
     
     // If selectedAgentId is not undefined but no agent is found, log a warning
     if (selectedAgentId !== undefined) {
-      console.warn('Agent with ID', selectedAgentId, 'not found, falling back to Suna');
+      console.warn('Agent with ID', selectedAgentId, 'not found, falling back to Helium AI');
     }
     
     // Default to Suna (the first agent which has id: undefined)
@@ -132,7 +132,7 @@ export const AgentSelector: React.FC<AgentSelectorProps> = ({
   };
 
   const handleAgentSelect = (agentId: string | undefined) => {
-    console.log('Agent selected:', agentId === undefined ? 'Suna (default)' : agentId);
+    console.log('Agent selected:', agentId === undefined ? 'Helium (default)' : agentId);
     onAgentSelect?.(agentId);
     setIsOpen(false);
   };

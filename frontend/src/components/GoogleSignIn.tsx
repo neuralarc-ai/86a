@@ -131,7 +131,7 @@ export default function GoogleSignIn({ returnUrl }: GoogleSignInProps) {
     return (
       <button
         disabled
-        className="w-full h-12 flex items-center justify-center gap-2 text-sm font-medium tracking-wide rounded-full bg-background border border-border opacity-60 cursor-not-allowed"
+        className="w-full h-15 flex items-center justify-center gap-2 text-sm font-medium tracking-wide rounded-[16px] bg-background border border-border opacity-60 cursor-not-allowed"
       >
         <svg className="w-5 h-5" viewBox="0 0 24 24">
           <path

@@ -133,7 +133,6 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
 
     return (
       <div className="relative flex flex-col w-full h-full gap-10 justify-between">
-
         <div className="flex flex-col px-2 flex-grow">
           <Textarea
             ref={ref}
@@ -233,7 +232,7 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
                   <p role='button' className='text-sm text-amber-500 hidden sm:block cursor-pointer' onClick={() => setBillingModalOpen(true)}>Upgrade for more usage</p>
                 </TooltipTrigger>
                 <TooltipContent>
-                  <p>The free tier is severely limited by the amount of usage. Upgrade to experience the full power of Suna.</p>
+                  <p>The free tier is severely limited by the amount of usage. Upgrade to experience the full power of Helium AI.</p>
                 </TooltipContent>
               </Tooltip>
             </TooltipProvider>

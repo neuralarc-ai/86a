@@ -106,7 +106,7 @@ export const FloatingToolPreview: React.FC<FloatingToolPreviewProps> = ({
             layoutId={CONTENT_LAYOUT_ID}
             whileHover={{ scale: 1.01 }}
             whileTap={{ scale: 0.99 }}
-            className="bg-card border border-border rounded-3xl p-2 w-full cursor-pointer group"
+            className="bg-card border border-border duraion-200 ease-in-out transition-all rounded-xl p-2 w-full cursor-pointer group"
             onClick={handleClick}
             style={{ opacity: isExpanding ? 0 : 1 }}
           >
@@ -155,7 +155,7 @@ export const FloatingToolPreview: React.FC<FloatingToolPreviewProps> = ({
                   )} />
                   <span className="text-xs text-muted-foreground truncate">
                     {isStreaming
-                      ? `${agentName || 'Suna'} is working...`
+                      ? `${agentName || 'Helium'} is working...`
                       : isSuccess
                         ? "Success"
                         : "Failed"

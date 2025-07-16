@@ -32,10 +32,10 @@ export function UpgradeDialog({ open, onOpenChange, onDismiss }: UpgradeDialogPr
         <DialogHeader>
           <DialogTitle className="flex items-center">
             <Crown className="h-5 w-5 mr-2 text-primary" />
-            Unlock the Full Suna Experience
+            Unlock the Full Helium AI Experience
           </DialogTitle>
           <DialogDescription>
-            You're currently using Suna's free tier with limited capabilities.
+            You're currently using Helium's free tier with limited capabilities.
             Upgrade now to access our most powerful AI model.
           </DialogDescription>
         </DialogHeader>

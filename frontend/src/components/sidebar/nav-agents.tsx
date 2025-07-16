@@ -12,7 +12,8 @@ import {
   Share2,
   X,
   Check,
-  History
+  History,
+  MoreVertical
 } from "lucide-react"
 import { toast } from "sonner"
 import { usePathname, useRouter } from "next/navigation"
@@ -350,47 +351,44 @@ export function NavAgents() {
 
   return (
     <SidebarGroup>
-      <div className="flex justify-between items-center">
-        <SidebarGroupLabel>Tasks</SidebarGroupLabel>
-        {state !== 'collapsed' ? (
-          <div className="flex items-center space-x-1">
-            {selectedThreads.size > 0 ? (
-              <>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={deselectAllThreads}
-                  className="h-7 w-7"
-                >
-                  <X className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={selectAllThreads}
-                  disabled={selectedThreads.size === combinedThreads.length}
-                  className="h-7 w-7"
-                >
-                  <Check className="h-4 w-4" />
-                </Button>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={handleMultiDelete}
-                  className="h-7 w-7 text-destructive"
-                >
-                  <Trash2 className="h-4 w-4" />
-                </Button>
-              </>
-            ) : null}
-          </div>
-        ) : null}
-      </div>
+      {state === 'expanded' && (
+        <div className="flex items-center space-x-1 mb-2">
+          {selectedThreads.size > 0 ? (
+            <>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={deselectAllThreads}
+                className="h-7 w-7"
+              >
+                <X className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={selectAllThreads}
+                disabled={selectedThreads.size === combinedThreads.length}
+                className="h-7 w-7"
+              >
+                <Check className="h-4 w-4" />
+              </Button>
+              <Button
+                variant="ghost"
+                size="icon"
+                onClick={handleMultiDelete}
+                className="h-7 w-7 text-destructive"
+              >
+                <Trash2 className="h-4 w-4" />
+              </Button>
+            </>
+          ) : null}
+        </div>
+      )}
 
       <SidebarMenu className="overflow-y-auto max-h-[calc(100vh-200px)] [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none']">
 
 
-        {state !== 'collapsed' && (
+        {state === 'expanded' && (
           <>
             {isLoading ? (
               // Show skeleton loaders while loading
@@ -519,6 +517,7 @@ export function NavAgents() {
           </>
         )}
       </SidebarMenu>
+      <div className="w-full h-px bg-[#FFFFFF1A] mt-6" />
 
       {(isDeletingSingle || isDeletingMultiple) && totalToDelete > 0 && (
         <div className="mt-2 px-2">

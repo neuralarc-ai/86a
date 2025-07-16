@@ -141,7 +141,7 @@ export const CustomMCPDialog: React.FC<CustomMCPDialogProps> = ({
     }
 
     try {
-      let configToSave: any = { url: configText.trim() };
+      const configToSave: any = { url: configText.trim() };
       
       onSave({
         name: serverName,

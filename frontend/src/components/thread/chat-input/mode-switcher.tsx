@@ -34,15 +34,15 @@ export default function ModeSwitcher({ activeMode, onModeChange }) {
   };
 
   return (
-    <div className="flex flex-row  items-center rounded-full bg-[#F7F7F726] w-fit p-1">
+    <div className="flex flex-row gap-2 items-center rounded-full bg-[#F7F7F726] w-fit">
       {MODES.map((mode, idx) => (
         <button
           key={mode.key}
           onClick={() => handleClick(mode.key)}
           className={
             selected === mode.key
-              ? 'w-9 h-9 rounded-full flex items-center justify-center bg-gradient-to-tr from-[#F03487] to-[#FCBB42] shadow-lg transition-all duration-150'
-              : 'w-9 h-9 rounded-full flex items-center justify-center bg-transparent transition-all duration-150'
+              ? 'w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-[#97A487] to-[#597932] shadow-lg transition-all duration-150'
+              : 'w-10 h-10 rounded-full flex items-center justify-center bg-transparent transition-all duration-150'
           } 
         >
           <span className="w-[18px] h-[18px] flex items-center justify-center">
