@@ -10,11 +10,11 @@ interface KortixLogoProps {
 export function KortixLogo() {
   return (
     <Image
-      src="/86/A.svg"
+      src="/full-logo.svg"
       alt="Kortix"
-      width={46}
-      height={35}
-      className="flex-shrink-0"
+      width={42}
+      height={32}
+      className="object-contain flex-shrink-0"
       style={{ transform: 'rotate(0deg)' }}
     />
   );

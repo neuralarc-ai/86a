@@ -119,7 +119,7 @@ export function Navbar() {
         >
           <div className="flex h-[56px] items-center justify-between p-4">
             <Link href="/" className="flex items-center gap-3">
-              <span className="font-semibold text-2xl text-black dark:text-white select-none">86/A</span>
+              <span className="font-semibold text-2xl text-black dark:text-white select-none">Helium</span>
             </Link>
 
             <NavMenu />
@@ -183,7 +183,7 @@ export function Navbar() {
               <div className="flex flex-col gap-4">
                 <div className="flex items-center justify-between">
                   <Link href="/" className="flex items-center gap-3">
-                    <span className="font-bold text-3xl text-black dark:text-white select-none">86/A</span>
+                    <span className="font-bold text-3xl text-black dark:text-white select-none">Helium</span>
                   </Link>
                   <button
                     onClick={toggleDrawer}
