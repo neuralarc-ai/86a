@@ -93,24 +93,42 @@ export function SidebarLeft({
   return (
     <Sidebar
       collapsible="icon"
-      className={`border-r-0 bg-[var(--sidebar)] backdrop-blur-sm [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] max-w-full sm:max-w-full transition-all duration-300 ease-in-out ${state === 'collapsed' ? 'w-[100px] sm:w-[100px] md:w-[100px]' : 'w-[280px] sm:w-[320px] md:w-[349px]'}`}
+      className={`border-r-0 bg-[var(--sidebar)] backdrop-blur-sm [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] max-w-full sm:max-w-full transition-all duration-300 ease-in-out ${state === 'collapsed' ? 'w-[200px] sm:w-[100px] md:w-[200px]' : 'w-[280px] sm:w-[320px] md:w-[349px]'}`}
       {...props}
     >
       {state === 'collapsed' ? (
-        <div className="flex flex-col items-center w-full h-full min-h-screen justify-between py-4">
-          {/* Header/Logo */}
-          <Link href="/dashboard">
-            <div className="w-[40px] h-[30px] flex items-center justify-center mb-6 ">
-              <KortixLogo />
-            </div>
-          </Link>
-          {/* Icon Buttons */}
-          <div className="flex flex-col items-center gap-6 flex-1">
-            <SidebarTrigger className="h-5 w-5 my-3 flex-shrink-0" />
-            <button
-              className="h-5 w-5 flex items-center justify-center my-3 rounded-lg hover:bg-[#EFEDE70D] flex-shrink-0"
-              onClick={() => setOpen(true)}
-            >
+        <div className="flex flex-col items-center w-full h-full min-h-screen justify-between">
+          {/* All header elements in a single flex container */}
+          <div className="flex flex-col items-center gap-8 py-4 px-2 w-full">
+            {/* Logo */}
+            <Link href="/dashboard">
+              <div className="w-[40px] h-[30px] flex items-center justify-center">
+                <img src="/full-logo.svg" alt="Logo" style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
+              </div>
+            </Link>
+            {/* Sidebar Toggle */}
+            <SidebarTrigger className="h-6 w-6 flex items-center justify-center rounded-lg hover:bg-[#EFEDE70D]" />
+            {/* Plus Icon */}
+            <button className="h-6 w-6 flex items-center justify-center rounded-lg hover:bg-[#EFEDE70D]">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="icon icon-tabler icons-tabler-outline icon-tabler-plus"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M12 5l0 14" />
+                <path d="M5 12l14 0" />
+              </svg>
+            </button>
+            {/* Search Icon */}
+            <button className="h-6 w-6 flex items-center justify-center rounded-lg hover:bg-[#EFEDE70D]">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="20"
@@ -128,28 +146,9 @@ export function SidebarLeft({
                 <path d="M21 21l-6 -6" />
               </svg>
             </button>
-            <button className="h-5 w-5 flex items-center justify-center my-3 rounded-lg hover:bg-[#EFEDE70D] flex-shrink-0">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="icon icon-tabler icons-tabler-outline icon-tabler-circle-plus"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0" />
-                <path d="M9 12h6" />
-                <path d="M12 9v6" />
-              </svg>
-            </button>
           </div>
           {/* Footer/Profile */}
-          <div >
+          <div className='mb-10'>
             <NavUserWithTeams user={user} />
           </div>
         </div>

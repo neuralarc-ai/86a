@@ -314,8 +314,8 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
     project,
     debugMode = false,
     isPreviewMode = false,
-    agentName = 'Suna',
-    agentAvatar = <KortixLogo size={16} />,
+    agentName = 'Helium',
+    agentAvatar = <img src="/full-logo.svg" alt="Logo" width={22} height={22} style={{ display: 'inline-block', verticalAlign: 'middle' }} />,
     emptyStateComponent,
 }) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -644,7 +644,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
                                                                         </div>
                                                                     );
                                                                 }
-                                                                return <KortixLogo size={16} />;
+                                                                return <img src="/full-logo.svg" alt="Logo" width={32} height={32} style={{ display: 'inline-block', verticalAlign: 'middle' }} />;
                                                             })()}
                                                         </div>
                                                         <p className='ml-2 text-sm text-muted-foreground'>
@@ -655,7 +655,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
                                                                 if (firstAssistantWithAgent?.agents?.name) {
                                                                     return firstAssistantWithAgent.agents.name;
                                                                 }
-                                                                return 'Suna';
+                                                                return 'Helium';
                                                             })()}
                                                         </p>
                                                     </div>

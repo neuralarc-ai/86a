@@ -60,7 +60,7 @@ export function NavUserWithTeams({
   };
 }) {
   const router = useRouter();
-  const { isMobile } = useSidebar();
+  const { isMobile, state } = useSidebar();
   const { data: accounts } = useAccounts();
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
   const { theme, setTheme } = useTheme();
@@ -168,26 +168,33 @@ export function NavUserWithTeams({
             <DropdownMenuTrigger asChild>
               <SidebarMenuButton
                 size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground mb-6 bg-[#FFFFFF1F] h-[64px]"
+                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground mb-6 h-[64px] cursor-pointer"
               >
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">
-                    {getInitials(user.name)}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate text-[16px]">{user.name}</span>
-                  <span className="truncate text-[16px]">{user.email}</span>
-                </div>
-                {/* Animated Chevron */}
-                <span className="ml-auto flex items-center">
-                  {menuOpen ? (
-                    <ChevronDown className="size-4 transition-transform duration-200" />
-                  ) : (
-                    <ChevronUp className="size-4 transition-transform duration-200" />
-                  )}
-                </span>
+                {state === 'collapsed' ? (
+                  <img src="/profile.svg" alt="Profile" width={20} height={20} className='mx-auto' />
+                ) : (
+                  <>
+                    <Avatar className="h-8 w-8 rounded-lg">
+                      <AvatarImage src={user.avatar} alt={user.name} />
+                      <AvatarFallback className="rounded-lg">
+                        {getInitials(user.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                      <span className="truncate text-[16px]">{user.name}</span>
+                      <span className="truncate text-[16px]">{user.email}</span>
+                    </div>
+                    {state !== 'collapsed' && (
+                      <span className="ml-auto flex items-center">
+                        {menuOpen ? (
+                          <ChevronDown className="size-4 transition-transform duration-200" />
+                        ) : (
+                          <ChevronUp className="size-4 transition-transform duration-200" />
+                        )}
+                      </span>
+                    )}
+                  </>
+                )}
               </SidebarMenuButton>
             </DropdownMenuTrigger>
             <DropdownMenuContent
