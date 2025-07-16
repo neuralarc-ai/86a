@@ -315,7 +315,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
     debugMode = false,
     isPreviewMode = false,
     agentName = 'Suna',
-    agentAvatar = <KortixLogo size={16} />,
+    agentAvatar = <KortixLogo />,
     emptyStateComponent,
 }) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -614,7 +614,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
                                                     >
                                                         <div className="space-y-3 min-w-0 flex-1">
                                                             {cleanContent && (
-                                                                <Markdown className="text-sm prose prose-sm chat-markdown max-w-none [&>:first-child]:mt-0 prose-headings:mt-3 break-words overflow-wrap-anywhere" style={{ color: '#FFFFFF' }}>{cleanContent}</Markdown>
+                                                                <Markdown className="text-sm prose prose-sm chat-markdown max-w-none [&>:first-child]:mt-0 prose-headings:mt-3 break-words overflow-wrap-anywhere text-white">{cleanContent}</Markdown>
                                                             )}
 
                                                             {/* Use the helper function to render user attachments */}
@@ -644,7 +644,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
                                                                         </div>
                                                                     );
                                                                 }
-                                                                return <KortixLogo size={16} />;
+                                                                return <KortixLogo />;
                                                             })()}
                                                         </div>
                                                         <p className='ml-2 text-sm text-muted-foreground'>

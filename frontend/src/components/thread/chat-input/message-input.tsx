@@ -17,8 +17,6 @@ import { TooltipProvider, TooltipTrigger } from '@radix-ui/react-tooltip';
 import { BillingModal } from '@/components/billing/billing-modal';
 import ChatDropdown from './chat-dropdown';
 import ModeSwitcher from './mode-switcher';
-import { WebModeButton } from './web-mode';
-import { ConnectButton } from './connector';
 
 interface MessageInputProps {
   value: string;
