@@ -12,7 +12,7 @@ export function KortixLogo() {
     <Image
       src="/full-logo.svg"
       alt="Kortix"
-      width={42}
+      width={32}
       height={32}
       className="object-contain flex-shrink-0"
       style={{ transform: 'rotate(0deg)' }}

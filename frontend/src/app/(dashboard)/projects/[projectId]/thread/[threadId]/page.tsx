@@ -639,8 +639,8 @@ export default function ThreadPage({
         {/* Chat Input Bar */}
         <div
           className={cn(
-            "fixed bottom-0 z-10 bg-gradient-to-t from-background via-background/90 to-transparent px-4 transition-all duration-200 ease-in-out",
-            leftSidebarState === 'expanded' ? 'left-[72px] lg:left-[256px]' : 'left-[65px]',
+            "fixed bottom-0  bg-gradient-to-t from-background via-background/90 to-transparent px-4 transition-all duration-200 ease-in-out",
+            leftSidebarState === 'expanded' ? 'left-[72px] lg:left-[156px]' : 'left-[65px]',
             isMobile ? 'left-0 right-0' : isSidePanelOpen ? 'right-[60vw] w-[40vw] min-w-[350px] max-w-3xl' : 'right-0 w-full',
             "flex flex-col justify-end min-h-[320px]"
           )}

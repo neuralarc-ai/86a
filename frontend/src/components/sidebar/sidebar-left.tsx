@@ -93,7 +93,7 @@ export function SidebarLeft({
   return (
     <Sidebar
       collapsible="icon"
-      className={`border-r-0 bg-[var(--sidebar)] backdrop-blur-sm [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] max-w-full sm:max-w-full transition-all duration-300 ease-in-out ${state === 'collapsed' ? 'w-[100px] sm:w-[100px] md:w-[100px]' : 'w-[280px] sm:w-[320px] md:w-[349px]'}`}
+      className={`border-r-0 bg-[var(--sidebar)] backdrop-blur-sm [&::-webkit-scrollbar]:hidden [-ms-overflow-style:'none'] [scrollbar-width:'none'] max-w-full sm:max-w-full transition-all duration-300 ease-in-out ${state === 'collapsed' ? 'w-[100px] sm:w-[100px] md:w-[100px]' : 'w-[280px] sm:w-[320px] md:w-[256px]'}`}
       {...props}
     >
       {state === 'collapsed' ? (
@@ -149,7 +149,7 @@ export function SidebarLeft({
             </button>
           </div>
           {/* Footer/Profile */}
-          <div >
+          <div className='mb-10'>
             <NavUserWithTeams user={user} />
           </div>
         </div>
