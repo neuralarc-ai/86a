@@ -30,13 +30,14 @@ export function FooterSection() {
       <div className="flex flex-col md:flex-row md:items-center md:justify-between p-10 max-w-6xl mx-auto">
         <div className="flex flex-col items-start justify-start gap-y-5 max-w-xs mx-0">
           <Link href="/" className="flex items-center gap-2">
-            <Image
+            {/* <Image
               src={logoSrc}
               alt="Kortix Logo"
               width={122}
               height={22}
               priority
-            />
+            /> */}
+            <h2 className='text-3xl font-semibold'>Helium AI</h2>
           </Link>
           <p className="tracking-tight text-muted-foreground font-medium">
             {siteConfig.hero.description}
@@ -138,7 +139,7 @@ export function FooterSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-transparent to-background z-10 from-40%" />
         <div className="absolute inset-0 ">
           <FlickeringGrid
-            text={tablet ? 'Agents' : 'Agents Agents Agents'}
+            text={tablet ? 'Agents' : 'Helium AI - The God Agent'}
             fontSize={tablet ? 60 : 90}
             className="h-full w-full"
             squareSize={2}

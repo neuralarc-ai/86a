@@ -16,7 +16,7 @@ export function HeroVideoSection() {
         </p>
       </SectionHeader>
 
-      <div className="relative px-6">
+      {/* <div className="relative px-6">
         <div className="relative w-full max-w-3xl mx-auto shadow-xl rounded-2xl overflow-hidden">
           <HeroVideoDialog
             className="block dark:hidden"
@@ -33,7 +33,7 @@ export function HeroVideoSection() {
             thumbnailAlt="Hero Video"
           />
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }

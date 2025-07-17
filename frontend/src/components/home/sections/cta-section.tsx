@@ -12,9 +12,9 @@ export function CTASection() {
       className="flex flex-col items-center justify-center w-full pt-12 pb-12"
     >
       <div className="w-full max-w-6xl mx-auto px-6">
-        <div className="h-[400px] md:h-[400px] overflow-hidden shadow-xl w-full border border-border rounded-xl bg-secondary relative z-20">
+        <div className="h-[400px] md:h-[400px] overflow-hidden shadow-xl w-full border border-border rounded-xl bg-white/60 relative z-20">
           <div className="absolute inset-0 -top-32 md:-top-40 flex flex-col items-center justify-center">
-            <h1 className="text-white text-4xl md:text-7xl font-medium tracking-tighter max-w-xs md:max-w-xl text-center">
+            <h1 className="text-black text-4xl md:text-7xl font-medium tracking-tighter max-w-xs md:max-w-xl text-center">
               {ctaSection.title}
             </h1>
             <div className="absolute bottom-10 flex flex-col items-center justify-center gap-2">
@@ -24,7 +24,7 @@ export function CTASection() {
               >
                 {ctaSection.button.text}
               </Link>
-              <span className="text-white text-sm">{ctaSection.subtext}</span>
+              <span className="text-black text-sm">{ctaSection.subtext}</span>
             </div>
           </div>
         </div>

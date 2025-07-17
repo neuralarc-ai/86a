@@ -12,10 +12,10 @@ export function OpenSourceSection() {
       <div className="w-full max-w-6xl mx-auto px-6">
         <SectionHeader>
           <h2 className="text-3xl md:text-4xl font-medium tracking-tighter text-center text-balance pb-1">
-            The God Agent
+            100% Open Source
           </h2>
           <p className="text-muted-foreground text-center text-balance font-medium">
-            Helium AI is fully open source. Join our community and help shape the
+            Suna is fully open source. Join our community and help shape the
             future of AI.
           </p>
         </SectionHeader>
@@ -75,8 +75,10 @@ export function OpenSourceSection() {
               </Link>
             </div>
           </div> */}
+          </div>
 
-          <div className="rounded-xl bg-[#F3F4F6] dark:bg-[#F9FAFB]/[0.02] border border-border p-6">
+        <div className="flex justify-center w-full pt-12">
+          <div className="rounded-xl bg-[#F3F4F6] dark:bg-[#F9FAFB]/[0.02] border border-border p-6 max-w-xl w-full">
             <div className="flex flex-col gap-6">
               <h3 className="text-xl md:text-2xl font-medium tracking-tight">
                 Transparency & Trust

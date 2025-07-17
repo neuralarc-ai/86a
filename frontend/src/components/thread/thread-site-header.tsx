@@ -135,7 +135,7 @@ export function SiteHeader({
 
   return (
     <>
-      <div className="w-full h-10 bg-[#FFFFFF08] flex items-center justify-between px-2 sm:px-4" style={{ position: 'relative', zIndex: 20 }}>
+      <div className="w-full h-10  flex items-center justify-between px-2 sm:px-4" style={{ position: 'relative', zIndex: 20 }}>
         <header className={cn(
           "w-full flex h-10 items-center gap-2",
           isMobile && "px-2"

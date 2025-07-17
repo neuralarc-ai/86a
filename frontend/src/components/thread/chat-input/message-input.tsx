@@ -203,7 +203,7 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
               onClick={isAgentRunning && onStopAgent ? onStopAgent : onSubmit}
               size="icon"
               className={cn(
-                'w-10 h-10 rounded-full flex items-center justify-center bg-[#F7F7F726]',
+                'w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-[#F7C245] to-[#CD38A3]',
                 (!value.trim() && uploadedFiles.length === 0 && !isAgentRunning) ||
                   loading ||
                   (disabled && !isAgentRunning)
@@ -216,20 +216,39 @@ export const MessageInput = forwardRef<HTMLTextAreaElement, MessageInputProps>(
                 (disabled && !isAgentRunning)
               }
             >
-              {loading ? (
-                <Loader2 className="h-5 w-5 animate-spin" style={{ width: 20, height: 20 }} />
-              ) : isAgentRunning ? (
-                <div className="min-h-[14px] min-w-[14px] w-5 h-5 rounded-sm bg-current" />
-              ) : (
-                <ArrowUp className="h-5 w-5" style={{ width: 20, height: 20 }} />
-              )}
+              {/* Wrap the ternary in a fragment to fix linter error */}
+              <>
+                {loading ? (
+                  <Loader2 className="h-5 w-5 animate-spin text-white" style={{ width: 20, height: 20, color: '#fff' }} />
+                ) : isAgentRunning ? (
+                  <div className="min-h-[14px] min-w-[14px] w-5 h-5 rounded-sm bg-white" />
+                ) : (
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="white"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="h-5 w-5"
+                  >
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                    <path d="M12 5l0 14" />
+                    <path d="M16 9l-4 -4" />
+                    <path d="M8 9l4 -4" />
+                  </svg>
+                )}
+              </>
             </Button>
           </div>
           {subscriptionStatus === 'no_subscription' && !isLocalMode() &&
             <TooltipProvider>
               <Tooltip>
                 <TooltipTrigger>
-                  <p role='button' className='text-sm text-amber-500 hidden sm:block cursor-pointer' onClick={() => setBillingModalOpen(true)}>Upgrade for more usage</p>
+                  <p role='button' className='text-sm text-amber-500 hidden sm:block cursor-pointer' onClick={() => setBillingModalOpen(true)}></p>
                 </TooltipTrigger>
                 <TooltipContent>
                   <p>The free tier is severely limited by the amount of usage. Upgrade to experience the full power of Helium AI.</p>

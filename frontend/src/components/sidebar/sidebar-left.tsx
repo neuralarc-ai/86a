@@ -105,7 +105,7 @@ export function SidebarLeft({
             </div>
           </Link>
           {/* Icon Buttons */}
-          <div className="flex flex-col items-center gap-6 flex-1">
+          <div className="flex flex-col items-center gap-2 flex-1">
             <SidebarTrigger className="h-5 w-5 my-3 flex-shrink-0" />
             <button
               className="h-5 w-5 flex items-center justify-center my-3 rounded-lg hover:bg-[#EFEDE70D] flex-shrink-0"
@@ -113,8 +113,8 @@ export function SidebarLeft({
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -131,8 +131,8 @@ export function SidebarLeft({
             <button className="h-5 w-5 flex items-center justify-center my-3 rounded-lg hover:bg-[#EFEDE70D] flex-shrink-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="20"
-                height="20"
+                width="24"
+                height="24"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -158,7 +158,7 @@ export function SidebarLeft({
           <SidebarHeader className="px-2 py-2">
             <div className="flex flex-row h-[48px] sm:h-[52px] md:h-[56px] items-center w-full transition-all duration-300 ease-in-out">
               <Link href="/dashboard">
-                <div className="w-[160px] h-[40px] sm:w-[180px] sm:h-[45px] md:w-[40px] md:h-[30px] flex items-center justify-center transition-all duration-300 ease-in-out">
+                <div className="w-[160px] h-[40px] sm:w-[180px] sm:h-[45px] md:w-[30px] md:h-[30px] flex items-center justify-center transition-all duration-300 ease-in-out">
                   <img src="/full-logo.svg" alt="Logo" style={{ width: '100%', height: 'auto', objectFit: 'contain' }} />
                 </div>
               </Link>
@@ -187,27 +187,14 @@ export function SidebarLeft({
             {/* Toggle between search bar and icons */}
             <div className="flex flex-row items-center justify-between w-full px-2 pt-2 pb-1">
               {showSearchBar ? (
-                <div
-                  style={{
-                    width: 317,
-                    height: 56,
-                    minWidth: 128,
-                    top: 0.16,
-                    justifyContent: 'space-between',
-                    opacity: 1,
-                    borderRadius: 16,
-                    padding: 16,
-                    background: '#EFEDE70D',
-                  }}
-                  className="flex items-center bg-[#EFEDE70D] rounded-2xl px-4"
-                >
+                <div className="flex items-center w-full h-14 bg-[#EFEDE70D] rounded-2xl px-4">
                   <input
                     type="text"
                     placeholder="Search Tasks"
-                    className="bg-transparent outline-none text-base flex-1 placeholder:text-[#fff]/60"
+                    className="bg-transparent outline-none text-base flex-1 min-w-0 placeholder:text-[#fff]/60"
                     style={{ border: 'none', color: 'white', fontSize: 18 }}
                   />
-                  <button onClick={() => setShowSearchBar(false)} className="ml-2">
+                  <button onClick={() => setShowSearchBar(false)} className="ml-2 flex items-center justify-center">
                     <X width={20} height={20} color="#fff" />
                   </button>
                 </div>

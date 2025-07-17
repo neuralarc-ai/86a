@@ -227,14 +227,14 @@ export function HeroSection() {
           {/* Vertical fade to bottom */}
           <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background via-background/90 to-transparent z-10" />
 
-          <FlickeringGrid
+          {/* <FlickeringGrid
             className="h-full w-full"
             squareSize={mounted && tablet ? 2 : 2.5}
             gridGap={mounted && tablet ? 2 : 2.5}
             color="var(--secondary)"
             maxOpacity={0.4}
             flickerChance={isScrolling ? 0.01 : 0.03} // Low flickering when not scrolling
-          />
+          /> */}
         </div>
 
         {/* Right side flickering grid with gradient fades */}
@@ -248,14 +248,14 @@ export function HeroSection() {
           {/* Vertical fade to bottom */}
           <div className="absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-background via-background/90 to-transparent z-10" />
 
-          <FlickeringGrid
+          {/* <FlickeringGrid
             className="h-full w-full"
             squareSize={mounted && tablet ? 2 : 2.5}
             gridGap={mounted && tablet ? 2 : 2.5}
             color="var(--secondary)"
             maxOpacity={0.4}
             flickerChance={isScrolling ? 0.01 : 0.03} // Low flickering when not scrolling
-          />
+          /> */}
         </div>
 
         {/* Center content background with rounded bottom */}
@@ -298,8 +298,8 @@ export function HeroSection() {
           </Link> */}
           <div className="flex flex-col items-center justify-center gap-5 pt-16">
             <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium tracking-tighter text-balance text-center">
-              <span className="text-primary">HELIUM AI</span>
-              <span className="text-primary">, the GOD MODE.</span>
+              <span className="text-primary">Helium AI -</span>
+              <span className="text-primary"> The God Agent.</span>
             </h1>
             <p className="text-base md:text-lg text-center text-muted-foreground font-medium text-balance leading-relaxed tracking-tight">
               {hero.description}
@@ -324,7 +324,7 @@ export function HeroSection() {
                 />
               </div>
               {/* Subtle glow effect */}
-              <div className="absolute -bottom-4 inset-x-0 h-6 bg-secondary/20 blur-xl rounded-full -z-10 opacity-70"></div>
+              <div className="absolute -bottom-4 inset-x-0 h-6 bg-[#EF3A8B]/20 blur-xl rounded-full -z-10 opacity-70"></div>
             </div>
           </div>
         </div>
