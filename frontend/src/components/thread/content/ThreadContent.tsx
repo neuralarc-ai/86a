@@ -317,6 +317,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
     // agentName = 'Helium',
     agentAvatar = <KortixLogo />,
     emptyStateComponent,
+    agentName,
 }) => {
     const messagesEndRef = useRef<HTMLDivElement>(null);
     const messagesContainerRef = useRef<HTMLDivElement>(null);
@@ -932,7 +933,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
                                                 <div className="rounded-md flex items-center justify-center">
                                                     {agentAvatar}
                                                 </div>
-                                                <p className='ml-2 text-sm text-muted-foreground'>{agentName || 'Suna'}</p>
+                                                <p className='ml-2 text-sm text-muted-foreground'>{agentName || 'Helium'}</p>
                                             </div>
 
                                             {/* Loader content */}
@@ -952,7 +953,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
                                             <div className="rounded-md flex items-center justify-center">
                                                 {agentAvatar}
                                             </div>
-                                            <p className='ml-2 text-sm text-muted-foreground'>{agentName || 'Suna'}</p>
+                                            <p className='ml-2 text-sm text-muted-foreground'>{agentName || 'Helium'}</p>
                                         </div>
 
                                         {/* Tool call content */}
@@ -977,7 +978,7 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
                                             <div className="rounded-md flex items-center justify-center">
                                                 {agentAvatar}
                                             </div>
-                                            <p className='ml-2 text-sm text-muted-foreground'>{agentName || 'Suna'}</p>
+                                            <p className='ml-2 text-sm text-muted-foreground'>{agentName || 'Helium'}</p>
                                         </div>
 
                                         {/* Streaming indicator content */}

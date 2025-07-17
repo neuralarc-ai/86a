@@ -229,7 +229,7 @@ export const siteConfig = {
         '$400 AI token credits/month',
         'Private projects',
         'Premium AI Models',
-        'Full 86/A AI access',
+        'Full Helium AI access',
         'Community support',
         'Custom integrations',
         'Dedicated account manager',
@@ -254,7 +254,7 @@ export const siteConfig = {
         '$800 AI token credits/month',
         'Private projects',
         'Premium AI Models',
-        'Full 86/A AI access',
+        'Full Helium AI access',
         'Community support',
         'Custom integrations',
         'Dedicated account manager',
@@ -280,7 +280,7 @@ export const siteConfig = {
         '$1000 AI token credits/month',
         'Private projects',
         'Premium AI Models',
-        'Full 86/A AI access',
+        'Full Helium AI access',
         'Priority support',
         'Custom integrations',
         'Dedicated account manager',
@@ -1175,7 +1175,7 @@ export const siteConfig = {
   faqSection: {
     title: 'Frequently Asked Questions',
     description:
-      "Answers to common questions about 86/A and its capabilities. If you have any other questions, please don't hesitate to contact us.",
+      "Answers to common questions about Helium AI and its capabilities. If you have any other questions, please don't hesitate to contact us.",
     faQitems: [
       {
         id: 1,
@@ -1205,7 +1205,7 @@ export const siteConfig = {
         id: 5,
         question: 'How can I contribute to Helium AI?',
         answer:
-          'You can contribute to Helium by submitting pull requests on GitHub, reporting bugs, suggesting new features, or helping with documentation. Join our Discord community to connect with other contributors and Hire 86/A.',
+          'You can contribute to Helium by submitting pull requests on GitHub, reporting bugs, suggesting new features, or helping with documentation. Join our Discord community to connect with other contributors.',
       },
       {
         id: 6,

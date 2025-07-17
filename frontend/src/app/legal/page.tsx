@@ -157,7 +157,7 @@ function LegalContent() {
                     <p className="text-muted-foreground text-balance mb-6">
                       PLEASE READ THESE TERMS OF USE ("AGREEMENT" OR "TERMS OF
                       USE" or "TERMS OF SERVICE" or "TERMS AND CONDITIONS")
-                      CAREFULLY BEFORE USING THE SERVICES OFFERED BY Kortix AI
+                      CAREFULLY BEFORE USING THE SERVICES OFFERED BY HELIUM AI
                       Corp (701 Tillery Street Unit 12-2521 Austin, Texas 78702,
                       United States). THIS AGREEMENT SETS FORTH THE LEGALLY
                       BINDING TERMS AND CONDITIONS FOR YOUR USE OF THE HELIUM AI
@@ -169,7 +169,7 @@ function LegalContent() {
                     </h3>
                     <ul className="text-muted-foreground space-y-1 mb-6">
                       <li>
-                        "Company" refers to Kortix AI Corp (701 Tillery Street
+                        "Company" refers to NeuralArc Inc (701 Tillery Street
                         Unit 12-2521 Austin, Texas 78702, United States).
                       </li>
                       <li>
