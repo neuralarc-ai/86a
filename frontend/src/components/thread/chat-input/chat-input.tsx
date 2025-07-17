@@ -316,7 +316,7 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
         >
           <div className="w-full text-sm flex flex-col justify-between items-start rounded-lg">
             <CardContent className={`w-full p-2 ${enableAdvancedConfig && selectedAgentId ? 'pb-1' : 'pb-2'} ${bgColor} border ${enableAdvancedConfig && selectedAgentId ? 'rounded-t-3xl' : 'rounded-3xl'} min-h-[160px]`}>
-            <BorderBeam duration={6} initialOffset={10} size={1600} borderWidth={2} className="from-[#EE2F82] via-transparent to-[#FFD160]" />
+            <BorderBeam duration={6} initialOffset={10} size={1600} borderWidth={2} className="from-[#FF522A] via-transparent to-[#7878CE]" />
             {/* <BorderBeam duration={8} size={800} className="from-[#FFD160] via-[#FFD160] to-[#EE2F82]" /> */}
               <AttachmentGroup
                 files={uploadedFiles || []}

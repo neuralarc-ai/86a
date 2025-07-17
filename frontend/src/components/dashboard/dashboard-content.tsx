@@ -242,7 +242,7 @@ export function DashboardContent() {
               <span
                 style={{
                   fontWeight: 700,
-                  background: 'linear-gradient(90deg, #EF3A8B 0%, #FCBD44 100%)',
+                  background: 'linear-gradient(90deg, #FF522A 0%, #5E5EDE 100%)',
                   WebkitBackgroundClip: 'text',
                   WebkitTextFillColor: 'transparent',
                   backgroundClip: 'text',

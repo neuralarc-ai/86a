@@ -149,7 +149,7 @@ export function SidebarLeft({
             </button>
           </div>
           {/* Footer/Profile */}
-          <div className='mb-10'>
+          <div>
             <NavUserWithTeams user={user} />
           </div>
         </div>
