@@ -173,7 +173,7 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
                         onClick={handleClick}
                         onContextMenu={handleRightClick}
                         disabled={disabled || state === 'processing'}
-                        className={cn(`w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-tr from-[#F03487] to-[#FCBB42] transition-colors`, getButtonClass())}
+                        className={cn(`w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-[#F7C245] to-[#CD38A3] transition-colors`, getButtonClass())}
                     >
                         <span className="flex items-center justify-center w-full h-full">
                           {state === 'recording' ? <Square className="h-5 w-5" style={{ width: 20, height: 20 }} /> :

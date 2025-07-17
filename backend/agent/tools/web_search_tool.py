@@ -64,7 +64,7 @@ class SandboxWebSearchTool(SandboxToolsBase):
         example='''
         <function_calls>
         <invoke name="web_search">
-        <parameter name="query">what is Kortix AI and what are they building?</parameter>
+        <parameter name="query">what is Helium AI and what are they building?</parameter>
         <parameter name="num_results">20</parameter>
         </invoke>
         </function_calls>

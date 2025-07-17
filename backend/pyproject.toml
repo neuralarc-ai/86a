@@ -1,5 +1,5 @@
 [project]
-name = "suna"
+name = "helium"
 version = "1.0"
 description = "open source generalist AI Agent"
 authors = [{ name = "marko-kraemer", email = "mail@markokraemer.com" }]

@@ -41,7 +41,7 @@ export default function ModeSwitcher({ activeMode, onModeChange }) {
           onClick={() => handleClick(mode.key)}
           className={
             selected === mode.key
-              ? 'w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-[#97A487] to-[#597932] shadow-lg transition-all duration-150'
+              ? 'w-10 h-10 rounded-full flex items-center justify-center bg-gradient-to-br from-[#FCBB42] to-[#F03487] shadow-lg transition-all duration-150'
               : 'w-10 h-10 rounded-full flex items-center justify-center bg-transparent transition-all duration-150'
           } 
         >
