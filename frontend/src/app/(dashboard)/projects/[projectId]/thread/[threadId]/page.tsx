@@ -417,20 +417,44 @@ export default function ThreadPage({
     }
   }, [setLeftSidebarOpen]);
 
+  // Helper functions to detect artifact and web search tool calls
+  const isArtifactTool = (toolCall) => {
+    const name = toolCall.assistantCall?.name?.toLowerCase() || '';
+    return (
+      name.includes('file') ||
+      name.includes('pdf') ||
+      name.includes('spreadsheet') ||
+      name.includes('artifact') ||
+      name.includes('see-image') ||
+      name.includes('doc') ||
+      name.includes('csv')
+    );
+  };
+  const isWebSearchTool = (toolCall) => {
+    const name = toolCall.assistantCall?.name?.toLowerCase() || '';
+    return (
+      name.includes('web-search') ||
+      name.includes('crawl-webpage') ||
+      name.includes('scrape-webpage') ||
+      (name.startsWith('mcp_') && (name.includes('search') || name.includes('web')))
+    );
+  };
+
   useEffect(() => {
     if (initialLoadCompleted && !initialPanelOpenAttempted) {
       setInitialPanelOpenAttempted(true);
-
-      if (toolCalls.length > 0) {
+      const hasArtifact = toolCalls.some(isArtifactTool);
+      const onlyWebSearch = toolCalls.length > 0 && toolCalls.every(isWebSearchTool);
+      if (hasArtifact) {
         setIsSidePanelOpen(true);
         setCurrentToolIndex(toolCalls.length - 1);
+      } else if (onlyWebSearch) {
+        setIsSidePanelOpen(false);
       } else {
-        if (messages.length > 0) {
-          setIsSidePanelOpen(true);
-        }
+        setIsSidePanelOpen(false);
       }
     }
-  }, [initialPanelOpenAttempted, messages, toolCalls, initialLoadCompleted, setIsSidePanelOpen, setCurrentToolIndex]);
+  }, [initialPanelOpenAttempted, toolCalls, initialLoadCompleted, setIsSidePanelOpen, setCurrentToolIndex]);
 
   useEffect(() => {
     if (agentRunId && agentRunId !== currentHookRunId) {
@@ -635,46 +659,34 @@ export default function ThreadPage({
           agentName={agent && agent.name}
           agentAvatar={agent && agent.avatar}
         />
-
-        {/* Chat Input Bar */}
-        <div
-          className={cn(
-            "fixed bottom-0  bg-gradient-to-t from-background via-background/90 to-transparent px-4 transition-all duration-200 ease-in-out",
-            leftSidebarState === 'expanded' ? 'left-[72px] lg:left-[156px]' : 'left-[65px]',
-            isMobile ? 'left-0 right-0' : isSidePanelOpen ? 'right-[60vw] w-[40vw] min-w-[350px] max-w-3xl ml-12' : 'right-0 w-full',
-            "flex flex-col justify-end min-h-[320px]"
-          )}
-          style={isMobile ? undefined : isSidePanelOpen ? {maxWidth: '34vw'} : {maxWidth: '98vw'}}
-        >
-          <div className={cn(
-            "mx-auto w-full",
-            isMobile ? "w-full" : isSidePanelOpen ? "max-w-3xl w-full" : "max-w-[800px]"
-          )}>
-            <ChatInput
-              value={newMessage}
-              onChange={setNewMessage}
-              onSubmit={handleSubmitMessage}
-              placeholder={`Describe what you need help with...`}
-              loading={isSending}
-              disabled={isSending || agentStatus === 'running' || agentStatus === 'connecting'}
-              isAgentRunning={agentStatus === 'running' || agentStatus === 'connecting'}
-              onStopAgent={handleStopAgent}
-              autoFocus={!isLoading}
-              onFileBrowse={handleOpenFileViewer}
-              sandboxId={sandboxId || undefined}
-              messages={messages}
-              agentName={agent && agent.name}
-              selectedAgentId={selectedAgentId}
-              onAgentSelect={setSelectedAgentId}
-              toolCalls={toolCalls}
-              toolCallIndex={currentToolIndex}
-              showToolPreview={!isSidePanelOpen && toolCalls.length > 0}
-              onExpandToolPreview={() => {
-                setIsSidePanelOpen(true);
-                userClosedPanelRef.current = false;
-              }}
-            />
-          </div>
+        <div className={cn(
+          "mx-auto w-full",
+          isMobile ? "w-full" : isSidePanelOpen ? "max-w-2xl w-full" : "max-w-[800px]"
+        )}>
+          <ChatInput
+            value={newMessage}
+            onChange={setNewMessage}
+            onSubmit={handleSubmitMessage}
+            placeholder={`Describe what you need help with...`}
+            loading={isSending}
+            disabled={isSending || agentStatus === 'running' || agentStatus === 'connecting'}
+            isAgentRunning={agentStatus === 'running' || agentStatus === 'connecting'}
+            onStopAgent={handleStopAgent}
+            autoFocus={!isLoading}
+            onFileBrowse={handleOpenFileViewer}
+            sandboxId={sandboxId || undefined}
+            messages={messages}
+            agentName={agent && agent.name}
+            selectedAgentId={selectedAgentId}
+            onAgentSelect={setSelectedAgentId}
+            toolCalls={toolCalls}
+            toolCallIndex={currentToolIndex}
+            showToolPreview={!isSidePanelOpen && toolCalls.length > 0}
+            onExpandToolPreview={() => {
+              setIsSidePanelOpen(true);
+              userClosedPanelRef.current = false;
+            }}
+          />
         </div>
       </ThreadLayout>
 

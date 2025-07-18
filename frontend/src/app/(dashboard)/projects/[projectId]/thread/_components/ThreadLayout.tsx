@@ -7,6 +7,7 @@ import { Project } from '@/lib/api';
 import { ApiMessageType, BillingData } from '../_types';
 import { ToolCallInput } from '@/components/thread/tool-call-side-panel';
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useSidebar } from '@/components/ui/sidebar';
 
 interface ThreadLayoutProps {
   children: React.ReactNode;
@@ -76,6 +77,7 @@ export function ThreadLayout({
   agentName
 }: ThreadLayoutProps) {
   const isMobileDevice = useIsMobile();
+  const { state: leftSidebarState } = useSidebar();
   return (
     <div className="flex h-screen overflow-hidden">
       {debugMode && (
@@ -87,27 +89,28 @@ export function ThreadLayout({
       {/* Responsive layout: side-by-side on desktop, overlay on mobile */}
       {isSidePanelOpen && !isMobileDevice ? (
         <>
-          <div className="flex flex-col h-full w-3/5 min-w-[350px] transition-all duration-200 ease-in-out">
-            <SiteHeader
-              threadId={threadId}
-              projectName={projectName}
-              projectId={projectId}
-              onViewFiles={onViewFiles}
-              onToggleSidePanel={onToggleSidePanel}
-              onProjectRenamed={onProjectRenamed}
-              isMobileView={isMobile}
-              debugMode={debugMode}
-            />
-            <div className="flex flex-col flex-1 w-full h-full items-center justify-between">
-              <div className="flex-1 w-full flex flex-col items-center justify-start h-0">
-                {/* Center chat messages and input, constrain max width for both */}
-                <div className="w-full max-w-3xl flex flex-col flex-1 h-0">
+          <div className="flex flex-col h-full w-[60%] min-w-[350px] transition-all duration-200 ease-in-out">
+            <div className={`w-full max-w-3xl ${leftSidebarState === 'collapsed' ? 'ml-24' : 'ml-6'}`}>
+              <SiteHeader
+                threadId={threadId}
+                projectName={projectName}
+                projectId={projectId}
+                onViewFiles={onViewFiles}
+                onToggleSidePanel={onToggleSidePanel}
+                onProjectRenamed={onProjectRenamed}
+                isMobileView={isMobile}
+                debugMode={debugMode}
+              />
+            </div>
+            <div className="flex flex-col flex-1 w-full h-full justify-between">
+              <div className="flex-1 w-full flex flex-col justify-start h-0">
+                <div className="w-full max-w-3xl ml-8 flex flex-col flex-1 h-0 gap-4 pb-10">
                   {children}
                 </div>
               </div>
             </div>
           </div>
-          <div className="h-full w-full bg-background border-l p-4 border-border overflow-hidden">
+          <div className="h-full w-[40%] bg-background border-l p-4 border-border overflow-hidden fixed right-0 top-0" style={{height: '100vh', zIndex: 40}}>
             <ToolCallSidePanel
               isOpen={isSidePanelOpen && initialLoadCompleted}
               onClose={onSidePanelClose}

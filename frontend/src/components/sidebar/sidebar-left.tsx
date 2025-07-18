@@ -112,7 +112,7 @@ export function SidebarLeft({
             <SidebarTrigger className="h-5 w-5 my-3 flex-shrink-0" />
             {/* Plus button: expands sidebar and navigates to /dashboard, always hides search bar */}
             <button
-              className="h-5 w-5 flex items-center justify-center my-3 rounded-lg hover:bg-[#EFEDE70D] flex-shrink-0"
+              className={`h-5 w-5 flex items-center justify-center my-3 rounded-lg flex-shrink-0 ${state !== 'collapsed' ? 'bg-[#F7F7F703] border border-white/45 shadow-[inset_2px_2px_1.2px_rgba(255,255,255,0.03)]' : 'hover:bg-[#EFEDE70D]'}`}
               type="button"
               tabIndex={0}
               aria-label="New Task"
@@ -142,7 +142,7 @@ export function SidebarLeft({
             </button>
             {/* Search button: expands sidebar and shows search bar */}
             <button
-              className="h-5 w-5 flex items-center justify-center my-3 rounded-lg hover:bg-[#EFEDE70D] flex-shrink-0"
+              className={`h-5 w-5 flex items-center justify-center my-3 rounded-lg flex-shrink-0 ${state !== 'collapsed' ? 'bg-blue-500 border border-white/45 shadow-[inset_2px_2px_1.2px_rgba(255,255,255,0.03)]' : 'hover:bg-[#EFEDE70D]'}`}
               type="button"
               tabIndex={0}
               aria-label="Search"
@@ -223,7 +223,21 @@ export function SidebarLeft({
                 <>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button className="h-10 w-10 flex items-center justify-center rounded-full bg-[#F7F7F726] hover:bg-[#EFEDE70D] transition-all duration-200" type="button" tabIndex={0} aria-label="New Task" onClick={() => router.push('/dashboard')}>
+                      <button className="h-10 w-10 flex items-center justify-center rounded-full bg-[#F7F7F703] border border-white/45 shadow-[inset_2px_2px_1.2px_rgba(255,255,255,0.03)] transition-all duration-200 relative overflow-hidden" type="button" tabIndex={0} aria-label="New Task" onClick={() => router.push('/dashboard')}>
+                        <span
+                          style={{
+                            pointerEvents: 'none',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%',
+                            background: 'linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 60%, rgba(255,255,255,0) 100%)',
+                            zIndex: 1,
+                            mixBlendMode: 'lighten',
+                          }}
+                        />
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="18"
@@ -246,7 +260,21 @@ export function SidebarLeft({
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button className="h-10 w-10 flex items-center justify-center rounded-full bg-[#F7F7F726] hover:bg-[#EFEDE70D] transition-all duration-200" onClick={() => setShowSearchBar(true)}>
+                      <button className="h-10 w-10 flex items-center justify-center rounded-full bg-[#F7F7F703] border border-white/45 shadow-[inset_2px_2px_1.2px_rgba(255,255,255,0.03)] transition-all duration-200 relative overflow-hidden" onClick={() => setShowSearchBar(true)}>
+                        <span
+                          style={{
+                            pointerEvents: 'none',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%',
+                            background: 'linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 60%, rgba(255,255,255,0) 100%)',
+                            zIndex: 1,
+                            mixBlendMode: 'lighten',
+                          }}
+                        />
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="18"
