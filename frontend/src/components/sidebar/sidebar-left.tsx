@@ -32,12 +32,14 @@ import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import { useFeatureFlags } from '@/lib/feature-flags';
 import TokenUsageCard from '@/components/sidebar/tokenusage';
+import { useRouter } from 'next/navigation';
 
 export function SidebarLeft({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
   const { state, setOpen, setOpenMobile } = useSidebar();
   const isMobile = useIsMobile();
+  const router = useRouter();
   const [user, setUser] = useState<{
     name: string;
     email: string;
@@ -108,28 +110,18 @@ export function SidebarLeft({
           {/* Icon Buttons */}
           <div className="flex flex-col items-center gap-2 flex-1">
             <SidebarTrigger className="h-5 w-5 my-3 flex-shrink-0" />
+            {/* Plus button: expands sidebar and navigates to /dashboard, always hides search bar */}
             <button
               className="h-5 w-5 flex items-center justify-center my-3 rounded-lg hover:bg-[#EFEDE70D] flex-shrink-0"
-              onClick={() => setOpen(true)}
+              type="button"
+              tabIndex={0}
+              aria-label="New Task"
+              onClick={() => {
+                setOpen(true);
+                setShowSearchBar(false); // Always hide search bar when clicking plus
+                setTimeout(() => { router.push('/dashboard'); }, 100); // Ensure sidebar expands first
+              }}
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                className="icon icon-tabler icons-tabler-outline icon-tabler-search"
-              >
-                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                <path d="M21 21l-6 -6" />
-              </svg>
-            </button>
-            <button className="h-5 w-5 flex items-center justify-center my-3 rounded-lg hover:bg-[#EFEDE70D] flex-shrink-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="24"
@@ -148,12 +140,37 @@ export function SidebarLeft({
                 <path d="M12 9v6" />
               </svg>
             </button>
+            {/* Search button: expands sidebar and shows search bar */}
+            <button
+              className="h-5 w-5 flex items-center justify-center my-3 rounded-lg hover:bg-[#EFEDE70D] flex-shrink-0"
+              type="button"
+              tabIndex={0}
+              aria-label="Search"
+              onClick={() => {
+                setOpen(true);
+                setTimeout(() => { setShowSearchBar(true); }, 100); // Show search bar after expanding
+              }}
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                className="icon icon-tabler icons-tabler-outline icon-tabler-search"
+              >
+                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                <path d="M21 21l-6 -6" />
+              </svg>
+            </button>
           </div>
           {/* Footer/Profile */}
           <div>
-            <div style={{ marginBottom: 24 }}>
-              <TokenUsageCard />
-            </div>
             <NavUserWithTeams user={user} />
           </div>
         </div>
@@ -206,7 +223,7 @@ export function SidebarLeft({
                 <>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button className="h-10 w-10 flex items-center justify-center rounded-full bg-[#F7F7F726] hover:bg-[#EFEDE70D] transition-all duration-200">
+                      <button className="h-10 w-10 flex items-center justify-center rounded-full bg-[#F7F7F726] hover:bg-[#EFEDE70D] transition-all duration-200" type="button" tabIndex={0} aria-label="New Task" onClick={() => router.push('/dashboard')}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           width="18"

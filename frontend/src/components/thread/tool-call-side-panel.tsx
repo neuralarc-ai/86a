@@ -428,7 +428,7 @@ export function ToolCallSidePanel({
               'border rounded-2xl flex flex-col shadow-2xl bg-background',
               isMobile
                 ? 'w-full'
-                : 'w-[90%] sm:w-[450px] md:w-[500px] lg:w-[550px] xl:w-[650px]',
+                : 'w-[40%] sm:w-[450px] md:w-[300px] lg:w-[350px] xl:w-[350px]',
             )}
           >
             <div className="flex-1 flex flex-col overflow-hidden">
