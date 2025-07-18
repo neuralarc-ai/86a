@@ -520,8 +520,27 @@ export const ModelSelector: React.FC<ModelSelectorProps> = ({
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-[#F7F7F726]"
+                  className="w-10 h-10 rounded-full flex items-center justify-center relative overflow-hidden border border-white/45"
+                  style={{
+                    background: '#F7F7F703',
+                    boxShadow: 'inset 2px 2px 1.2px rgba(255,255,255,0.03)'
+                  }}
                 >
+                  {/* Glass shine overlay */}
+                  <span
+                    style={{
+                      pointerEvents: 'none',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 60%, rgba(255,255,255,0) 100%)',
+                      zIndex: 1,
+                      mixBlendMode: 'lighten',
+                    }}
+                  />
                   <div className="relative flex items-center justify-center w-full h-full">
                     <Cpu className="h-5 w-5" style={{ width: 18, height: 18 }} />
                     {MODELS[selectedModel]?.lowQuality && (

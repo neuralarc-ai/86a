@@ -254,15 +254,34 @@ export const FileUploadHandler = forwardRef<
                   onClick={handleFileUpload}
                   variant="ghost"
                   size="icon"
-                  className="w-10 h-10 rounded-full flex items-center justify-center bg-[#F7F7F726]"
+                  className="w-10 h-10 rounded-full flex items-center justify-center relative overflow-hidden border border-white/45"
+                  style={{
+                    background: '#F7F7F703',
+                    boxShadow: 'inset 2px 2px 1.2px rgba(255,255,255,0.03)'
+                  }}
                   disabled={
                     !isLoggedIn || loading || (disabled && !isAgentRunning) || isUploading
                   }
                 >
+                  {/* Glass shine overlay */}
+                  <span
+                    style={{
+                      pointerEvents: 'none',
+                      position: 'absolute',
+                      top: 0,
+                      left: 0,
+                      width: '100%',
+                      height: '100%',
+                      borderRadius: '50%',
+                      background: 'linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 60%, rgba(255,255,255,0) 100%)',
+                      zIndex: 1,
+                      mixBlendMode: 'lighten',
+                    }}
+                  />
                   {isUploading ? (
-                    <Loader2 className="h-5 w-5 animate-spin" style={{ width: 20, height: 20 }} />
+                    <Loader2 className="h-5 w-5 animate-spin relative z-10" style={{ width: 20, height: 20 }} />
                   ) : (
-                    <Paperclip className="h-5 w-5" style={{ width: 18, height: 18 }} />
+                    <Paperclip className="h-5 w-5 relative z-10" style={{ width: 18, height: 18 }} />
                   )}
                 </Button>
               </span>

@@ -1,0 +1,42 @@
+<svg width="844" height="880" viewBox="0 0 844 880" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_n_6289_1747)">
+<circle cx="465" cy="501" r="379" fill="url(#paint0_linear_6289_1747)"/>
+<circle cx="465" cy="501" r="377.5" stroke="url(#paint1_linear_6289_1747)" stroke-width="3"/>
+</g>
+<g opacity="0.8" filter="url(#filter1_f_6289_1747)">
+<ellipse cx="301.37" cy="286.37" rx="110.5" ry="68.2141" transform="rotate(-33.9727 301.37 286.37)" fill="white"/>
+</g>
+<defs>
+<filter id="filter0_n_6289_1747" x="86" y="122" width="758" height="758" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feTurbulence type="fractalNoise" baseFrequency="0.76923078298568726 0.76923078298568726" stitchTiles="stitch" numOctaves="3" result="noise" seed="18" />
+<feColorMatrix in="noise" type="luminanceToAlpha" result="alphaNoise" />
+<feComponentTransfer in="alphaNoise" result="coloredNoise1">
+<feFuncA type="discrete" tableValues="1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 "/>
+</feComponentTransfer>
+<feComposite operator="in" in2="shape" in="coloredNoise1" result="noise1Clipped" />
+<feFlood flood-color="rgba(255, 255, 255, 0.25)" result="color1Flood" />
+<feComposite operator="in" in2="noise1Clipped" in="color1Flood" result="color1" />
+<feMerge result="effect1_noise_6289_1747">
+<feMergeNode in="shape" />
+<feMergeNode in="color1" />
+</feMerge>
+</filter>
+<filter id="filter1_f_6289_1747" x="0.194733" y="0.726471" width="602.351" height="571.287" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feBlend mode="normal" in="SourceGraphic" in2="BackgroundImageFix" result="shape"/>
+<feGaussianBlur stdDeviation="100.95" result="effect1_foregroundBlur_6289_1747"/>
+</filter>
+<linearGradient id="paint0_linear_6289_1747" x1="241.5" y1="145" x2="859.5" y2="971" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FEDFB9"/>
+<stop offset="0.475886" stop-color="#FF522A"/>
+<stop offset="1" stop-color="#5E5EDE"/>
+</linearGradient>
+<linearGradient id="paint1_linear_6289_1747" x1="764" y1="945.5" x2="244" y2="82.5001" gradientUnits="userSpaceOnUse">
+<stop stop-color="#FF522A"/>
+<stop offset="0.543269" stop-color="#CF5EDE"/>
+<stop offset="1" stop-color="white"/>
+</linearGradient>
+</defs>
+</svg>

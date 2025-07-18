@@ -389,27 +389,27 @@ export interface ThreadContentProps {
 function getAgentAvatar(agentStatus: string) {
   const animated = agentStatus === 'running' || agentStatus === 'connecting';
   return (
-    <span className={animated ? 'text-[#FF522A] spin-fast-slow-fast' : 'text-[#FF522A]'}>
-      <svg
-        width="32"
-        height="32"
-        viewBox="0 0 259 212"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-      >
-        <path
-          d="M0.52461 133.731C0.299889 131.854 1.63926 130.15 3.51621 129.925L124.094 115.647L154.189 112.043L252.294 100.475C254.171 100.25 255.875 101.589 256.1 103.466L258.134 120.46C258.359 122.336 257.02 124.04 255.143 124.265L153.891 136.211L106.842 141.845L6.36477 153.716C4.48773 153.941 2.78386 152.601 2.55913 150.724L0.52461 133.731Z"
-          fill="currentColor"
-        />
-        <path
-          d="M59.6532 28.4695C58.7416 26.8134 59.3452 24.7318 61.0013 23.8203L75.9955 15.5674C77.6516 14.6559 79.7331 15.2595 80.6447 16.9156L118.224 83.1397C119.136 84.7958 118.532 86.8773 116.876 87.7889L101.882 96.0417C100.226 96.9533 98.1445 96.3497 97.233 94.6936L59.6532 28.4695ZM128.327 139.458C127.415 137.802 128.019 135.72 129.675 134.809L144.669 126.556C146.325 125.644 148.407 126.248 149.318 127.904L153.891 136.211L187.981 198.143C188.892 199.799 188.289 201.881 186.632 202.793L171.638 211.045C169.982 211.957 167.901 211.353 166.989 209.697L132.422 146.898L128.327 139.458Z"
-          fill="currentColor"
-        />
-        <path
-          d="M198.872 6.69288C200.644 7.34993 201.548 9.3195 200.891 11.092L197.917 19.1153L196.726 22.3034C184.955 53.52 170.695 83.5139 154.189 112.043C147.317 123.921 140.056 135.546 132.422 146.898C122.705 161.351 112.385 175.364 101.499 188.901C100.424 190.238 98.4464 190.392 97.1705 189.244L83.7958 177.213C82.6091 176.145 82.4666 174.336 83.4648 173.09C91.5936 162.946 99.3915 152.525 106.842 141.845C112.819 133.277 118.573 124.542 124.094 115.647C144.533 82.7262 161.794 47.6301 175.45 10.7878L178.426 2.76403C179.083 0.991699 181.052 0.0876111 182.825 0.744605L198.872 6.69288Z"
-          fill="currentColor"
-        />
-      </svg>
+    <span className={animated ? 'helium-breathing' : ''}>
+      <img
+        src="/helium-agent.png"
+        width={32}
+        height={32}
+        alt="Helium Agent"
+        style={{ display: 'inline-block', verticalAlign: 'middle' }}
+        className="select-none"
+      />
+      <style jsx>{`
+        .helium-breathing img {
+          animation: helium-breath 1.8s ease-in-out infinite;
+        }
+        @keyframes helium-breath {
+          0% { transform: scale(1); filter: brightness(1); }
+          30% { transform: scale(1.08, 0.95); filter: brightness(1.08); }
+          50% { transform: scale(1.12, 0.92); filter: brightness(1.12); }
+          70% { transform: scale(1.08, 0.95); filter: brightness(1.08); }
+          100% { transform: scale(1); filter: brightness(1); }
+        }
+      `}</style>
     </span>
   );
 }
@@ -500,6 +500,17 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
       });
     }
   }, [displayMessages, sandboxId, session?.access_token, preloadFiles]);
+
+  // Auto-scroll to bottom of the messages container when messages/history are loaded or changed
+  React.useEffect(() => {
+    if (!messagesContainerRef.current) return;
+    if (!displayMessages || displayMessages.length === 0) return;
+    // Scroll to the bottom of the container
+    messagesContainerRef.current.scrollTo({
+      top: messagesContainerRef.current.scrollHeight,
+      behavior: 'auto', // Use 'auto' for initial load; you can use 'smooth' for subsequent updates if desired
+    });
+  }, [displayMessages]);
 
   return (
     <>
@@ -826,30 +837,8 @@ export const ThreadContent: React.FC<ThreadContentProps> = ({
                                     </div>
                                   );
                                 }
-                                return (
-                                  <span className="text-[#FF522A] mb-2">
-                                    <svg
-                                      width="32"
-                                      height="32"
-                                      viewBox="0 0 259 212"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                    >
-                                      <path
-                                        d="M0.52461 133.731C0.299889 131.854 1.63926 130.15 3.51621 129.925L124.094 115.647L154.189 112.043L252.294 100.475C254.171 100.25 255.875 101.589 256.1 103.466L258.134 120.46C258.359 122.336 257.02 124.04 255.143 124.265L153.891 136.211L106.842 141.845L6.36477 153.716C4.48773 153.941 2.78386 152.601 2.55913 150.724L0.52461 133.731Z"
-                                        fill="currentColor"
-                                      />
-                                      <path
-                                        d="M59.6532 28.4695C58.7416 26.8134 59.3452 24.7318 61.0013 23.8203L75.9955 15.5674C77.6516 14.6559 79.7331 15.2595 80.6447 16.9156L118.224 83.1397C119.136 84.7958 118.532 86.8773 116.876 87.7889L101.882 96.0417C100.226 96.9533 98.1445 96.3497 97.233 94.6936L59.6532 28.4695ZM128.327 139.458C127.415 137.802 128.019 135.72 129.675 134.809L144.669 126.556C146.325 125.644 148.407 126.248 149.318 127.904L153.891 136.211L187.981 198.143C188.892 199.799 188.289 201.881 186.632 202.793L171.638 211.045C169.982 211.957 167.901 211.353 166.989 209.697L132.422 146.898L128.327 139.458Z"
-                                        fill="currentColor"
-                                      />
-                                      <path
-                                        d="M198.872 6.69288C200.644 7.34993 201.548 9.3195 200.891 11.092L197.917 19.1153L196.726 22.3034C184.955 53.52 170.695 83.5139 154.189 112.043C147.317 123.921 140.056 135.546 132.422 146.898C122.705 161.351 112.385 175.364 101.499 188.901C100.424 190.238 98.4464 190.392 97.1705 189.244L83.7958 177.213C82.6091 176.145 82.4666 174.336 83.4648 173.09C91.5936 162.946 99.3915 152.525 106.842 141.845C112.819 133.277 118.573 124.542 124.094 115.647C144.533 82.7262 161.794 47.6301 175.45 10.7878L178.426 2.76403C179.083 0.991699 181.052 0.0876111 182.825 0.744605L198.872 6.69288Z"
-                                        fill="currentColor"
-                                      />
-                                    </svg>
-                                  </span>
-                                );
+                                // Always use the Helium agent SVG as fallback
+                                return getAgentAvatar(agentStatus);
                               })()}
                             </div>
                             <p className="ml-2 text-sm text-muted-foreground">

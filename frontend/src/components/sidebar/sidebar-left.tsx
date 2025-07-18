@@ -31,6 +31,7 @@ import { Badge } from '../ui/badge';
 import { cn } from '@/lib/utils';
 import { usePathname } from 'next/navigation';
 import { useFeatureFlags } from '@/lib/feature-flags';
+import TokenUsageCard from '@/components/sidebar/tokenusage';
 
 export function SidebarLeft({
   ...props
@@ -150,6 +151,9 @@ export function SidebarLeft({
           </div>
           {/* Footer/Profile */}
           <div>
+            <div style={{ marginBottom: 24 }}>
+              <TokenUsageCard />
+            </div>
             <NavUserWithTeams user={user} />
           </div>
         </div>
@@ -185,7 +189,7 @@ export function SidebarLeft({
               </div>
             </div>
             {/* Toggle between search bar and icons */}
-            <div className="flex flex-row items-center justify-between w-full px-2 pt-2 pb-1">
+            <div className="flex flex-row items-center justify-between w-full mt-4 pt-2 pb-1">
               {showSearchBar ? (
                 <div className="flex items-center w-full h-14 bg-[#EFEDE70D] rounded-2xl px-4">
                   <input
@@ -202,11 +206,11 @@ export function SidebarLeft({
                 <>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button className="h-6 w-6 flex items-center justify-center rounded-lg hover:bg-[#EFEDE70D]">
+                      <button className="h-10 w-10 flex items-center justify-center rounded-full bg-[#F7F7F726] hover:bg-[#EFEDE70D] transition-all duration-200">
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
+                          width="18"
+                          height="18"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -225,11 +229,11 @@ export function SidebarLeft({
                   </Tooltip>
                   <Tooltip>
                     <TooltipTrigger asChild>
-                      <button className="h-6 w-6 flex items-center justify-center rounded-lg hover:bg-[#EFEDE70D]" onClick={() => setShowSearchBar(true)}>
+                      <button className="h-10 w-10 flex items-center justify-center rounded-full bg-[#F7F7F726] hover:bg-[#EFEDE70D] transition-all duration-200" onClick={() => setShowSearchBar(true)}>
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
-                          width="20"
-                          height="20"
+                          width="18"
+                          height="18"
                           viewBox="0 0 24 24"
                           fill="none"
                           stroke="currentColor"
@@ -292,6 +296,9 @@ export function SidebarLeft({
             <NavAgents />
           </SidebarContent>
           <SidebarFooter>
+            <div style={{ marginBottom: 24 }}>
+              <TokenUsageCard />
+            </div>
             <NavUserWithTeams user={user} />
           </SidebarFooter>
         </>

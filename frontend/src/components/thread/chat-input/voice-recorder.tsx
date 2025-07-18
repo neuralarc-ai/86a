@@ -173,9 +173,28 @@ export const VoiceRecorder: React.FC<VoiceRecorderProps> = ({
                         onClick={handleClick}
                         onContextMenu={handleRightClick}
                         disabled={disabled || state === 'processing'}
-                        className={cn(`w-10 h-10 rounded-full flex items-center justify-center bg-[#232323] transition-colors`, getButtonClass())}
+                        className={cn(`w-10 h-10 rounded-full flex items-center justify-center relative overflow-hidden border border-white/45 transition-colors`, getButtonClass())}
+                        style={{
+                          background: '#F7F7F703',
+                          boxShadow: 'inset 2px 2px 1.2px rgba(255,255,255,0.03)'
+                        }}
                     >
-                        <span className="flex items-center justify-center w-full h-full">
+                        {/* Glass shine overlay */}
+                        <span
+                          style={{
+                            pointerEvents: 'none',
+                            position: 'absolute',
+                            top: 0,
+                            left: 0,
+                            width: '100%',
+                            height: '100%',
+                            borderRadius: '50%',
+                            background: 'linear-gradient(120deg, rgba(255,255,255,0.18) 0%, rgba(255,255,255,0.04) 60%, rgba(255,255,255,0) 100%)',
+                            zIndex: 1,
+                            mixBlendMode: 'lighten',
+                          }}
+                        />
+                        <span className="flex items-center justify-center w-full h-full relative z-10">
                           {state === 'recording' ? <Square className="h-5 w-5" style={{ width: 20, height: 20 }} /> :
                            state === 'processing' ? <Loader2 className="h-5 w-5 animate-spin" style={{ width: 20, height: 20 }} /> :
                            <Mic className="h-5 w-5" style={{ width: 18, height: 18 }} />}

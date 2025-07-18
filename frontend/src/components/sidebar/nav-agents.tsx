@@ -350,7 +350,7 @@ export function NavAgents() {
   }
 
   return (
-    <SidebarGroup>
+    <SidebarGroup className="mt-4">
       {state === 'expanded' && (
         <div className="flex items-center space-x-1 mb-2">
           {selectedThreads.size > 0 ? (

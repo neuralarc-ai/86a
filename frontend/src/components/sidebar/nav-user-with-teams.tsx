@@ -60,7 +60,7 @@ export function NavUserWithTeams({
   };
 }) {
   const router = useRouter();
-  const { isMobile } = useSidebar();
+  const { isMobile, state } = useSidebar();
   const { data: accounts } = useAccounts();
   const [showNewTeamDialog, setShowNewTeamDialog] = React.useState(false);
   const { theme, setTheme } = useTheme();
@@ -164,40 +164,13 @@ export function NavUserWithTeams({
     <Dialog open={showNewTeamDialog} onOpenChange={setShowNewTeamDialog}>
       <SidebarMenu>
         <SidebarMenuItem>
-          <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
-            <DropdownMenuTrigger asChild>
-              <SidebarMenuButton
-                size="lg"
-                className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground  bg-[#FFFFFF1F] h-[64px]"
-              >
-                <Avatar className="h-8 w-8 rounded-lg">
-                  <AvatarImage src={user.avatar} alt={user.name} />
-                  <AvatarFallback className="rounded-lg">
-                    {getInitials(user.name)}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="grid flex-1 text-left text-sm leading-tight">
-                  <span className="truncate text-[16px]">{user.name}</span>
-                  <span className="truncate text-[16px]">{user.email}</span>
-                </div>
-                {/* Animated Chevron */}
-                <span className="ml-auto flex items-center">
-                  {menuOpen ? (
-                    <ChevronDown className="size-4 transition-transform duration-200" />
-                  ) : (
-                    <ChevronUp className="size-4 transition-transform duration-200" />
-                  )}
-                </span>
-              </SidebarMenuButton>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent
-              className="w-(--radix-dropdown-menu-trigger-width) min-w-56"
-              side={isMobile ? 'bottom' : 'top'}
-              align="start"
-              sideOffset={4}
-            >
-              <DropdownMenuLabel className="p-0 font-normal">
-                <div className="flex items-center gap-2 px-1.5 py-1.5 text-left text-sm">
+          <div className={state === 'collapsed' ? 'pb-10 w-full' : 'w-full'}>
+            <DropdownMenu open={menuOpen} onOpenChange={setMenuOpen}>
+              <DropdownMenuTrigger asChild>
+                <SidebarMenuButton
+                  size="lg"
+                  className="data-[state=open]:bg-sidebar-accent data-[state=open]:text-sidebar-accent-foreground  bg-[#FFFFFF1F] h-[64px]"
+                >
                   <Avatar className="h-8 w-8 rounded-lg">
                     <AvatarImage src={user.avatar} alt={user.name} />
                     <AvatarFallback className="rounded-lg">
@@ -205,119 +178,148 @@ export function NavUserWithTeams({
                     </AvatarFallback>
                   </Avatar>
                   <div className="grid flex-1 text-left text-sm leading-tight">
-                    <span className="truncate font-medium">{user.name}</span>
-                    <span className="truncate text-xs">{user.email}</span>
+                    <span className="truncate text-[16px]">{user.name}</span>
+                    <span className="truncate text-[16px]">{user.email}</span>
                   </div>
-                </div>
-              </DropdownMenuLabel>
-              <DropdownMenuSeparator />
-
-              {/* Teams Section */}
-              {personalAccount && (
-                <>
-                  <DropdownMenuLabel className="text-muted-foreground text-xs">
-                    Personal Account
-                  </DropdownMenuLabel>
-                  <DropdownMenuItem
-                    key={personalAccount.account_id}
-                    onClick={() =>
-                      handleTeamSelect({
-                        name: personalAccount.name,
-                        logo: Command,
-                        plan: 'Personal',
-                        account_id: personalAccount.account_id,
-                        slug: personalAccount.slug,
-                        personal_account: true,
-                      })
-                    }
-                    className="gap-2 p-2"
-                  >
-                    <div className="flex size-6 items-center justify-center rounded-xs border">
-                      <Command className="size-4 shrink-0" />
+                  {/* Animated Chevron */}
+                  <span className="ml-auto flex items-center">
+                    {menuOpen ? (
+                      <ChevronDown className="size-4 transition-transform duration-200" />
+                    ) : (
+                      <ChevronUp className="size-4 transition-transform duration-200" />
+                    )}
+                  </span>
+                </SidebarMenuButton>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent
+                className="w-(--radix-dropdown-menu-trigger-width) min-w-56"
+                side={isMobile ? 'bottom' : 'top'}
+                align="start"
+                sideOffset={4}
+              >
+                <DropdownMenuLabel className="p-0 font-normal">
+                  <div className="flex items-center gap-2 px-1.5 py-1.5 text-left text-sm">
+                    <Avatar className="h-8 w-8 rounded-lg">
+                      <AvatarImage src={user.avatar} alt={user.name} />
+                      <AvatarFallback className="rounded-lg">
+                        {getInitials(user.name)}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="grid flex-1 text-left text-sm leading-tight">
+                      <span className="truncate font-medium">{user.name}</span>
+                      <span className="truncate text-xs">{user.email}</span>
                     </div>
-                    {personalAccount.name}
-                    <DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
-                  </DropdownMenuItem>
-                </>
-              )}
+                  </div>
+                </DropdownMenuLabel>
+                <DropdownMenuSeparator />
 
-              {teamAccounts?.length > 0 && (
-                <>
-                  <DropdownMenuLabel className="text-muted-foreground text-xs mt-2">
-                    Teams
-                  </DropdownMenuLabel>
-                  {teamAccounts.map((team, index) => (
+                {/* Teams Section */}
+                {personalAccount && (
+                  <>
+                    <DropdownMenuLabel className="text-muted-foreground text-xs">
+                      Personal Account
+                    </DropdownMenuLabel>
                     <DropdownMenuItem
-                      key={team.account_id}
+                      key={personalAccount.account_id}
                       onClick={() =>
                         handleTeamSelect({
-                          name: team.name,
-                          logo: AudioWaveform,
-                          plan: 'Team',
-                          account_id: team.account_id,
-                          slug: team.slug,
-                          personal_account: false,
+                          name: personalAccount.name,
+                          logo: Command,
+                          plan: 'Personal',
+                          account_id: personalAccount.account_id,
+                          slug: personalAccount.slug,
+                          personal_account: true,
                         })
                       }
                       className="gap-2 p-2"
                     >
                       <div className="flex size-6 items-center justify-center rounded-xs border">
-                        <AudioWaveform className="size-4 shrink-0" />
+                        <Command className="size-4 shrink-0" />
                       </div>
-                      {team.name}
-                      <DropdownMenuShortcut>⌘{index + 2}</DropdownMenuShortcut>
+                      {personalAccount.name}
+                      <DropdownMenuShortcut>⌘1</DropdownMenuShortcut>
                     </DropdownMenuItem>
-                  ))}
-                </>
-              )}
+                  </>
+                )}
 
-              {/* <DropdownMenuSeparator />
-              <DialogTrigger asChild>
-                <DropdownMenuItem 
-                  className="gap-2 p-2"
-                  onClick={() => {
-                    setShowNewTeamDialog(true)
-                  }}
-                >
-                  <div className="bg-background flex size-6 items-center justify-center rounded-md border">
-                    <Plus className="size-4" />
-                  </div>
-                  <div className="text-muted-foreground font-medium">Add team</div>
-                </DropdownMenuItem>
-              </DialogTrigger> */}
-              <DropdownMenuSeparator />
+                {teamAccounts?.length > 0 && (
+                  <>
+                    <DropdownMenuLabel className="text-muted-foreground text-xs mt-2">
+                      Teams
+                    </DropdownMenuLabel>
+                    {teamAccounts.map((team, index) => (
+                      <DropdownMenuItem
+                        key={team.account_id}
+                        onClick={() =>
+                          handleTeamSelect({
+                            name: team.name,
+                            logo: AudioWaveform,
+                            plan: 'Team',
+                            account_id: team.account_id,
+                            slug: team.slug,
+                            personal_account: false,
+                          })
+                        }
+                        className="gap-2 p-2"
+                      >
+                        <div className="flex size-6 items-center justify-center rounded-xs border">
+                          <AudioWaveform className="size-4 shrink-0" />
+                        </div>
+                        {team.name}
+                        <DropdownMenuShortcut>⌘{index + 2}</DropdownMenuShortcut>
+                      </DropdownMenuItem>
+                    ))}
+                  </>
+                )}
 
-              {/* User Settings Section */}
-              <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
-                  <Link href="/settings/billing">
-                    <CreditCard className="h-4 w-4" />
-                    Billing
-                  </Link>
+                {/* <DropdownMenuSeparator />
+                <DialogTrigger asChild>
+                  <DropdownMenuItem 
+                    className="gap-2 p-2"
+                    onClick={() => {
+                      setShowNewTeamDialog(true)
+                    }}
+                  >
+                    <div className="bg-background flex size-6 items-center justify-center rounded-md border">
+                      <Plus className="size-4" />
+                    </div>
+                    <div className="text-muted-foreground font-medium">Add team</div>
+                  </DropdownMenuItem>
+                </DialogTrigger> */}
+                <DropdownMenuSeparator />
+
+                {/* User Settings Section */}
+                <DropdownMenuGroup>
+                  <DropdownMenuItem asChild>
+                    <Link href="/settings/billing">
+                      <CreditCard className="h-4 w-4" />
+                      Billing
+                    </Link>
+                  </DropdownMenuItem>
+                  {/* <DropdownMenuItem asChild>
+                    <Link href="/settings">
+                      <Settings className="mr-2 h-4 w-4" />
+                      Settings
+                    </Link>
+                  </DropdownMenuItem> */}
+                  <DropdownMenuItem
+                    onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
+                  >
+                    <div className="flex items-center gap-2">
+                      <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
+                      <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
+                      <span>Theme</span>
+                    </div>
+                  </DropdownMenuItem>
+                </DropdownMenuGroup>
+                <DropdownMenuSeparator />
+                <DropdownMenuItem className='text-destructive focus:text-destructive focus:bg-destructive/10' onClick={handleLogout}>
+                  <LogOut className="h-4 w-4 text-destructive" />
+                  Log out
                 </DropdownMenuItem>
-                {/* <DropdownMenuItem asChild>
-                  <Link href="/settings">
-                    <Settings className="mr-2 h-4 w-4" />
-                    Settings
-                  </Link>
-                </DropdownMenuItem> */}
-                <DropdownMenuItem
-                  onClick={() => setTheme(theme === 'light' ? 'dark' : 'light')}
-                >
-                  <div className="flex items-center gap-2">
-                    <Sun className="h-4 w-4 rotate-0 scale-100 transition-all dark:-rotate-90 dark:scale-0" />
-                    <Moon className="absolute h-4 w-4 rotate-90 scale-0 transition-all dark:rotate-0 dark:scale-100" />
-                    <span>Theme</span>
-                  </div>
-                </DropdownMenuItem>
-              </DropdownMenuGroup>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem className='text-destructive focus:text-destructive focus:bg-destructive/10' onClick={handleLogout}>
-                <LogOut className="h-4 w-4 text-destructive" />
-                Log out
-              </DropdownMenuItem>
-            </DropdownMenuContent>
-          </DropdownMenu>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </SidebarMenuItem>
       </SidebarMenu>
 
