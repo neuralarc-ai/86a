@@ -2,6 +2,13 @@
   "name": "Helium",
   "version": "0.1.0",
   "private": true,
+  "description": "Helium AI Agent - Advanced AI assistant developed by NeuralArc Inc",
+  "author": "NeuralArc Inc (neuralarc.ai)",
+  "homepage": "https://neuralarc.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neuralarc-ai/helium"
+  },
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",

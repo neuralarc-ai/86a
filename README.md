@@ -1,30 +1,32 @@
 <div align="center">
 
-# 86 AI Agent
+# Helium AI Agent
 
 (that acts on your behalf)
 
-![Heium Screenshot](frontend/public/banner.png)
+![Helium Screenshot](frontend/public/banner.png)
 
-Helium is a NeuralArc's AI assistant that helps you accomplish real-world tasks with ease. Through natural conversation, Helium becomes your digital companion for research, data analysis, and everyday challenges—combining powerful capabilities with an intuitive interface that understands what you need and delivers results.
+Helium is NeuralArc Inc's advanced AI assistant that helps you accomplish real-world tasks with ease. Through natural conversation, Helium becomes your digital companion for research, data analysis, and everyday challenges—combining powerful capabilities with an intuitive interface that understands what you need and delivers results.
+
+**Developed by NeuralArc Inc (neuralarc.ai)**
 
 Helium's powerful toolkit includes seamless browser automation to navigate the web and extract data, file management for document creation and editing, web crawling and extended search capabilities, command-line execution for system tasks, website deployment, and integration with various APIs and services. These capabilities work together harmoniously, allowing Helium to solve your complex problems and automate workflows through simple conversations!
 
 [![License](https://img.shields.io/badge/License-Apache--2.0-blue)](./license)
 [![Discord Follow](https://dcbadge.limes.pink/api/server/Py6pCBUUPw?style=flat)](https://discord.gg/Py6pCBUUPw)
-[![Twitter Follow](https://img.shields.io/twitter/follow/kortixai)](https://x.com/kortixai)
-[![GitHub Repo stars](https://img.shields.io/github/stars/kortix-ai/suna)](https://github.com/kortix-ai/suna)
-[![Issues](https://img.shields.io/github/issues/kortix-ai/suna)](https://github.com/kortix-ai/suna/labels/bug)
+[![Twitter Follow](https://img.shields.io/twitter/follow/neuralarc_ai)](https://x.com/neuralarc_ai)
+[![GitHub Repo stars](https://img.shields.io/github/stars/neuralarc-ai/helium)](https://github.com/neuralarc-ai/helium)
+[![Issues](https://img.shields.io/github/issues/neuralarc-ai/helium)](https://github.com/neuralarc-ai/helium/labels/bug)
 
 <!-- Keep these links. Translations will automatically update with the README. -->
-[Deutsch](https://www.readme-i18n.com/kortix-ai/suna?lang=de) | 
-[Español](https://www.readme-i18n.com/kortix-ai/suna?lang=es) | 
-[français](https://www.readme-i18n.com/kortix-ai/suna?lang=fr) | 
-[日本語](https://www.readme-i18n.com/kortix-ai/suna?lang=ja) | 
-[한국어](https://www.readme-i18n.com/kortix-ai/suna?lang=ko) | 
-[Português](https://www.readme-i18n.com/kortix-ai/suna?lang=pt) | 
-[Русский](https://www.readme-i18n.com/kortix-ai/suna?lang=ru) | 
-[中文](https://www.readme-i18n.com/kortix-ai/suna?lang=zh)
+[Deutsch](https://www.readme-i18n.com/neuralarc-ai/helium?lang=de) | 
+[Español](https://www.readme-i18n.com/neuralarc-ai/helium?lang=es) | 
+[français](https://www.readme-i18n.com/neuralarc-ai/helium?lang=fr) | 
+[日本語](https://www.readme-i18n.com/neuralarc-ai/helium?lang=ja) | 
+[한국어](https://www.readme-i18n.com/neuralarc-ai/helium?lang=ko) | 
+[Português](https://www.readme-i18n.com/neuralarc-ai/helium?lang=pt) | 
+[Русский](https://www.readme-i18n.com/neuralarc-ai/helium?lang=ru) | 
+[中文](https://www.readme-i18n.com/neuralarc-ai/helium?lang=zh)
 
 </div>
 
