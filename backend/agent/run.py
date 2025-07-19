@@ -1,6 +1,166 @@
 import os
 import json
 import asyncio
+import logging
+from datetime import datetime
+from typing import Dict, List, Optional, Any
+from dataclasses import dataclass
+from enum import Enum
+from pathlib import Path
+
+# Manus-style agent imports
+from agent.memory import FileBasedMemory
+from agent.tools.planning_tools import TaskPlannerTool, TaskPlan, PhaseStatus
+
+class AgentPhase(Enum):
+    PLANNING = "planning"
+    EXECUTION = "execution"
+    MONITORING = "monitoring"
+    COMPLETION = "completion"
+
+class TaskStatus(Enum):
+    ACTIVE = "active"
+    PAUSED = "paused"
+    COMPLETED = "completed"
+    FAILED = "failed"
+
+@dataclass
+class AgentEvent:
+    timestamp: datetime
+    event_type: str
+    content: str
+    metadata: Dict[str, Any]
+
+class ManusStyleAgent:
+    """Enhanced agent implementation with Manus-like capabilities"""
+    
+    def __init__(self, agent_id: str, workspace_path: str):
+        self.agent_id = agent_id
+        self.workspace_path = workspace_path
+        self.current_phase = 1
+        self.task_plan: Optional[TaskPlan] = None
+        self.event_stream: List[AgentEvent] = []
+        self.memory_system = FileBasedMemory(workspace_path)
+        self.max_iterations_per_phase = 10
+        self.current_iteration = 0
+        
+    async def execute_agent_loop(self, user_request: str) -> Dict[str, Any]:
+        """Main agent loop implementation following Manus pattern"""
+        try:
+            await self._initialize_task(user_request)
+            
+            while not await self._is_task_complete():
+                if self.current_iteration >= self.max_iterations_per_phase:
+                    await self._handle_iteration_limit()
+                    break
+                
+                iteration_result = await self._execute_single_iteration()
+                await self._update_agent_state(iteration_result)
+                
+                if await self._should_advance_phase():
+                    await self._advance_to_next_phase()
+                
+                self.current_iteration += 1
+                await asyncio.sleep(0.1)  # Safety delay
+            
+            return await self._finalize_task()
+            
+        except Exception as e:
+            logging.error(f"Agent loop error: {str(e)}")
+            return await self._handle_error(e)
+    
+    async def _initialize_task(self, user_request: str):
+        """Initialize task with planning and memory setup"""
+        await self.memory_system.log_progress("Initializing Manus-style agent task")
+        
+        # Create task plan
+        planner = TaskPlannerTool(None, self.memory_system)  # LLM client will be injected later
+        self.task_plan = await planner.create_task_plan(user_request)
+        
+        # Store initial context
+        await self.memory_system.store_context({
+            "agent_id": self.agent_id,
+            "user_request": user_request,
+            "status": TaskStatus.ACTIVE.value,
+            "current_phase": 1,
+            "initialized_at": datetime.now().isoformat()
+        })
+    
+    async def _execute_single_iteration(self) -> Dict[str, Any]:
+        """Execute a single iteration of the agent loop"""
+        # This would integrate with the existing agent execution logic
+        return {"status": "iteration_complete", "phase": self.current_phase}
+    
+    async def _update_agent_state(self, iteration_result: Dict[str, Any]):
+        """Update agent state based on iteration results"""
+        await self.memory_system.add_memory_entry(
+            "iteration_result",
+            json.dumps(iteration_result),
+            {"phase": self.current_phase}
+        )
+    
+    async def _should_advance_phase(self) -> bool:
+        """Determine if agent should advance to next phase"""
+        # Implementation would check phase completion criteria
+        return False  # Placeholder
+    
+    async def _advance_to_next_phase(self):
+        """Advance agent to next phase"""
+        self.current_phase += 1
+        self.current_iteration = 0
+        await self.memory_system.log_progress(f"Advanced to phase {self.current_phase}")
+    
+    async def _is_task_complete(self) -> bool:
+        """Check if all task phases are complete"""
+        if not self.task_plan:
+            return False
+        
+        task_plan_data = await self.memory_system.retrieve_intermediate_result("task_plan")
+        if not task_plan_data:
+            return False
+        
+        phases = task_plan_data.get("phases", [])
+        return all(phase["status"] == PhaseStatus.COMPLETED.value for phase in phases)
+    
+    async def _handle_iteration_limit(self):
+        """Handle case where iteration limit is reached"""
+        await self.memory_system.log_progress("Iteration limit reached, pausing task")
+        await self.memory_system.store_context({
+            "status": TaskStatus.PAUSED.value,
+            "reason": "iteration_limit_reached"
+        })
+    
+    async def _finalize_task(self) -> Dict[str, Any]:
+        """Finalize task and return results"""
+        await self.memory_system.log_progress("Task completed successfully")
+        await self.memory_system.store_context({
+            "status": TaskStatus.COMPLETED.value,
+            "completed_at": datetime.now().isoformat()
+        })
+        
+        return {
+            "status": "completed",
+            "agent_id": self.agent_id,
+            "task_plan": await self.memory_system.retrieve_intermediate_result("task_plan"),
+            "memory_stats": await self.memory_system.get_memory_stats()
+        }
+    
+    async def _handle_error(self, error: Exception) -> Dict[str, Any]:
+        """Handle errors in agent execution"""
+        await self.memory_system.log_progress(f"Error occurred: {str(error)}")
+        await self.memory_system.store_context({
+            "status": TaskStatus.FAILED.value,
+            "error": str(error),
+            "failed_at": datetime.now().isoformat()
+        })
+        
+        return {
+            "status": "failed",
+            "error": str(error),
+            "agent_id": self.agent_id
+        }
+
+# Original imports
 from typing import Optional
 
 # from agent.tools.message_tool import MessageTool

@@ -9,6 +9,10 @@ from typing import Optional, List, Dict, Any
 from pydantic import BaseModel
 import os
 
+# Manus-style agent imports
+from agent.tools.planning_tools import TaskPlannerTool, TaskPlan
+from agent.memory import FileBasedMemory
+
 from services.supabase import DBConnection
 from services import redis
 from utils.auth_utils import get_current_user_id_from_jwt, get_user_id_from_stream_auth, verify_thread_access
@@ -1863,3 +1867,181 @@ async def get_agent_version(
         raise HTTPException(status_code=404, detail="Version not found")
     
     return version_result.data[0]
+
+
+# Manus-style Agent Endpoints
+
+@router.post("/agent/create_task_plan")
+async def create_task_plan(request: dict, user_id: str = Depends(get_current_user_id_from_jwt)):
+    """Create structured task plan for agent execution"""
+    try:
+        user_request = request.get("user_request")
+        context = request.get("context", {})
+        agent_id = request.get("agent_id")
+        
+        if not user_request or not agent_id:
+            raise HTTPException(status_code=400, detail="Missing required fields")
+        
+        memory_system = FileBasedMemory("/workspace")
+        planner = TaskPlannerTool(None, memory_system)  # LLM client will be injected
+        task_plan = await planner.create_task_plan(user_request, context)
+        
+        return {
+            "status": "success",
+            "task_plan": {
+                "goal": task_plan.goal,
+                "complexity": task_plan.complexity.value,
+                "phases": [
+                    {
+                        "id": phase.id,
+                        "title": phase.title,
+                        "description": phase.description,
+                        "required_capabilities": phase.required_capabilities,
+                        "estimated_duration": phase.estimated_duration,
+                        "status": phase.status.value,
+                        "dependencies": phase.dependencies,
+                        "success_criteria": phase.success_criteria
+                    }
+                    for phase in task_plan.phases
+                ],
+                "estimated_total_duration": task_plan.estimated_total_duration,
+                "success_metrics": task_plan.success_metrics
+            }
+        }
+        
+    except Exception as e:
+        logger.error(f"Task plan creation error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/agent/advance_phase")
+async def advance_phase(request: dict, user_id: str = Depends(get_current_user_id_from_jwt)):
+    """Advance agent to next phase"""
+    try:
+        agent_id = request.get("agent_id")
+        current_phase_id = request.get("current_phase_id")
+        
+        if not agent_id or not current_phase_id:
+            raise HTTPException(status_code=400, detail="Missing required fields")
+        
+        memory_system = FileBasedMemory("/workspace")
+        task_plan_data = await memory_system.retrieve_intermediate_result("task_plan")
+        
+        if not task_plan_data:
+            raise HTTPException(status_code=404, detail="Task plan not found")
+        
+        planner = TaskPlannerTool(None, memory_system)
+        success = await planner.advance_phase(task_plan_data, current_phase_id)
+        
+        if success:
+            return {"status": "success", "message": "Phase advanced successfully"}
+        else:
+            return {"status": "error", "message": "Cannot advance phase - dependencies not satisfied"}
+            
+    except Exception as e:
+        logger.error(f"Phase advancement error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/agent/status/{agent_id}")
+async def get_agent_status(agent_id: str, user_id: str = Depends(get_current_user_id_from_jwt)):
+    """Get current agent status and progress"""
+    try:
+        memory_system = FileBasedMemory("/workspace")
+        context = await memory_system.retrieve_context()
+        task_plan_data = await memory_system.retrieve_intermediate_result("task_plan")
+        recent_entries = await memory_system.get_memory_entries(limit=10)
+        
+        progress = 0
+        if task_plan_data and "phases" in task_plan_data:
+            completed_phases = sum(1 for phase in task_plan_data["phases"] 
+                                 if phase.get("status") == "completed")
+            total_phases = len(task_plan_data["phases"])
+            progress = (completed_phases / total_phases) * 100 if total_phases > 0 else 0
+        
+        return {
+            "agent_id": agent_id,
+            "status": context.get("status", "unknown"),
+            "progress_percentage": progress,
+            "current_phase": context.get("current_phase"),
+            "task_plan": task_plan_data,
+            "recent_activities": [
+                {
+                    "timestamp": entry.timestamp.isoformat(),
+                    "type": entry.entry_type,
+                    "content": entry.content
+                }
+                for entry in recent_entries
+            ]
+        }
+        
+    except Exception as e:
+        logger.error(f"Status retrieval error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/agent/update_phase_status")
+async def update_phase_status(request: dict, user_id: str = Depends(get_current_user_id_from_jwt)):
+    """Update the status of a specific phase"""
+    try:
+        agent_id = request.get("agent_id")
+        phase_id = request.get("phase_id")
+        status = request.get("status")
+        
+        if not agent_id or not phase_id or not status:
+            raise HTTPException(status_code=400, detail="Missing required fields")
+        
+        memory_system = FileBasedMemory("/workspace")
+        task_plan_data = await memory_system.retrieve_intermediate_result("task_plan")
+        
+        if not task_plan_data:
+            raise HTTPException(status_code=404, detail="Task plan not found")
+        
+        planner = TaskPlannerTool(None, memory_system)
+        from agent.tools.planning_tools import PhaseStatus
+        
+        # Convert string status to enum
+        status_enum = PhaseStatus(status)
+        success = await planner.update_phase_status(task_plan_data, phase_id, status_enum)
+        
+        if success:
+            return {"status": "success", "message": "Phase status updated successfully"}
+        else:
+            return {"status": "error", "message": "Phase not found"}
+            
+    except Exception as e:
+        logger.error(f"Phase status update error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.get("/agent/memory_stats/{agent_id}")
+async def get_memory_stats(agent_id: str, user_id: str = Depends(get_current_user_id_from_jwt)):
+    """Get memory system statistics"""
+    try:
+        memory_system = FileBasedMemory("/workspace")
+        stats = await memory_system.get_memory_stats()
+        
+        return {
+            "agent_id": agent_id,
+            "memory_stats": stats
+        }
+        
+    except Exception as e:
+        logger.error(f"Memory stats retrieval error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
+@router.post("/agent/clear_memory")
+async def clear_agent_memory(request: dict, user_id: str = Depends(get_current_user_id_from_jwt)):
+    """Clear agent memory"""
+    try:
+        agent_id = request.get("agent_id")
+        keep_context = request.get("keep_context", True)
+        
+        if not agent_id:
+            raise HTTPException(status_code=400, detail="Missing agent_id")
+        
+        memory_system = FileBasedMemory("/workspace")
+        await memory_system.clear_memory(keep_context=keep_context)
+        
+        return {"status": "success", "message": "Memory cleared successfully"}
+        
+    except Exception as e:
+        logger.error(f"Memory clear error: {str(e)}")
+        raise HTTPException(status_code=500, detail=str(e))
+
