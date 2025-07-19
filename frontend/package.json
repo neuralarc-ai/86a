@@ -1,10 +1,14 @@
 {
-  "name": "Helium",
-  "version": "0.1.0",
+  "name": "helium-ai-agent",
+  "version": "1.0.0",
   "private": true,
-  "description": "Helium AI Agent - Advanced AI assistant developed by NeuralArc Inc",
+  "description": "Helium AI Agent - Advanced conversational AI platform with live web crawling and artifact management",
   "author": "NeuralArc Inc (neuralarc.ai)",
   "homepage": "https://neuralarc.ai",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/neuralarc-ai/helium"
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/neuralarc-ai/helium"
