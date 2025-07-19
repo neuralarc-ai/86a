@@ -173,12 +173,12 @@ function LegalContent() {
                         Unit 12-2521 Austin, Texas 78702, United States).
                       </li>
                       <li>
-                        "Site" refers to the Manus AI website, including any related
+                        "Site" refers to the Helium AI website, including any related
                         features, content, or applications offered from time to
                         time by the Company.
                       </li>
                       <li>
-                        "Service" refers to the Manus AI website and all related
+                        "Service" refers to the Helium AI website and all related
                         services provided by the Company, including the
                         AI-powered agent that helps you accomplish real-world
                         tasks.
@@ -354,7 +354,7 @@ function LegalContent() {
                       Open Source License
                     </h3>
                     <p className="text-muted-foreground text-balance mb-6">
-                      Manus AI is licensed under the Apache License, Version 2.0.
+                      Helium AI is licensed under the Apache License, Version 2.0.
                       You may obtain a copy of the License at{' '}
                       <a
                         href="http://www.apache.org/licenses/LICENSE-2.0"
@@ -556,7 +556,7 @@ function LegalContent() {
                       Trademarks and Patents
                     </h3>
                     <p className="text-muted-foreground text-balance mb-6">
-                      All Manus AI logos, marks, and designations are trademarks or
+                      All Helium AI logos, marks, and designations are trademarks or
                       registered trademarks of the Company. All other trademarks
                       mentioned on this website are the property of their
                       respective owners. The trademarks and logos displayed on
@@ -719,7 +719,7 @@ function LegalContent() {
                     </p>
 
                     <p className="text-muted-foreground text-balance mb-6">
-                      References to our "Services" at Manus AI in this statement
+                      References to our "Services" at Helium AI in this statement
                       include our website, apps, and other products and
                       services. This statement applies to our Services that
                       display or reference this Privacy Statement. Third-party
@@ -728,7 +728,7 @@ function LegalContent() {
                     </p>
 
                     <p className="text-muted-foreground text-balance mb-6">
-                      Manus AI does not collect biometric or identifying
+                      Helium AI does not collect biometric or identifying
                       information. All data is processed securely and any data
                       is deleted upon account removal.
                     </p>

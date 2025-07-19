@@ -298,7 +298,7 @@ export function HeroSection() {
           </Link> */}
           <div className="flex flex-col items-center justify-center gap-5 pt-16">
             <h1 className="text-3xl md:text-4xl lg:text-5xl xl:text-6xl font-medium tracking-tighter text-balance text-center">
-              <span className="text-primary">Manus AI -</span>
+              <span className="text-primary">Helium AI -</span>
               <span className="text-primary"> The God Agent.</span>
             </h1>
             <p className="text-base md:text-lg text-center text-muted-foreground font-medium text-balance leading-relaxed tracking-tight">
@@ -348,7 +348,7 @@ export function HeroSection() {
               </button> */}
             </div>
             <DialogDescription className="text-muted-foreground">
-              Sign in or create an account to talk with Manus AI
+              Sign in or create an account to talk with Helium AI
             </DialogDescription>
           </DialogHeader>
 

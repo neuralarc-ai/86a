@@ -12,7 +12,7 @@ export function HeroVideoSection() {
           Watch Intelligence in Motion
         </h2>
         <p className="text-muted-foreground text-center text-balance font-medium">
-          Watch how Manus AI executes complex workflows with precision and autonomy
+          Watch how Helium AI executes complex workflows with precision and autonomy
         </p>
       </SectionHeader>
 

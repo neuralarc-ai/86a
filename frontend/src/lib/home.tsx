@@ -57,7 +57,7 @@ export interface PricingTier {
 }
 
 export const siteConfig = {
-  name: 'Manus AI',
+  name: 'Helium AI',
   description: 'The God Agent that can act on your behalf.',
   cta: 'Start Free',
   url: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
@@ -103,9 +103,9 @@ export const siteConfig = {
       </svg>
     ),
     badge: '100% OPEN SOURCE',
-    title: 'Manus AI, the GOD MODE Agent',
+    title: 'Helium AI, the GOD MODE Agent',
     description:
-      'Manus AI by NeuralArc – is a God Agent that acts on your behalf.',
+      'Helium AI by NeuralArc – is a God Agent that acts on your behalf.',
     inputPlaceholder: 'Ask Helium to...',
   },
   cloudPricingItems: [
@@ -229,7 +229,7 @@ export const siteConfig = {
         '$400 AI token credits/month',
         'Private projects',
         'Premium AI Models',
-        'Full Manus AI access',
+        'Full Helium AI access',
         'Community support',
         'Custom integrations',
         'Dedicated account manager',
@@ -254,7 +254,7 @@ export const siteConfig = {
         '$800 AI token credits/month',
         'Private projects',
         'Premium AI Models',
-        'Full Manus AI access',
+        'Full Helium AI access',
         'Community support',
         'Custom integrations',
         'Dedicated account manager',
@@ -280,7 +280,7 @@ export const siteConfig = {
         '$1000 AI token credits/month',
         'Private projects',
         'Premium AI Models',
-        'Full Manus AI access',
+        'Full Helium AI access',
         'Priority support',
         'Custom integrations',
         'Dedicated account manager',
@@ -495,7 +495,7 @@ export const siteConfig = {
     ],
   },
   featureSection: {
-    title: 'How Manus AI Works',
+    title: 'How Helium AI Works',
     description:
       'Discover how Helium transforms your commands into action in four easy steps',
     items: [
@@ -503,7 +503,7 @@ export const siteConfig = {
         id: 1,
         title: 'Request an Action',
         content:
-          'Speak or type your command—let Manus AI capture your intent. Your request instantly sets the process in motion.',
+          'Speak or type your command—let Helium AI capture your intent. Your request instantly sets the process in motion.',
         image:
           'https://images.unsplash.com/photo-1720371300677-ba4838fa0678?q=80&w=2070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       },
@@ -511,7 +511,7 @@ export const siteConfig = {
         id: 2,
         title: 'AI Understanding & Planning',
         content:
-          'Manus AI analyzes your request, understands the context, and develops a structured plan to complete the task efficiently.',
+          'Helium AI analyzes your request, understands the context, and develops a structured plan to complete the task efficiently.',
         image:
           'https://images.unsplash.com/photo-1686170287433-c95faf6d3608?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwzfHx8ZW58MHx8fHx8fA%3D%3D',
       },
@@ -519,7 +519,7 @@ export const siteConfig = {
         id: 3,
         title: 'Autonomous Execution',
         content:
-          'Using its capabilities and integrations, Manus AI executes the task independently, handling any complexities along the way.',
+          'Using its capabilities and integrations, Helium AI executes the task independently, handling any complexities along the way.',
         image:
           'https://images.unsplash.com/photo-1720378042271-60aff1e1c538?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxMHx8fGVufDB8fHx8fA%3D%3D',
       },
@@ -527,14 +527,14 @@ export const siteConfig = {
         id: 4,
         title: 'Results & Learning',
         content:
-          'Manus AI delivers results and learns from each interaction, continuously improving its performance to better serve your needs.',
+          'Helium AI delivers results and learns from each interaction, continuously improving its performance to better serve your needs.',
         image:
           'https://images.unsplash.com/photo-1666882990322-e7f3b8df4f75?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fHw%3D',
       },
     ],
   },
   bentoSection: {
-    title: 'Empower Your Workflow with Manus AI',
+    title: 'Empower Your Workflow with Helium AI',
     description:
       'Let Helium act on your behalf with advanced AI capabilities, seamless integrations, and autonomous task execution.',
     items: [
@@ -543,14 +543,14 @@ export const siteConfig = {
         content: <FirstBentoAnimation />,
         title: 'Autonomous Task Execution',
         description:
-          'Experience true automation with Manus AI. Ask your AI Agent to complete tasks, research information, and handle complex workflows with minimal supervision.',
+          'Experience true automation with Helium AI. Ask your AI Agent to complete tasks, research information, and handle complex workflows with minimal supervision.',
       },
       {
         id: 2,
         content: <SecondBentoAnimation />,
         title: 'Seamless Integrations',
         description:
-          'Connect Manus AI to your existing tools for a unified workflow. Boost productivity through AI-powered interconnected systems.',
+          'Connect Helium AI to your existing tools for a unified workflow. Boost productivity through AI-powered interconnected systems.',
       },
       {
         id: 3,
@@ -571,7 +571,7 @@ export const siteConfig = {
         content: <FourthBentoAnimation once={false} />,
         title: 'Complete Customization',
         description:
-          'Tailor Manus AI to your specific needs. As an open source solution, you have full control over its capabilities, integrations, and implementation.',
+          'Tailor Helium AI to your specific needs. As an open source solution, you have full control over its capabilities, integrations, and implementation.',
       },
     ],
   },
@@ -588,7 +588,7 @@ export const siteConfig = {
     },
     {
       id: 3,
-      text: 'Improve focus on high-value work as Manus AI handles the routine.',
+      text: 'Improve focus on high-value work as Helium AI handles the routine.',
       image: '/Device-8.png',
     },
     {
@@ -900,7 +900,7 @@ export const siteConfig = {
   },
   quoteSection: {
     quote:
-      'Manus AI has transformed how we approach everyday tasks. The level of automation it provides, combined with its open source nature, makes it an invaluable tool for our entire organization.',
+      'Helium AI has transformed how we approach everyday tasks. The level of automation it provides, combined with its open source nature, makes it an invaluable tool for our entire organization.',
     author: {
       name: 'Alex Johnson',
       role: 'CTO, Innovatech',
@@ -910,7 +910,7 @@ export const siteConfig = {
   pricing: {
     title: 'Open Source & Free Forever',
     description:
-      'Manus AI is 100% open source and free to use. No hidden fees, no premium features locked behind paywalls.',
+      'Helium AI is 100% open source and free to use. No hidden fees, no premium features locked behind paywalls.',
     pricingItems: [
       {
         name: 'Community',
@@ -925,7 +925,7 @@ export const siteConfig = {
           'Community support',
         ],
         description: 'Perfect for individual users and developers',
-        buttonText: 'Hire Manus AI',
+        buttonText: 'Hire Helium AI',
         buttonColor: 'bg-accent text-primary',
         isPopular: false,
       },
@@ -1175,7 +1175,7 @@ export const siteConfig = {
   faqSection: {
     title: 'Frequently Asked Questions',
     description:
-      "Answers to common questions about Manus AI and its capabilities. If you have any other questions, please don't hesitate to contact us.",
+      "Answers to common questions about Helium AI and its capabilities. If you have any other questions, please don't hesitate to contact us.",
     faQitems: [
       {
         id: 1,
@@ -1185,31 +1185,31 @@ export const siteConfig = {
       },
       {
         id: 2,
-        question: 'How does Manus AI work?',
+        question: 'How does Helium AI work?',
         answer:
           'Helium works by analyzing your requirements, leveraging advanced AI algorithms to understand context, and executing tasks based on your instructions. It can integrate with your workflow, learn from feedback, and continuously improve its performance.',
       },
       {
         id: 3,
-        question: 'Is Kortix Manus AI really free?',
+        question: 'Is Kortix Helium AI really free?',
         answer:
           'Yes, Helium is completely free and open source. We believe in democratizing AI technology and making it accessible to everyone. You can use it, modify it, and contribute to its development without any cost.',
       },
       {
         id: 4,
-        question: 'Can I integrate Manus AI with my existing tools?',
+        question: 'Can I integrate Helium AI with my existing tools?',
         answer:
           'Yes, Helium is designed to be highly compatible with popular tools and platforms. We offer APIs and pre-built integrations for seamless connection with your existing workflow tools and systems.',
       },
       {
         id: 5,
-        question: 'How can I contribute to Manus AI?',
+        question: 'How can I contribute to Helium AI?',
         answer:
           'You can contribute to Helium by submitting pull requests on GitHub, reporting bugs, suggesting new features, or helping with documentation. Join our Discord community to connect with other contributors.',
       },
       {
         id: 6,
-        question: 'How does Manus AI save me time?',
+        question: 'How does Helium AI save me time?',
         answer:
           'Helium automates repetitive tasks, streamlines workflows, and provides quick solutions to common challenges. This automation and efficiency can save hours of manual work, allowing you to focus on more strategic activities.',
       },
@@ -1217,7 +1217,7 @@ export const siteConfig = {
   },
   ctaSection: {
     id: 'cta',
-    title: 'Start Using Manus AI Today',
+    title: 'Start Using Helium AI Today',
     backgroundImage: '/holo.png',
     button: {
       text: 'Get Started for free',
@@ -1608,7 +1608,7 @@ export const siteConfig = {
       id: 'seo-analysis',
       title: 'SEO Analysis',
       description:
-        "Based on my website Manus AI, generate an SEO report analysis, find top-ranking pages by keyword clusters, and identify topics I'm missing.",
+        "Based on my website Helium AI, generate an SEO report analysis, find top-ranking pages by keyword clusters, and identify topics I'm missing.",
       category: 'marketing',
       featured: true,
       icon: (

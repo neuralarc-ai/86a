@@ -32,7 +32,7 @@ export function UpgradeDialog({ open, onOpenChange, onDismiss }: UpgradeDialogPr
         <DialogHeader>
           <DialogTitle className="flex items-center">
             <Crown className="h-5 w-5 mr-2 text-primary" />
-            Unlock the Full Manus AI Experience
+            Unlock the Full Helium AI Experience
           </DialogTitle>
           <DialogDescription>
             You're currently using Helium's free tier with limited capabilities.

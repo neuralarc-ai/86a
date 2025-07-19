@@ -499,7 +499,7 @@ export default function ThreadPage({
   // SEO title update
   useEffect(() => {
     if (projectName) {
-      document.title = `${projectName} | Manus AI`;
+      document.title = `${projectName} | Helium AI`;
 
       const metaDescription = document.querySelector(
         'meta[name="description"]',
@@ -507,13 +507,13 @@ export default function ThreadPage({
       if (metaDescription) {
         metaDescription.setAttribute(
           'content',
-          `${projectName} - Interactive agent conversation powered by Manus AI`,
+          `${projectName} - Interactive agent conversation powered by Helium AI`,
         );
       }
 
       const ogTitle = document.querySelector('meta[property="og:title"]');
       if (ogTitle) {
-        ogTitle.setAttribute('content', `${projectName} | Manus AI`);
+        ogTitle.setAttribute('content', `${projectName} | Helium AI`);
       }
 
       const ogDescription = document.querySelector(

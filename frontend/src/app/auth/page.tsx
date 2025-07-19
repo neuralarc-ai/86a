@@ -253,7 +253,7 @@ function LoginContent() {
           )}
           <div className="absolute inset-0 bg-black/60 z-10" />
           <div className="absolute inset-0 flex flex-col items-center justify-center z-20 px-8">
-            <h1 className="text-5xl font-bold text-white mb-2 drop-shadow-lg playfair-display-auth-title">Manus AI</h1>
+            <h1 className="text-5xl font-bold text-white mb-2 drop-shadow-lg playfair-display-auth-title">Helium AI</h1>
             <p className="text-2xl font-medium text-white/90 mb-8 text-center drop-shadow-lg playfair-display-auth-title">Built for What&apos;s Beyond.</p>
             <span className="text-white/70 text-sm mt-auto mb-8">neuralarc.ai</span>
           </div>

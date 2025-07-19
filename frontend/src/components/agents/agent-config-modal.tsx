@@ -105,7 +105,7 @@ export const AgentConfigModal: React.FC<AgentConfigModalProps> = ({
     }
   };
 
-  const displayName = agent?.name || 'Manus AI';
+  const displayName = agent?.name || 'Helium AI';
 
   return (
     <>

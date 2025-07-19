@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'App Profiles | Manus AI',
+  title: 'App Profiles | Helium AI',
   description: 'Manage your connected app integrations',
   openGraph: {
-    title: 'App Profiles | Manus AI',
+    title: 'App Profiles | Helium AI',
     description: 'Manage your connected app integrations',
     type: 'website',
   },
