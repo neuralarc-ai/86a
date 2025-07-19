@@ -4,11 +4,11 @@ import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 export const metadata: Metadata = {
-  title: 'Agent Conversation | Helium AI',
-  description: 'Interactive agent conversation powered by Helium AI',
+  title: 'Agent Conversation | Manus AI',
+  description: 'Interactive agent conversation powered by Manus AI',
   openGraph: {
-    title: 'Agent Conversation | Helium AI',
-    description: 'Interactive agent conversation powered by Helium AI',
+    title: 'Agent Conversation | Manus AI',
+    description: 'Interactive agent conversation powered by Manus AI',
     type: 'website',
   },
 };

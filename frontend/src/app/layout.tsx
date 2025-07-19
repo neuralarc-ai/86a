@@ -26,7 +26,7 @@ export const metadata: Metadata = {
     template: `%s - ${siteConfig.name}`,
   },
   description:
-    'Helium AI is a God Agent that helps you accomplish real-world tasks with ease. Through natural conversation, Helium becomes your digital companion for research, data analysis, and everyday challenges.',
+    'Manus AI is a God Agent that helps you accomplish real-world tasks with ease. Through natural conversation, Helium becomes your digital companion for research, data analysis, and everyday challenges.',
   keywords: [
     'AI',
     'artificial intelligence',
@@ -44,7 +44,7 @@ export const metadata: Metadata = {
   publisher:
     'NeuralArc Team',
   category: 'Technology',
-  applicationName: 'Helium AI',
+  applicationName: 'Manus AI',
   formatDetection: {
     telephone: false,
     email: false,
@@ -59,17 +59,17 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    title: 'Helium AI - The God Agent',
+    title: 'Manus AI - The God Agent',
     description:
-      'Helium AI is a God Agent that helps you accomplish real-world tasks with ease through natural conversation.',
+      'Manus AI is a God Agent that helps you accomplish real-world tasks with ease through natural conversation.',
     url: siteConfig.url,
-    siteName: 'Helium AI',
+    siteName: 'Manus AI',
     images: [
       {
         url: '/banner.png',
         width: 1200,
         height: 630,
-        alt: 'Helium AI - The God Agent',
+        alt: 'Manus AI - The God Agent',
         type: 'image/png',
       },
     ],
@@ -78,9 +78,9 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Helium AI - The God Agent',
+    title: 'Manus AI - The God Agent',
     description:
-      'Helium AI is a God Agent that that helps you accomplish real-world tasks with ease through natural conversation.',
+      'Manus AI is a God Agent that that helps you accomplish real-world tasks with ease through natural conversation.',
     creator: '@neuralarc_ai',
     site: '@nueralarc_ai',
     images: [
@@ -88,7 +88,7 @@ export const metadata: Metadata = {
         url: '/banner.png',
         width: 1200,
         height: 630,
-        alt: 'Helium AI - The God Agent',
+        alt: 'Manus AI - The God Agent',
       },
     ],
   },

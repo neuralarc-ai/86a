@@ -1,10 +1,10 @@
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Create Agent | Helium AI',
+  title: 'Create Agent | Manus AI',
   description: 'Create an agent',
   openGraph: {
-    title: 'Create Agent | Helium AI',
+    title: 'Create Agent | Manus AI',
     description: 'Create an agent',
     type: 'website',
   },

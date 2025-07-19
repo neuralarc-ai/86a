@@ -72,10 +72,10 @@ export const AgentSelector: React.FC<AgentSelectorProps> = ({
   const allAgents = [
     {
       id: undefined,
-      name: 'Helium AI',
+      name: 'Manus AI',
       description: 'The God Agent',
       type: 'default' as const,
-      icon: <Image src="/kortix-symbol.svg" alt="Helium AI" width={16} height={16} className="h-4 w-4 dark:invert" />
+      icon: <Image src="/kortix-symbol.svg" alt="Manus AI" width={16} height={16} className="h-4 w-4 dark:invert" />
     },
     ...PREDEFINED_AGENTS.map(agent => ({
       ...agent,
@@ -119,7 +119,7 @@ export const AgentSelector: React.FC<AgentSelectorProps> = ({
     
     // If selectedAgentId is not undefined but no agent is found, log a warning
     if (selectedAgentId !== undefined) {
-      console.warn('Agent with ID', selectedAgentId, 'not found, falling back to Helium AI');
+      console.warn('Agent with ID', selectedAgentId, 'not found, falling back to Manus AI');
     }
     
     // Default to Suna (the first agent which has id: undefined)

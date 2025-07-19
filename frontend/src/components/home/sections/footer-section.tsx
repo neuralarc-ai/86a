@@ -37,7 +37,7 @@ export function FooterSection() {
               height={22}
               priority
             /> */}
-            <h2 className='text-3xl font-semibold'>Helium AI</h2>
+            <h2 className='text-3xl font-semibold'>Manus AI</h2>
           </Link>
           <p className="tracking-tight text-muted-foreground font-medium">
             {siteConfig.hero.description}
@@ -139,7 +139,7 @@ export function FooterSection() {
         <div className="absolute inset-0 bg-gradient-to-t from-transparent to-background z-10 from-40%" />
         <div className="absolute inset-0 ">
           <FlickeringGrid
-            text={tablet ? 'Agents' : 'Helium AI - The God Agent'}
+            text={tablet ? 'Agents' : 'Manus AI - The God Agent'}
             fontSize={tablet ? 60 : 90}
             className="h-full w-full"
             squareSize={2}
