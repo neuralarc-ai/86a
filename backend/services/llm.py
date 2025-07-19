@@ -19,6 +19,15 @@ import litellm
 from utils.logger import logger
 from utils.config import config
 
+# Import Helio provider
+try:
+    from services.helio_provider import helio_provider
+    HELIO_AVAILABLE = True
+    logger.info("Helio provider loaded successfully")
+except ImportError as e:
+    HELIO_AVAILABLE = False
+    logger.warning(f"Helio provider not available: {e}")
+
 # litellm.set_verbose=True
 litellm.modify_params=True
 
@@ -250,6 +259,46 @@ async def make_llm_api_call(
     # debug <timestamp>.json messages
     logger.info(f"Making LLM API call to model: {model_name} (Thinking: {enable_thinking}, Effort: {reasoning_effort})")
     logger.info(f"📡 API Call: Using model {model_name}")
+    
+    # Check if this is a Helio model request
+    if model_name.startswith("helio/") or model_name == "helio":
+        if HELIO_AVAILABLE:
+            logger.info(f"🧠 Using Helio provider for model: {model_name}")
+            try:
+                return await helio_provider.generate(
+                    messages=messages,
+                    temperature=temperature,
+                    max_tokens=max_tokens or 200,
+                    stream=stream
+                )
+            except Exception as e:
+                logger.error(f"Helio provider error: {e}")
+                # Fallback to error response
+                return {
+                    "choices": [{
+                        "message": {
+                            "role": "assistant",
+                            "content": "I apologize, but the Helio model is currently unavailable. Please try again later."
+                        },
+                        "finish_reason": "stop"
+                    }],
+                    "usage": {"prompt_tokens": 0, "completion_tokens": 20, "total_tokens": 20},
+                    "model": "helio-1.0"
+                }
+        else:
+            logger.warning(f"Helio model requested but provider not available: {model_name}")
+            return {
+                "choices": [{
+                    "message": {
+                        "role": "assistant",
+                        "content": "The Helio model is not currently available. Please select a different model."
+                    },
+                    "finish_reason": "stop"
+                }],
+                "usage": {"prompt_tokens": 0, "completion_tokens": 15, "total_tokens": 15},
+                "model": "helio-unavailable"
+            }
+    
     params = prepare_params(
         messages=messages,
         model_name=model_name,

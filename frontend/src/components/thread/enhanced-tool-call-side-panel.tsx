@@ -273,7 +273,7 @@ const generateTaskItems = (toolName: string): TaskItem[] => {
   return baseTasks;
 };
 
-export function ToolCallSidePanel({
+export function EnhancedToolCallSidePanel({
   isOpen,
   onClose,
   toolCalls,

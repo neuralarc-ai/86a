@@ -110,6 +110,13 @@ export const MODELS = {
   },
   
   // Free tier models
+  'helio': { 
+    tier: 'free', 
+    priority: 70,
+    recommended: true,
+    lowQuality: false,
+    description: 'Helio - Custom lightweight business model optimized for enterprise tasks'
+  },
   'deepseek-r1': { 
     tier: 'free', 
     priority: 60,
