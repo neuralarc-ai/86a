@@ -2,7 +2,7 @@ import React from 'react';
 import {
     FileText, FileImage, FileCode, FileSpreadsheet, FileVideo,
     FileAudio, FileType, Database, Archive, File, ExternalLink,
-    Loader2
+    Loader2, Download
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AttachmentGroup } from './attachment-group';
@@ -187,6 +187,28 @@ export function FileAttachment({
     const typeLabel = getTypeLabel(fileType, extension);
     const fileSize = getFileSize(filepath, fileType);
     const IconComponent = getFileIcon(fileType);
+
+    // Download function
+    const handleDownload = React.useCallback((e: React.MouseEvent) => {
+        e.stopPropagation(); // Prevent triggering the main click handler
+        
+        try {
+            // Create a temporary link element
+            const link = document.createElement('a');
+            link.href = fileUrl;
+            link.download = filename;
+            link.target = '_blank';
+            
+            // Append to body, click, and remove
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        } catch (error) {
+            console.error('Download failed:', error);
+            // Fallback: open in new tab
+            window.open(fileUrl, '_blank');
+        }
+    }, [fileUrl, filename]);
 
     // Display flags
     const isImage = fileType === 'image';
@@ -514,6 +536,17 @@ export function FileAttachment({
                     <span className="text-black/40 dark:text-white/40 flex-shrink-0">·</span>
                     <span className="text-black/60 dark:text-white/60 flex-shrink-0">{fileSize}</span>
                 </div>
+            </div>
+
+            {/* Download Button */}
+            <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                <button
+                    onClick={handleDownload}
+                    className="p-1.5 rounded-md bg-background/80 backdrop-blur-sm border border-border/50 hover:bg-background hover:border-border transition-all duration-200 shadow-sm"
+                    title={`Download ${filename}`}
+                >
+                    <Download className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-colors" />
+                </button>
             </div>
         </button>
     );

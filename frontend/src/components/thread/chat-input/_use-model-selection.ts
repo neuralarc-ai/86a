@@ -7,9 +7,9 @@ import { useAvailableModels } from '@/hooks/react-query/subscriptions/use-model'
 
 export const STORAGE_KEY_MODEL = 'suna-preferred-model-v2';
 export const STORAGE_KEY_CUSTOM_MODELS = 'customModels';
-export const DEFAULT_PREMIUM_MODEL_ID = 'claude-sonnet-4';
+export const DEFAULT_PREMIUM_MODEL_ID = 'helio';
 // export const DEFAULT_FREE_MODEL_ID = 'deepseek';
-export const DEFAULT_FREE_MODEL_ID = 'claude-sonnet-4';
+export const DEFAULT_FREE_MODEL_ID = 'helio';
 
 export type SubscriptionStatus = 'no_subscription' | 'active';
 
@@ -30,6 +30,14 @@ export interface CustomModel {
 
 // SINGLE SOURCE OF TRUTH for all model data
 export const MODELS = {
+  // Helio - Custom business model (highest priority)
+  'helio': { 
+    tier: 'free',
+    priority: 110, 
+    recommended: true,
+    lowQuality: false,
+    description: 'Helio - Custom lightweight business model optimized for enterprise tasks'
+  },
   // Premium high-priority models
   'claude-sonnet-4': { 
     tier: 'free',

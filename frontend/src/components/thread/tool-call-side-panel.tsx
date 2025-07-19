@@ -12,7 +12,9 @@ import {
   Plus, CheckCircle, Clock, AlertCircle, PlayCircle, PauseCircle, 
   Activity, Zap, Target, TrendingUp, Brain, Layers, Settings, Monitor,
   List, CheckSquare, Square, ArrowRight, Timer, Gauge, Download, Share2,
-  Copy, ExternalLink, Save, Mail, MessageSquare, Link
+  Copy, ExternalLink, Save, Mail, MessageSquare, Link, SkipForward,
+  FastForward, Rewind, StepForward, StepBack, Navigation, FileSpreadsheet,
+  FileImage, Presentation, File, Database, Archive, Video, Music
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -99,7 +101,7 @@ interface ToolCallSnapshot {
 interface ArtifactTab {
   id: string;
   name: string;
-  type: 'image' | 'webpage' | 'document' | 'visualization' | 'playbook' | 'other';
+  type: 'image' | 'webpage' | 'document' | 'visualization' | 'playbook' | 'spreadsheet' | 'presentation' | 'pdf' | 'video' | 'audio' | 'archive' | 'database' | 'other';
   icon: React.ComponentType<any>;
   color: string;
   isCompleted: boolean;
@@ -108,14 +110,28 @@ interface ArtifactTab {
   estimatedTime?: string;
 }
 
-// Enhanced artifact type mapping
-const getArtifactType = (toolName: string): ArtifactTab['type'] => {
+// Enhanced artifact type mapping with file type detection
+const getArtifactType = (toolName: string, content?: string): ArtifactTab['type'] => {
   const name = toolName.toLowerCase();
-  if (name.includes('image') || name.includes('generate') || name.includes('media')) return 'image';
-  if (name.includes('browser') || name.includes('web') || name.includes('deploy')) return 'webpage';
-  if (name.includes('file') || name.includes('write') || name.includes('document')) return 'document';
-  if (name.includes('chart') || name.includes('plot') || name.includes('data')) return 'visualization';
-  if (name.includes('plan') || name.includes('guide') || name.includes('playbook')) return 'playbook';
+  const contentLower = content?.toLowerCase() || '';
+  
+  // File type detection based on tool name and content
+  if (name.includes('csv') || name.includes('spreadsheet') || contentLower.includes('.csv') || contentLower.includes('comma-separated')) return 'spreadsheet';
+  if (name.includes('excel') || name.includes('xlsx') || name.includes('xls') || contentLower.includes('.xlsx') || contentLower.includes('.xls')) return 'spreadsheet';
+  if (name.includes('powerpoint') || name.includes('pptx') || name.includes('ppt') || name.includes('presentation') || contentLower.includes('.pptx') || contentLower.includes('.ppt')) return 'presentation';
+  if (name.includes('pdf') || contentLower.includes('.pdf') || contentLower.includes('portable document')) return 'pdf';
+  if (name.includes('video') || name.includes('mp4') || name.includes('avi') || name.includes('mov') || contentLower.includes('.mp4') || contentLower.includes('.avi')) return 'video';
+  if (name.includes('audio') || name.includes('mp3') || name.includes('wav') || name.includes('sound') || contentLower.includes('.mp3') || contentLower.includes('.wav')) return 'audio';
+  if (name.includes('zip') || name.includes('archive') || name.includes('tar') || contentLower.includes('.zip') || contentLower.includes('.tar')) return 'archive';
+  if (name.includes('database') || name.includes('sql') || name.includes('db') || contentLower.includes('.sql') || contentLower.includes('database')) return 'database';
+  
+  // Original detection logic
+  if (name.includes('image') || name.includes('generate') || name.includes('media') || name.includes('png') || name.includes('jpg') || name.includes('jpeg')) return 'image';
+  if (name.includes('browser') || name.includes('web') || name.includes('deploy') || name.includes('crawl') || name.includes('scrape')) return 'webpage';
+  if (name.includes('file') || name.includes('write') || name.includes('document') || name.includes('text') || name.includes('doc')) return 'document';
+  if (name.includes('chart') || name.includes('plot') || name.includes('data') || name.includes('graph') || name.includes('visualization')) return 'visualization';
+  if (name.includes('plan') || name.includes('guide') || name.includes('playbook') || name.includes('strategy')) return 'playbook';
+  
   return 'other';
 };
 
@@ -126,7 +142,14 @@ const getArtifactIcon = (type: ArtifactTab['type']) => {
     case 'document': return FileText;
     case 'visualization': return BarChart3;
     case 'playbook': return BookOpen;
-    default: return Plus;
+    case 'spreadsheet': return FileSpreadsheet;
+    case 'presentation': return Presentation;
+    case 'pdf': return FileImage;
+    case 'video': return Video;
+    case 'audio': return Music;
+    case 'archive': return Archive;
+    case 'database': return Database;
+    default: return File;
   }
 };
 
@@ -137,6 +160,13 @@ const getArtifactColor = (type: ArtifactTab['type']) => {
     case 'document': return 'bg-gradient-to-r from-blue-100 to-blue-50 text-blue-700 border-blue-200 dark:from-blue-900/20 dark:to-blue-800/10 dark:text-blue-400 dark:border-blue-800';
     case 'visualization': return 'bg-gradient-to-r from-purple-100 to-purple-50 text-purple-700 border-purple-200 dark:from-purple-900/20 dark:to-purple-800/10 dark:text-purple-400 dark:border-purple-800';
     case 'playbook': return 'bg-gradient-to-r from-green-100 to-green-50 text-green-700 border-green-200 dark:from-green-900/20 dark:to-green-800/10 dark:text-green-400 dark:border-green-800';
+    case 'spreadsheet': return 'bg-gradient-to-r from-emerald-100 to-emerald-50 text-emerald-700 border-emerald-200 dark:from-emerald-900/20 dark:to-emerald-800/10 dark:text-emerald-400 dark:border-emerald-800';
+    case 'presentation': return 'bg-gradient-to-r from-red-100 to-red-50 text-red-700 border-red-200 dark:from-red-900/20 dark:to-red-800/10 dark:text-red-400 dark:border-red-800';
+    case 'pdf': return 'bg-gradient-to-r from-rose-100 to-rose-50 text-rose-700 border-rose-200 dark:from-rose-900/20 dark:to-rose-800/10 dark:text-rose-400 dark:border-rose-800';
+    case 'video': return 'bg-gradient-to-r from-indigo-100 to-indigo-50 text-indigo-700 border-indigo-200 dark:from-indigo-900/20 dark:to-indigo-800/10 dark:text-indigo-400 dark:border-indigo-800';
+    case 'audio': return 'bg-gradient-to-r from-yellow-100 to-yellow-50 text-yellow-700 border-yellow-200 dark:from-yellow-900/20 dark:to-yellow-800/10 dark:text-yellow-400 dark:border-yellow-800';
+    case 'archive': return 'bg-gradient-to-r from-slate-100 to-slate-50 text-slate-700 border-slate-200 dark:from-slate-900/20 dark:to-slate-800/10 dark:text-slate-400 dark:border-slate-800';
+    case 'database': return 'bg-gradient-to-r from-cyan-100 to-cyan-50 text-cyan-700 border-cyan-200 dark:from-cyan-900/20 dark:to-cyan-800/10 dark:text-cyan-400 dark:border-cyan-800';
     default: return 'bg-gradient-to-r from-gray-100 to-gray-50 text-gray-700 border-gray-200 dark:from-gray-900/20 dark:to-gray-800/10 dark:text-gray-400 dark:border-gray-800';
   }
 };
@@ -477,7 +507,8 @@ Created with Helium AI Assistant`;
   const artifactTabs: ArtifactTab[] = React.useMemo(() => {
     return toolCallSnapshots.map((snapshot, index) => {
       const toolName = getUserFriendlyToolName(snapshot.toolCall.assistantCall.name || 'Tool');
-      const type = getArtifactType(toolName);
+      const content = snapshot.toolCall.toolResult?.content || snapshot.toolCall.assistantCall.content || '';
+      const type = getArtifactType(toolName, content);
       const isCompleted = snapshot.toolCall.toolResult?.content && snapshot.toolCall.toolResult.content !== 'STREAMING';
       const isStreaming = snapshot.toolCall.toolResult?.content === 'STREAMING';
       
@@ -504,12 +535,13 @@ Created with Helium AI Assistant`;
   React.useEffect(() => {
     const newSnapshots = toolCalls.map((toolCall, index) => {
       const toolName = getUserFriendlyToolName(toolCall.assistantCall.name || 'Tool');
+      const content = toolCall.toolResult?.content || toolCall.assistantCall.content || '';
       return {
         id: `${index}-${toolCall.assistantCall.timestamp || Date.now()}`,
         toolCall,
         index,
         timestamp: Date.now(),
-        artifactType: getArtifactType(toolName),
+        artifactType: getArtifactType(toolName, content),
         processSteps: generateProcessSteps(toolName),
         taskItems: generateTaskItems(toolName)
       };
@@ -666,16 +698,142 @@ Created with Helium AI Assistant`;
         </div>
       </div>
 
-      {/* Progress Overview */}
+      {/* Enhanced Progress Overview with Skip Functionality */}
       <div className="p-4 border-b border-border bg-muted/10">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium">Overall Progress</span>
+          <span className="text-sm font-medium flex items-center">
+            <Navigation className="h-4 w-4 mr-2" />
+            Live Progress Monitor
+          </span>
           <span className="text-sm text-muted-foreground">{Math.round(overallProgress)}%</span>
         </div>
-        <Progress value={overallProgress} className="h-2" />
-        <div className="flex items-center justify-between mt-2 text-xs text-muted-foreground">
-          <span>{artifactTabs.filter(tab => tab.isCompleted).length} of {artifactTabs.length} completed</span>
+        
+        {/* Main Progress Bar */}
+        <div className="relative mb-3">
+          <Progress value={overallProgress} className="h-3" />
+          <div className="absolute inset-0 flex items-center justify-center">
+            <span className="text-xs font-medium text-white drop-shadow-sm">
+              Step {internalIndex + 1} of {artifactTabs.length}
+            </span>
+          </div>
+        </div>
+
+        {/* Progress Controls */}
+        <div className="flex items-center justify-between mb-2">
+          <div className="flex items-center space-x-1">
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                if (internalIndex > 0) {
+                  const newIndex = internalIndex - 1;
+                  setInternalIndex(newIndex);
+                  onNavigate(newIndex);
+                  setSelectedArtifactId(toolCallSnapshots[newIndex]?.id || null);
+                }
+              }}
+              disabled={internalIndex === 0}
+              className="h-7 w-7 p-0"
+              title="Previous step"
+            >
+              <StepBack className="h-3 w-3" />
+            </Button>
+            
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                if (internalIndex < artifactTabs.length - 1) {
+                  const newIndex = internalIndex + 1;
+                  setInternalIndex(newIndex);
+                  onNavigate(newIndex);
+                  setSelectedArtifactId(toolCallSnapshots[newIndex]?.id || null);
+                }
+              }}
+              disabled={internalIndex >= artifactTabs.length - 1}
+              className="h-7 w-7 p-0"
+              title="Next step"
+            >
+              <StepForward className="h-3 w-3" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                const newIndex = Math.min(internalIndex + 3, artifactTabs.length - 1);
+                setInternalIndex(newIndex);
+                onNavigate(newIndex);
+                setSelectedArtifactId(toolCallSnapshots[newIndex]?.id || null);
+              }}
+              disabled={internalIndex >= artifactTabs.length - 1}
+              className="h-7 w-7 p-0"
+              title="Skip forward"
+            >
+              <SkipForward className="h-3 w-3" />
+            </Button>
+
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => {
+                const newIndex = artifactTabs.length - 1;
+                setInternalIndex(newIndex);
+                onNavigate(newIndex);
+                setSelectedArtifactId(toolCallSnapshots[newIndex]?.id || null);
+              }}
+              disabled={internalIndex >= artifactTabs.length - 1}
+              className="h-7 w-7 p-0"
+              title="Jump to end"
+            >
+              <FastForward className="h-3 w-3" />
+            </Button>
+          </div>
+
+          <div className="flex items-center space-x-2">
+            <Badge 
+              variant={agentStatus === 'running' ? 'default' : 'secondary'} 
+              className="text-xs"
+            >
+              {agentStatus === 'running' ? (
+                <><Activity className="h-3 w-3 mr-1" />Live</>
+              ) : (
+                <><CheckCircle className="h-3 w-3 mr-1" />Complete</>
+              )}
+            </Badge>
+          </div>
+        </div>
+
+        {/* Step Progress Indicator */}
+        <div className="flex items-center justify-between text-xs text-muted-foreground">
+          <span>{artifactTabs.filter(tab => tab.isCompleted).length} completed</span>
+          <span className="flex items-center">
+            <Timer className="h-3 w-3 mr-1" />
+            {currentArtifact?.estimatedTime || 'Ready'}
+          </span>
           <span>{artifactTabs.filter(tab => tab.progress > 0 && !tab.isCompleted).length} in progress</span>
+        </div>
+
+        {/* Interactive Progress Slider */}
+        <div className="mt-3">
+          <div className="flex items-center space-x-2">
+            <span className="text-xs text-muted-foreground">Jump to:</span>
+            <Slider
+              value={[internalIndex]}
+              onValueChange={(value) => {
+                const newIndex = value[0];
+                setInternalIndex(newIndex);
+                onNavigate(newIndex);
+                setSelectedArtifactId(toolCallSnapshots[newIndex]?.id || null);
+              }}
+              max={Math.max(0, artifactTabs.length - 1)}
+              step={1}
+              className="flex-1"
+            />
+            <span className="text-xs text-muted-foreground min-w-[3ch]">
+              {internalIndex + 1}
+            </span>
+          </div>
         </div>
       </div>
 
@@ -747,7 +905,91 @@ Created with Helium AI Assistant`;
           <div className="flex-1 overflow-hidden">
             <TabsContent value="artifacts" className="h-full m-0 p-4">
               {currentSnapshot && (
-                <div className="h-full overflow-auto">
+                <div className="h-full overflow-auto space-y-4">
+                  {/* Remote Computer Preview for Web Operations */}
+                  {(currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('browser') || 
+                    currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('web') ||
+                    currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('crawl') ||
+                    currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('scrape')) && (
+                    <Card className="border-2 border-dashed border-blue-200 dark:border-blue-800">
+                      <CardHeader className="pb-3">
+                        <CardTitle className="text-sm flex items-center">
+                          <Computer className="h-4 w-4 mr-2 text-blue-600" />
+                          Remote Computer Preview
+                          <Badge variant="outline" className="ml-auto text-xs">
+                            {currentSnapshot.toolCall.toolResult?.content === 'STREAMING' ? 'Live' : 'Completed'}
+                          </Badge>
+                        </CardTitle>
+                      </CardHeader>
+                      <CardContent>
+                        <div className="relative bg-gray-900 rounded-lg p-4 min-h-[200px]">
+                          {/* Browser Window Mockup */}
+                          <div className="bg-gray-800 rounded-t-lg p-2 mb-2">
+                            <div className="flex items-center space-x-2">
+                              <div className="flex space-x-1">
+                                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                              </div>
+                              <div className="flex-1 bg-gray-700 rounded px-3 py-1 text-xs text-gray-300">
+                                {currentSnapshot.toolCall.assistantCall.content?.match(/https?:\/\/[^\s]+/)?.[0] || 'https://example.com'}
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Browser Content */}
+                          <div className="bg-white rounded-b-lg p-4 min-h-[150px] relative overflow-hidden">
+                            {currentSnapshot.toolCall.toolResult?.content === 'STREAMING' ? (
+                              <div className="flex items-center justify-center h-full">
+                                <div className="text-center">
+                                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600 mx-auto mb-2"></div>
+                                  <p className="text-sm text-gray-600">Navigating and extracting data...</p>
+                                  <div className="mt-2 flex items-center justify-center space-x-2">
+                                    <Radio className="h-4 w-4 text-green-500 animate-pulse" />
+                                    <span className="text-xs text-green-600">Connected</span>
+                                  </div>
+                                </div>
+                              </div>
+                            ) : (
+                              <div className="space-y-2">
+                                <div className="h-4 bg-gray-200 rounded w-3/4"></div>
+                                <div className="h-4 bg-gray-200 rounded w-1/2"></div>
+                                <div className="h-4 bg-gray-200 rounded w-5/6"></div>
+                                <div className="mt-4 grid grid-cols-3 gap-2">
+                                  <div className="h-16 bg-blue-100 rounded"></div>
+                                  <div className="h-16 bg-green-100 rounded"></div>
+                                  <div className="h-16 bg-purple-100 rounded"></div>
+                                </div>
+                                <div className="absolute top-2 right-2">
+                                  <Badge variant="secondary" className="text-xs">
+                                    <CheckCircle className="h-3 w-3 mr-1" />
+                                    Extracted
+                                  </Badge>
+                                </div>
+                              </div>
+                            )}
+                          </div>
+                          
+                          {/* Status Indicator */}
+                          <div className="absolute bottom-2 left-2 flex items-center space-x-2">
+                            <div className={cn(
+                              "w-2 h-2 rounded-full",
+                              currentSnapshot.toolCall.toolResult?.content === 'STREAMING' 
+                                ? "bg-green-500 animate-pulse" 
+                                : "bg-gray-400"
+                            )}></div>
+                            <span className="text-xs text-gray-400">
+                              {currentSnapshot.toolCall.toolResult?.content === 'STREAMING' 
+                                ? "Processing..." 
+                                : "Completed"}
+                            </span>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  )}
+
+                  {/* Main Artifact Content */}
                   <ToolView
                     toolCall={currentSnapshot.toolCall}
                     messages={messages}
