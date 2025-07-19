@@ -129,10 +129,9 @@ export type AgentUpdateRequest = {
 
 export const getAgents = async (params: AgentsParams = {}): Promise<AgentsResponse> => {
   try {
-    const agentPlaygroundEnabled = await isFlagEnabled('custom_agents');
-    if (!agentPlaygroundEnabled) {
-      throw new Error('Custom agents is not enabled');
-    }
+    // Enable custom agents by default for Helium
+    const agentPlaygroundEnabled = true; // Always enabled for Helium
+    
     const supabase = createClient();
     const { data: { session } } = await supabase.auth.getSession();
 
@@ -317,10 +316,9 @@ export const deleteAgent = async (agentId: string): Promise<void> => {
 
 export const getThreadAgent = async (threadId: string): Promise<ThreadAgentResponse> => {
   try {
-    const agentPlaygroundEnabled = await isFlagEnabled('custom_agents');
-    if (!agentPlaygroundEnabled) {
-      throw new Error('Custom agents is not enabled');
-    }
+    // Enable custom agents by default for Helium
+    const agentPlaygroundEnabled = true; // Always enabled for Helium
+    
     const supabase = createClient();
     const { data: { session } } = await supabase.auth.getSession();
 

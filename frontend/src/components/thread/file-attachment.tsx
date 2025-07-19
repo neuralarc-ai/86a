@@ -538,15 +538,23 @@ export function FileAttachment({
                 </div>
             </div>
 
-            {/* Download Button */}
+            {/* Download Button - Fixed: Changed from button to div to avoid nested buttons */}
             <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                <button
+                <div
                     onClick={handleDownload}
-                    className="p-1.5 rounded-md bg-background/80 backdrop-blur-sm border border-border/50 hover:bg-background hover:border-border transition-all duration-200 shadow-sm"
+                    className="p-1.5 rounded-md bg-background/80 backdrop-blur-sm border border-border/50 hover:bg-background hover:border-border transition-all duration-200 shadow-sm cursor-pointer"
                     title={`Download ${filename}`}
+                    role="button"
+                    tabIndex={0}
+                    onKeyDown={(e) => {
+                        if (e.key === 'Enter' || e.key === ' ') {
+                            e.preventDefault();
+                            handleDownload(e as any);
+                        }
+                    }}
                 >
                     <Download className="h-3.5 w-3.5 text-muted-foreground hover:text-foreground transition-colors" />
-                </button>
+                </div>
             </div>
         </button>
     );

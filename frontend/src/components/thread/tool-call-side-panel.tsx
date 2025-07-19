@@ -6,6 +6,7 @@ import React from 'react';
 import { Slider } from '@/components/ui/slider';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ApiMessageType } from '@/components/thread/types';
+import { ManusArtifactImplementation } from './manus-artifact-implementation';
 import { 
   CircleDashed, X, ChevronLeft, ChevronRight, Computer, Radio, Maximize2, 
   Minimize2, Play, RotateCcw, FileText, Image, Globe, BarChart3, BookOpen, 
@@ -111,9 +112,21 @@ interface ArtifactTab {
 }
 
 // Enhanced artifact type mapping with file type detection
-const getArtifactType = (toolName: string, content?: string): ArtifactTab['type'] => {
-  const name = toolName.toLowerCase();
-  const contentLower = content?.toLowerCase() || '';
+const getArtifactType = (toolName: string, content?: string | any): ArtifactTab['type'] => {
+  const name = toolName?.toLowerCase() || '';
+  
+  // Safely handle content - ensure it's a string before calling toLowerCase
+  let contentLower = '';
+  if (typeof content === 'string') {
+    contentLower = content.toLowerCase();
+  } else if (content && typeof content === 'object') {
+    // If content is an object, try to stringify it
+    try {
+      contentLower = JSON.stringify(content).toLowerCase();
+    } catch (e) {
+      contentLower = '';
+    }
+  }
   
   // File type detection based on tool name and content
   if (name.includes('csv') || name.includes('spreadsheet') || contentLower.includes('.csv') || contentLower.includes('comma-separated')) return 'spreadsheet';
@@ -903,38 +916,57 @@ Created with Helium AI Assistant`;
           </TabsList>
 
           <div className="flex-1 overflow-hidden">
-            <TabsContent value="artifacts" className="h-full m-0 p-4">
-              {currentSnapshot && (
-                <div className="h-full overflow-auto space-y-4">
-                  {/* Remote Computer Preview for Web Operations */}
-                  {(currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('browser') || 
-                    currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('web') ||
-                    currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('crawl') ||
-                    currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('scrape')) && (
-                    <Card className="border-2 border-dashed border-blue-200 dark:border-blue-800">
-                      <CardHeader className="pb-3">
-                        <CardTitle className="text-sm flex items-center">
-                          <Computer className="h-4 w-4 mr-2 text-blue-600" />
-                          Remote Computer Preview
-                          <Badge variant="outline" className="ml-auto text-xs">
-                            {currentSnapshot.toolCall.toolResult?.content === 'STREAMING' ? 'Live' : 'Completed'}
-                          </Badge>
-                        </CardTitle>
-                      </CardHeader>
-                      <CardContent>
-                        <div className="relative bg-gray-900 rounded-lg p-4 min-h-[200px]">
-                          {/* Browser Window Mockup */}
-                          <div className="bg-gray-800 rounded-t-lg p-2 mb-2">
-                            <div className="flex items-center space-x-2">
-                              <div className="flex space-x-1">
-                                <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                                <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                                <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                              </div>
-                              <div className="flex-1 bg-gray-700 rounded px-3 py-1 text-xs text-gray-300">
-                                {currentSnapshot.toolCall.assistantCall.content?.match(/https?:\/\/[^\s]+/)?.[0] || 'https://example.com'}
-                              </div>
-                            </div>
+            <TabsContent value="artifacts" className="h-full m-0 p-0">
+              {/* Manus-Style Artifact Implementation */}
+              <ManusArtifactImplementation
+                agentId={agentName || 'helium-agent'}
+                taskPlan={currentSnapshot ? {
+                  goal: `Processing ${getUserFriendlyToolName(currentSnapshot.toolCall.assistantCall.name || 'Tool')}`,
+                  complexity: 'medium' as const,
+                  phases: currentSnapshot.processSteps.map((step, index) => ({
+                    id: index + 1,
+                    title: step.name,
+                    description: step.description || `Execute ${step.name}`,
+                    status: step.status === 'completed' ? 'completed' : 
+                           step.status === 'in-progress' ? 'in_progress' : 
+                           step.status === 'error' ? 'failed' : 'pending',
+                    progress: step.progress || 0,
+                    estimatedTime: step.duration ? `${step.duration}ms` : undefined,
+                    requiredCapabilities: [currentSnapshot.toolCall.assistantCall.name || 'general'],
+                    dependencies: index > 0 ? [index] : [],
+                    successCriteria: [`Complete ${step.name} successfully`]
+                  })),
+                  currentPhase: currentSnapshot.processSteps.findIndex(step => step.status === 'in-progress') + 1 || 1,
+                  status: currentSnapshot.toolCall.toolResult?.content === 'STREAMING' ? 'active' : 'completed',
+                  estimatedTotalDuration: '2-5 minutes',
+                  successMetrics: ['Task completion', 'Quality output', 'Performance metrics'],
+                  createdAt: new Date(currentSnapshot.timestamp),
+                  updatedAt: new Date()
+                } : undefined}
+                files={currentSnapshot ? [{
+                  id: currentSnapshot.id,
+                  name: `${getUserFriendlyToolName(currentSnapshot.toolCall.assistantCall.name || 'output')}.${currentSnapshot.artifactType === 'code' ? 'tsx' : 'txt'}`,
+                  type: currentSnapshot.artifactType as any,
+                  size: currentSnapshot.toolCall.toolResult?.content ? 
+                        `${Math.round(currentSnapshot.toolCall.toolResult.content.length / 1024)}KB` : '0KB',
+                  path: `/artifacts/${currentSnapshot.id}`,
+                  content: currentSnapshot.toolCall.toolResult?.content || currentSnapshot.toolCall.assistantCall.content || '',
+                  lastModified: new Date(currentSnapshot.timestamp),
+                  status: currentSnapshot.toolCall.toolResult?.content === 'STREAMING' ? 'creating' : 'ready'
+                }] : []}
+                isActive={agentStatus === 'running'}
+                onPhaseAdvance={(fromPhase, toPhase) => {
+                  console.log(`Phase advanced from ${fromPhase} to ${toPhase}`);
+                }}
+                onTaskComplete={() => {
+                  console.log('Task completed');
+                }}
+                onInterrupt={() => {
+                  console.log('Agent interrupted');
+                }}
+                className="h-full"
+              />
+            </TabsContent>
                           </div>
                           
                           {/* Browser Content */}
