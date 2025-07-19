@@ -283,7 +283,8 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
     };
 
     return (
-      <div className="mx-auto w-full max-w-4xl">
+      <div className="relative w-full max-w-4xl mx-auto rounded-3xl overflow-hidden glass-input-container">
+        <div className="glass-shine-overlay pointer-events-none"></div>
         <FloatingToolPreview
           toolCalls={toolCalls}
           currentIndex={toolCallIndex}
@@ -293,7 +294,7 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
         />
         
         <Card
-          className={`relative py-0 mb-4 mt-5 shadow-none w-full max-w-4xl mx-auto bg-transparent border-none overflow-hidden min-h-[160px] ${enableAdvancedConfig && selectedAgentId ? '' : 'rounded-3xl'}`}
+          className={`relative py-1 shadow-none w-full max-w-4xl mx-auto !bg-transparent !border-none overflow-hidden min-h-[160px] ${enableAdvancedConfig && selectedAgentId ? '' : 'rounded-3xl'}`}
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={(e) => {
@@ -315,7 +316,7 @@ export const ChatInput = forwardRef<ChatInputHandles, ChatInputProps>(
           }}
         >
           <div className="w-full text-sm flex flex-col justify-between items-start rounded-lg">
-            <CardContent className={`w-full p-2 ${enableAdvancedConfig && selectedAgentId ? 'pb-1' : 'pb-2'} ${bgColor} border ${enableAdvancedConfig && selectedAgentId ? 'rounded-t-3xl' : 'rounded-3xl'} min-h-[160px]`}>
+            <CardContent className={`w-full p-2 ${enableAdvancedConfig && selectedAgentId ? 'pb-1' : 'pb-2'} !bg-transparent !border-none ${enableAdvancedConfig && selectedAgentId ? 'rounded-t-3xl' : 'rounded-3xl'} min-h-[160px]`}>
             <BorderBeam duration={6} initialOffset={10} size={1600} borderWidth={2} className="from-[#FF522A] via-transparent to-[#7878CE]" />
             {/* <BorderBeam duration={8} size={800} className="from-[#FFD160] via-[#FFD160] to-[#EE2F82]" /> */}
               <AttachmentGroup

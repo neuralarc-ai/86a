@@ -701,3 +701,25 @@
 }
 
 /* To use a different weight, override font-weight in a custom class or inline style. */
+.glass-input-container {
+  --inner-shadow: inset 2px 4px 8px 0 rgba(0, 0, 0, 0.10);
+  --glass-bg: #00000030;
+  --glass-blur: 16px;
+  position: relative;
+  width: 100%;
+  max-width: 72rem;
+  margin: 1.25rem auto;
+  border-radius: 1.5rem;
+  min-height: 10rem;
+  backdrop-filter: blur(var(--glass-blur));
+  background: var(--glass-bg);
+  box-shadow: var(--inner-shadow);
+  overflow: hidden;
+}
+.glass-shine-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.081) 0%, rgba(255,255,255,0) 60%);
+  mix-blend-mode: overlay;
+}

@@ -74,6 +74,7 @@ export const BorderBeam = ({
         className={cn(
           "absolute aspect-square",
           "bg-gradient-to-l from-[var(--color-from)] via-[var(--color-to)] to-transparent",
+          "blur-sm opacity-80",
           className,
         )}
         style={
