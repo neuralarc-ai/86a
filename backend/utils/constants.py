@@ -1,5 +1,6 @@
 MODEL_ACCESS_TIERS = {
     "free": [
+        "helio-l1-70b",  # Custom Helio L1 legal model - highest priority
         "helio",  # Custom Helio business model
         "openrouter/deepseek/deepseek-chat",
         "openrouter/qwen/qwen3-235b-a22b",
@@ -145,6 +146,7 @@ MODEL_ACCESS_TIERS = {
 }
 MODEL_NAME_ALIASES = {
     # Short names to full names
+    "helio-l1": "helio-l1-70b",  # Custom Helio L1 legal model
     "helio": "helio",  # Custom Helio business model
     "sonnet-3.7": "anthropic/claude-3-7-sonnet-latest",
     "sonnet-3.5": "anthropic/claude-3-5-sonnet-latest",

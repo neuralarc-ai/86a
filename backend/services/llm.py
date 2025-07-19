@@ -19,7 +19,7 @@ import litellm
 from utils.logger import logger
 from utils.config import config
 
-# Import Helio provider
+# Import Helio providers
 try:
     from services.helio_provider import helio_provider
     HELIO_AVAILABLE = True
@@ -27,6 +27,14 @@ try:
 except ImportError as e:
     HELIO_AVAILABLE = False
     logger.warning(f"Helio provider not available: {e}")
+
+try:
+    from services.helio_l1_provider import helio_l1_provider
+    HELIO_L1_AVAILABLE = True
+    logger.info("Helio L1 provider loaded successfully")
+except ImportError as e:
+    HELIO_L1_AVAILABLE = False
+    logger.warning(f"Helio L1 provider not available: {e}")
 
 # litellm.set_verbose=True
 litellm.modify_params=True
@@ -259,6 +267,45 @@ async def make_llm_api_call(
     # debug <timestamp>.json messages
     logger.info(f"Making LLM API call to model: {model_name} (Thinking: {enable_thinking}, Effort: {reasoning_effort})")
     logger.info(f"📡 API Call: Using model {model_name}")
+    
+    # Check if this is a Helio L1 model request
+    if model_name.startswith("helio-l1") or model_name == "helio-l1":
+        if HELIO_L1_AVAILABLE:
+            logger.info(f"⚖️ Using Helio L1 provider for legal model: {model_name}")
+            try:
+                return await helio_l1_provider.generate(
+                    messages=messages,
+                    temperature=temperature,
+                    max_tokens=max_tokens or 2048,
+                    stream=stream
+                )
+            except Exception as e:
+                logger.error(f"Helio L1 provider error: {e}")
+                # Fallback to error response
+                return {
+                    "choices": [{
+                        "message": {
+                            "role": "assistant",
+                            "content": "I apologize, but the Helio L1 legal model is currently unavailable. Please try again later."
+                        },
+                        "finish_reason": "stop"
+                    }],
+                    "usage": {"prompt_tokens": 0, "completion_tokens": 20, "total_tokens": 20},
+                    "model": "helio-l1-70b"
+                }
+        else:
+            logger.warning(f"Helio L1 model requested but provider not available: {model_name}")
+            return {
+                "choices": [{
+                    "message": {
+                        "role": "assistant",
+                        "content": "The Helio L1 legal model is not currently available. Please select a different model."
+                    },
+                    "finish_reason": "stop"
+                }],
+                "usage": {"prompt_tokens": 0, "completion_tokens": 15, "total_tokens": 15},
+                "model": "helio-l1-unavailable"
+            }
     
     # Check if this is a Helio model request
     if model_name.startswith("helio/") or model_name == "helio":

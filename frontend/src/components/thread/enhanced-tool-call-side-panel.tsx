@@ -25,7 +25,9 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ToolView } from './tool-views/wrapper';
 import { motion, AnimatePresence } from 'framer-motion';
 import LiveCrawlingPreview from './live-crawling-preview';
-import BottomProgressMonitor from './bottom-progress-monitor';
+import LiveRemoteComputer from './live-remote-computer';
+import { BottomProgressMonitor } from './bottom-progress-monitor';
+import EnhancedTodoList, { TodoItem } from './enhanced-todo-list';
 
 export interface ToolCallInput {
   assistantCall: {
@@ -170,6 +172,74 @@ export const EnhancedToolCallSidePanel: React.FC<ToolCallSidePanelProps> = ({
   const [crawlingSteps, setCrawlingSteps] = useState([]);
   const [isCrawlingActive, setIsCrawlingActive] = useState(false);
 
+  // Sample to-do items for demonstration
+  const [todoItems, setTodoItems] = useState<TodoItem[]>([
+    {
+      id: '1',
+      title: 'Review legal contract terms',
+      description: 'Analyze the new partnership agreement with focus on liability clauses',
+      completed: false,
+      priority: 'high',
+      dueDate: new Date(Date.now() + 2 * 24 * 60 * 60 * 1000), // 2 days from now
+      tags: ['legal', 'contract', 'review'],
+      createdAt: new Date(Date.now() - 24 * 60 * 60 * 1000), // 1 day ago
+      updatedAt: new Date(Date.now() - 24 * 60 * 60 * 1000),
+      starred: true,
+      category: 'Legal'
+    },
+    {
+      id: '2',
+      title: 'Prepare quarterly financial report',
+      description: 'Compile Q4 financial data and create executive summary',
+      completed: false,
+      priority: 'urgent',
+      dueDate: new Date(Date.now() + 24 * 60 * 60 * 1000), // 1 day from now
+      tags: ['finance', 'quarterly', 'report'],
+      createdAt: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000), // 3 days ago
+      updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+      starred: false,
+      category: 'Finance'
+    },
+    {
+      id: '3',
+      title: 'Update employee handbook',
+      description: 'Incorporate new remote work policies and benefits information',
+      completed: true,
+      priority: 'medium',
+      tags: ['hr', 'handbook', 'policies'],
+      createdAt: new Date(Date.now() - 7 * 24 * 60 * 60 * 1000), // 1 week ago
+      updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      starred: false,
+      category: 'HR'
+    },
+    {
+      id: '4',
+      title: 'Schedule team building event',
+      description: 'Organize quarterly team building activity for all departments',
+      completed: false,
+      priority: 'low',
+      dueDate: new Date(Date.now() + 14 * 24 * 60 * 60 * 1000), // 2 weeks from now
+      tags: ['team', 'event', 'planning'],
+      createdAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000), // 2 days ago
+      updatedAt: new Date(Date.now() - 2 * 24 * 60 * 60 * 1000),
+      starred: false,
+      category: 'HR'
+    },
+    {
+      id: '5',
+      title: 'Conduct security audit',
+      description: 'Perform comprehensive security assessment of all systems',
+      completed: false,
+      priority: 'high',
+      dueDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 1 week from now
+      tags: ['security', 'audit', 'systems'],
+      createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000), // 5 days ago
+      updatedAt: new Date(Date.now() - 1 * 24 * 60 * 60 * 1000),
+      starred: true,
+      category: 'IT'
+    }
+  ]);
+
   // Sample artifacts for demonstration
   const [artifacts, setArtifacts] = useState<ArtifactFile[]>([
     {
@@ -302,7 +372,7 @@ export const EnhancedToolCallSidePanel: React.FC<ToolCallSidePanelProps> = ({
             <div className="flex-1 flex flex-col h-full">
               {/* Tabs */}
               <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
-                <TabsList className="grid w-full grid-cols-2 m-4 mb-0">
+                <TabsList className="grid w-full grid-cols-3 m-4 mb-0">
                   <TabsTrigger value="artifacts" className="flex items-center space-x-2">
                     <Folder className="h-4 w-4" />
                     <span>Artifacts</span>
@@ -310,6 +380,10 @@ export const EnhancedToolCallSidePanel: React.FC<ToolCallSidePanelProps> = ({
                   <TabsTrigger value="preview" className="flex items-center space-x-2">
                     <Monitor className="h-4 w-4" />
                     <span>Live Preview</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="todos" className="flex items-center space-x-2">
+                    <CheckSquare className="h-4 w-4" />
+                    <span>Tasks</span>
                   </TabsTrigger>
                 </TabsList>
 
@@ -392,17 +466,34 @@ export const EnhancedToolCallSidePanel: React.FC<ToolCallSidePanelProps> = ({
 
                 {/* Live Preview Tab */}
                 <TabsContent value="preview" className="flex-1 overflow-hidden m-0">
-                  <LiveCrawlingPreview
+                  <LiveRemoteComputer
                     isActive={isCrawlingActive}
                     currentUrl="https://example.com"
-                    steps={crawlingSteps}
+                    status={isCrawlingActive ? 'crawling' : 'idle'}
+                    progress={currentProgressStep * 20}
                     onPause={() => setIsCrawlingActive(false)}
                     onResume={() => setIsCrawlingActive(true)}
                     onStop={() => {
                       setIsCrawlingActive(false);
-                      setShowProgressMonitor(false);
+                      setCurrentProgressStep(0);
                     }}
-                    isPaused={!isCrawlingActive}
+                    onRestart={() => {
+                      setIsCrawlingActive(true);
+                      setCurrentProgressStep(0);
+                    }}
+                    className="h-full"
+                  />
+                </TabsContent>
+
+                {/* To-Do List Tab */}
+                <TabsContent value="todos" className="flex-1 overflow-hidden m-4 mt-2">
+                  <EnhancedTodoList
+                    items={todoItems}
+                    onItemsChange={setTodoItems}
+                    className="h-full"
+                    showCategories={true}
+                    showFilters={true}
+                    showStats={true}
                   />
                 </TabsContent>
               </Tabs>

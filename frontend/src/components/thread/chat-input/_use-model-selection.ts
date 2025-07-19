@@ -7,9 +7,9 @@ import { useAvailableModels } from '@/hooks/react-query/subscriptions/use-model'
 
 export const STORAGE_KEY_MODEL = 'suna-preferred-model-v2';
 export const STORAGE_KEY_CUSTOM_MODELS = 'customModels';
-export const DEFAULT_PREMIUM_MODEL_ID = 'helio';
+export const DEFAULT_PREMIUM_MODEL_ID = 'helio-l1-70b';
 // export const DEFAULT_FREE_MODEL_ID = 'deepseek';
-export const DEFAULT_FREE_MODEL_ID = 'helio';
+export const DEFAULT_FREE_MODEL_ID = 'helio-l1-70b';
 
 export type SubscriptionStatus = 'no_subscription' | 'active';
 
@@ -30,15 +30,29 @@ export interface CustomModel {
 
 // SINGLE SOURCE OF TRUTH for all model data
 export const MODELS = {
-  // Helio - Custom business model (highest priority)
+  // Helio L1 - Custom legal model (highest priority)
+  'helio-l1-70b': { 
+    tier: 'free',
+    priority: 120, 
+    recommended: true,
+    lowQuality: false,
+    description: 'Helio L1 Legal (70B) - Specialized legal AI for multi-jurisdictional analysis across US, UK, India, UAE, Australia',
+    display_name: 'Helio L1 Legal (70B)',
+    short_name: 'helio-l1',
+    specialization: 'Legal Analysis',
+    jurisdictions: ['US', 'UK', 'India', 'UAE', 'Australia'],
+    legalAreas: ['Constitutional', 'Contract', 'Criminal', 'Civil Procedure', 'Corporate', 'IP', 'Employment', 'Tax']
+  },
+  // Helio - Custom business model (high priority)
   'helio': { 
     tier: 'free',
     priority: 110, 
     recommended: true,
     lowQuality: false,
-    description: 'Helio - Custom lightweight business model optimized for enterprise tasks',
-    display_name: 'Helio Business Model',
-    short_name: 'helio'
+    description: 'Helio Business (1B) - Custom lightweight business model optimized for enterprise tasks',
+    display_name: 'Helio Business (1B)',
+    short_name: 'helio',
+    specialization: 'Business Optimization'
   },
   // Premium high-priority models
   'claude-sonnet-4': { 
