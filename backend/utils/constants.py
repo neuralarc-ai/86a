@@ -1,5 +1,6 @@
 MODEL_ACCESS_TIERS = {
     "free": [
+        "helio",  # Custom Helio business model
         "openrouter/deepseek/deepseek-chat",
         "openrouter/qwen/qwen3-235b-a22b",
         "openrouter/google/gemini-2.5-flash-preview-05-20",
@@ -144,6 +145,7 @@ MODEL_ACCESS_TIERS = {
 }
 MODEL_NAME_ALIASES = {
     # Short names to full names
+    "helio": "helio",  # Custom Helio business model
     "sonnet-3.7": "anthropic/claude-3-7-sonnet-latest",
     "sonnet-3.5": "anthropic/claude-3-5-sonnet-latest",
     "haiku-3.5": "anthropic/claude-3-5-haiku-latest",
