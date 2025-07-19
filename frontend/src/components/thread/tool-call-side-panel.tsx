@@ -499,105 +499,195 @@ export function ToolCallSidePanel({
           <div className="flex-1 overflow-hidden">
             {currentSnapshot && (
               <div className="h-full overflow-auto">
-                {/* Live Preview for Web Operations */}
+                {/* Enhanced Live Web Operations Preview */}
                 {(currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('browser') || 
                   currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('web') ||
                   currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('crawl') ||
                   currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('scrape')) && 
                   currentSnapshot.toolCall.toolResult?.content === 'STREAMING' && (
-                  <div className="h-full bg-gray-900 p-4">
+                  <div className="h-full relative overflow-hidden">
+                    {/* Glassmorphism Background */}
+                    <div className="absolute inset-0 bg-gradient-to-br from-blue-500/10 via-purple-500/5 to-pink-500/10"></div>
+                    <div className="absolute inset-0 backdrop-blur-xl bg-black/20 border border-white/10"></div>
+                    
                     {/* Live Screen Scraping Preview */}
-                    <div className="bg-white rounded-lg h-full relative overflow-hidden">
-                      {/* Browser Window Header */}
-                      <div className="bg-gray-200 p-2 flex items-center gap-2 border-b">
-                        <div className="flex gap-1">
-                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
-                          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
-                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                        </div>
-                        <div className="flex-1 bg-white rounded px-3 py-1 text-sm text-gray-700">
-                          {currentSnapshot.toolCall.assistantCall.content?.match(/https?:\/\/[^\s]+/)?.[0] || 'https://example.com'}
-                        </div>
-                      </div>
-                      
-                      {/* Live Scraping Content */}
-                      <div className="p-4 h-full relative">
-                        {/* Animated Mouse Cursor */}
-                        <div 
-                          className="absolute w-4 h-4 pointer-events-none z-50 transition-all duration-1000 ease-in-out"
-                          style={{
-                            left: `${20 + (Date.now() / 50) % 60}%`,
-                            top: `${30 + Math.sin(Date.now() / 1000) * 20}%`,
-                            transform: 'rotate(-15deg)'
-                          }}
-                        >
-                          <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-black">
-                            <path d="M13.64 21.97c-.16-.3-.26-.64-.26-1.02V11.31l6.05 5.79c.75.71.75 1.91 0 2.62l-5.79 5.79c-.71.75-1.91.75-2.62 0l-5.79-5.79c-.75-.71-.75-1.91 0-2.62L11.31 10.95H2.05c-.38 0-.72-.1-1.02-.26C.4 10.5 0 9.97 0 9.36V2.64C0 1.18 1.18 0 2.64 0h6.72c.61 0 1.14.4 1.33 1.03.16.3.26.64.26 1.02v8.64l5.79-5.79c.71-.75 1.91-.75 2.62 0l5.79 5.79c.75.71.75 1.91 0 2.62l-5.79 5.79z"/>
-                          </svg>
+                    <div className="relative z-10 bg-gray-900/80 backdrop-blur-sm p-4 h-full">
+                      <div className="bg-white/10 backdrop-blur-sm rounded-lg h-full relative overflow-hidden border border-white/20 shadow-2xl">
+                        {/* Enhanced Browser Window Header */}
+                        <div className="bg-gray-800/90 backdrop-blur-sm p-3 flex items-center gap-2 border-b border-white/10">
+                          <div className="flex gap-1">
+                            <div className="w-3 h-3 bg-red-500 rounded-full shadow-lg animate-pulse"></div>
+                            <div className="w-3 h-3 bg-yellow-500 rounded-full shadow-lg animate-pulse"></div>
+                            <div className="w-3 h-3 bg-green-500 rounded-full shadow-lg animate-pulse"></div>
+                          </div>
+                          <div className="flex-1 bg-gray-700/50 backdrop-blur-sm rounded px-3 py-1 text-sm text-white/90 border border-white/10">
+                            <div className="flex items-center gap-2">
+                              <Globe className="w-4 h-4 text-green-400" />
+                              {currentSnapshot.toolCall.assistantCall.content?.match(/https?:\/\/[^\s]+/)?.[0] || 'https://example.com'}
+                            </div>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <div className="flex items-center gap-1 text-xs text-green-400">
+                              <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                              Live
+                            </div>
+                          </div>
                         </div>
                         
-                        {/* Simulated Page Content with Highlighting */}
-                        <div className="space-y-4">
-                          <div className="h-8 bg-blue-100 rounded animate-pulse"></div>
-                          <div className="grid grid-cols-3 gap-4">
-                            <div className="h-20 bg-gray-100 rounded relative">
-                              <div 
-                                className="absolute inset-0 bg-yellow-200 opacity-50 rounded transition-opacity duration-500"
-                                style={{ opacity: Math.sin(Date.now() / 800) > 0 ? 0.5 : 0 }}
-                              ></div>
-                            </div>
-                            <div className="h-20 bg-gray-100 rounded relative">
-                              <div 
-                                className="absolute inset-0 bg-green-200 opacity-50 rounded transition-opacity duration-700"
-                                style={{ opacity: Math.sin(Date.now() / 1200) > 0 ? 0.5 : 0 }}
-                              ></div>
-                            </div>
-                            <div className="h-20 bg-gray-100 rounded"></div>
+                        {/* Enhanced Live Scraping Content */}
+                        <div className="p-4 h-full relative bg-white/5 backdrop-blur-sm">
+                          {/* Realistic Animated Mouse Cursor */}
+                          <div 
+                            className="absolute w-5 h-5 pointer-events-none z-50 transition-all duration-1000 ease-in-out drop-shadow-lg"
+                            style={{
+                              left: `${20 + (Date.now() / 50) % 60}%`,
+                              top: `${30 + Math.sin(Date.now() / 1000) * 20}%`,
+                              transform: 'rotate(-15deg)'
+                            }}
+                          >
+                            <svg viewBox="0 0 24 24" fill="currentColor" className="w-5 h-5 text-white drop-shadow-lg">
+                              <path d="M13.64 21.97c-.16-.3-.26-.64-.26-1.02V11.31l6.05 5.79c.75.71.75 1.91 0 2.62l-5.79 5.79c-.71.75-1.91.75-2.62 0l-5.79-5.79c-.75-.71-.75-1.91 0-2.62L11.31 10.95H2.05c-.38 0-.72-.1-1.02-.26C.4 10.5 0 9.97 0 9.36V2.64C0 1.18 1.18 0 2.64 0h6.72c.61 0 1.14.4 1.33 1.03.16.3.26.64.26 1.02v8.64l5.79-5.79c.71-.75 1.91-.75 2.62 0l5.79 5.79c.75.71.75 1.91 0 2.62l-5.79 5.79z"/>
+                            </svg>
+                            {/* Click ripple effect */}
+                            <div className="absolute inset-0 bg-blue-400 rounded-full animate-ping opacity-30" style={{
+                              display: Math.sin(Date.now() / 500) > 0.8 ? 'block' : 'none'
+                            }}></div>
                           </div>
                           
-                          {/* Text Content with Progressive Highlighting */}
-                          <div className="space-y-2">
-                            {[1, 2, 3, 4, 5].map((line, index) => (
-                              <div key={line} className="h-4 bg-gray-100 rounded relative overflow-hidden">
+                          {/* Simulated Page Content with Enhanced Highlighting */}
+                          <div className="space-y-4">
+                            <div className="h-8 bg-white/20 backdrop-blur-sm rounded animate-pulse border border-white/10 shadow-lg"></div>
+                            <div className="grid grid-cols-3 gap-4">
+                              {[1, 2, 3].map((item, index) => (
+                                <div key={item} className="h-20 bg-white/10 backdrop-blur-sm rounded relative border border-white/10 shadow-lg">
+                                  <div 
+                                    className="absolute inset-0 bg-gradient-to-r from-yellow-400/30 to-orange-400/30 rounded transition-opacity duration-500 backdrop-blur-sm"
+                                    style={{ opacity: Math.sin(Date.now() / (800 + index * 200)) > 0 ? 0.7 : 0 }}
+                                  ></div>
+                                  {/* Scanning line effect */}
+                                  <div 
+                                    className="absolute top-0 left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-blue-400 to-transparent animate-pulse"
+                                    style={{ 
+                                      top: `${((Date.now() / 50) % 100)}%`,
+                                      opacity: Math.sin(Date.now() / 1000) > 0 ? 1 : 0
+                                    }}
+                                  ></div>
+                                </div>
+                              ))}
+                            </div>
+                            
+                            {/* Enhanced Text Content with Progressive Highlighting */}
+                            <div className="space-y-2">
+                              {[1, 2, 3, 4, 5].map((line, index) => (
+                                <div key={line} className="h-4 bg-white/10 backdrop-blur-sm rounded relative overflow-hidden border border-white/10 shadow-sm">
+                                  <div 
+                                    className="absolute left-0 top-0 h-full bg-gradient-to-r from-blue-400/40 to-purple-400/40 transition-all duration-2000 ease-in-out backdrop-blur-sm"
+                                    style={{ 
+                                      width: `${Math.min(100, Math.max(0, ((Date.now() / 100) % 500) - (index * 100)))}%` 
+                                    }}
+                                  ></div>
+                                  {/* Text extraction indicator */}
+                                  <div className="absolute right-2 top-1/2 transform -translate-y-1/2">
+                                    {Math.min(100, Math.max(0, ((Date.now() / 100) % 500) - (index * 100))) > 90 && (
+                                      <CheckCircle className="w-3 h-3 text-green-400 animate-pulse" />
+                                    )}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                            
+                            {/* Enhanced Data Extraction Indicators */}
+                            <div className="grid grid-cols-2 gap-4 mt-6">
+                              <div className="border-2 border-dashed border-blue-400/50 backdrop-blur-sm p-3 rounded bg-blue-500/10">
+                                <div className="text-xs text-blue-400 font-medium mb-2 flex items-center gap-2">
+                                  <Download className="w-3 h-3 animate-bounce" />
+                                  Extracting Links
+                                </div>
+                                <div className="space-y-1">
+                                  {[1, 2, 3].map(item => (
+                                    <div key={item} className="h-2 bg-blue-400/30 backdrop-blur-sm rounded animate-pulse border border-blue-400/20"></div>
+                                  ))}
+                                </div>
+                                <div className="text-xs text-blue-300 mt-2">
+                                  {Math.floor(Date.now() / 1000) % 10 + 15} links found
+                                </div>
+                              </div>
+                              <div className="border-2 border-dashed border-green-400/50 backdrop-blur-sm p-3 rounded bg-green-500/10">
+                                <div className="text-xs text-green-400 font-medium mb-2 flex items-center gap-2">
+                                  <FileText className="w-3 h-3 animate-bounce" />
+                                  Extracting Text
+                                </div>
+                                <div className="space-y-1">
+                                  {[1, 2, 3].map(item => (
+                                    <div key={item} className="h-2 bg-green-400/30 backdrop-blur-sm rounded animate-pulse border border-green-400/20"></div>
+                                  ))}
+                                </div>
+                                <div className="text-xs text-green-300 mt-2">
+                                  {Math.floor(Date.now() / 800) % 50 + 120} words extracted
+                                </div>
+                              </div>
+                            </div>
+                            
+                            {/* Real-time Activity Feed */}
+                            <div className="mt-6 bg-black/30 backdrop-blur-sm rounded-lg p-3 border border-white/10">
+                              <div className="text-xs text-white/80 font-medium mb-2 flex items-center gap-2">
+                                <Activity className="w-3 h-3 text-blue-400" />
+                                Live Activity
+                              </div>
+                              <div className="space-y-1 max-h-20 overflow-y-auto">
+                                {[
+                                  'Analyzing page structure...',
+                                  'Extracting metadata...',
+                                  'Processing images...',
+                                  'Collecting form data...',
+                                  'Scanning for links...'
+                                ].map((activity, index) => (
+                                  <div 
+                                    key={activity}
+                                    className="text-xs text-white/60 flex items-center gap-2"
+                                    style={{
+                                      opacity: ((Date.now() / 2000) % 5) === index ? 1 : 0.3
+                                    }}
+                                  >
+                                    <div className="w-1 h-1 bg-green-400 rounded-full animate-pulse"></div>
+                                    {activity}
+                                  </div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                          
+                          {/* Enhanced Crawling Status Overlay */}
+                          <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm text-white px-4 py-3 rounded-lg border border-white/20 shadow-2xl">
+                            <div className="flex items-center gap-3">
+                              <div className="w-3 h-3 bg-green-400 rounded-full animate-pulse shadow-lg"></div>
+                              <div>
+                                <div className="text-sm font-medium">Live Crawling</div>
+                                <div className="text-xs text-gray-300 mt-1">
+                                  Step {Math.floor(Date.now() / 2000) % 5 + 1} of 5
+                                </div>
+                              </div>
+                            </div>
+                            <div className="mt-2 flex items-center gap-2 text-xs text-gray-400">
+                              <Clock className="w-3 h-3" />
+                              {Math.floor(Date.now() / 1000) % 60}s elapsed
+                            </div>
+                          </div>
+                          
+                          {/* Progress indicator at bottom */}
+                          <div className="absolute bottom-4 left-4 right-4">
+                            <div className="bg-black/40 backdrop-blur-sm rounded-lg p-2 border border-white/10">
+                              <div className="flex items-center justify-between text-xs text-white/80 mb-1">
+                                <span>Progress</span>
+                                <span>{Math.floor(((Date.now() / 100) % 500) / 5)}%</span>
+                              </div>
+                              <div className="w-full bg-white/10 rounded-full h-1">
                                 <div 
-                                  className="absolute left-0 top-0 h-full bg-blue-200 transition-all duration-2000 ease-in-out"
-                                  style={{ 
-                                    width: `${Math.min(100, Math.max(0, ((Date.now() / 100) % 500) - (index * 100)))}%` 
-                                  }}
+                                  className="bg-gradient-to-r from-blue-400 to-green-400 h-1 rounded-full transition-all duration-300"
+                                  style={{ width: `${Math.floor(((Date.now() / 100) % 500) / 5)}%` }}
                                 ></div>
                               </div>
-                            ))}
-                          </div>
-                          
-                          {/* Data Extraction Indicators */}
-                          <div className="grid grid-cols-2 gap-4 mt-6">
-                            <div className="border-2 border-dashed border-blue-300 p-3 rounded">
-                              <div className="text-xs text-blue-600 font-medium mb-2">Extracting Links</div>
-                              <div className="space-y-1">
-                                {[1, 2, 3].map(item => (
-                                  <div key={item} className="h-2 bg-blue-100 rounded animate-pulse"></div>
-                                ))}
-                              </div>
                             </div>
-                            <div className="border-2 border-dashed border-green-300 p-3 rounded">
-                              <div className="text-xs text-green-600 font-medium mb-2">Extracting Text</div>
-                              <div className="space-y-1">
-                                {[1, 2, 3].map(item => (
-                                  <div key={item} className="h-2 bg-green-100 rounded animate-pulse"></div>
-                                ))}
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        
-                        {/* Crawling Status Overlay */}
-                        <div className="absolute top-4 right-4 bg-black bg-opacity-75 text-white px-3 py-2 rounded-lg">
-                          <div className="flex items-center gap-2">
-                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
-                            <span className="text-sm">Live Crawling</span>
-                          </div>
-                          <div className="text-xs text-gray-300 mt-1">
-                            Step {Math.floor(Date.now() / 2000) % 5 + 1} of 5
                           </div>
                         </div>
                       </div>
