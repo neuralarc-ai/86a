@@ -27,6 +27,7 @@ import sys
 from services import email_api
 from triggers import api as triggers_api
 from triggers import unified_oauth_api
+import artifacts_api
 
 
 load_dotenv()
@@ -184,6 +185,9 @@ api_router.include_router(unified_oauth_api.router)
 
 from pipedream import api as pipedream_api
 api_router.include_router(pipedream_api.router)
+
+# Include artifacts API
+api_router.include_router(artifacts_api.router)
 
 @api_router.get("/health")
 async def health_check():

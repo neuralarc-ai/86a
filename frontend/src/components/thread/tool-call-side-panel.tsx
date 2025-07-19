@@ -24,6 +24,7 @@ import { Progress } from '@/components/ui/progress';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { ToolView } from './tool-views/wrapper/ToolViewRegistry';
 import { motion, AnimatePresence } from 'framer-motion';
+import ArtifactIntegration from './artifact-integration';
 
 export interface ToolCallInput {
   assistantCall: {
@@ -610,15 +611,28 @@ export function ToolCallSidePanel({
                    currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('crawl') ||
                    currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('scrape')) ||
                  currentSnapshot.toolCall.toolResult?.content !== 'STREAMING' ? (
-                  <ToolView
-                    name={currentSnapshot.toolCall.assistantCall.name || 'generic-tool'}
-                    assistantContent={currentSnapshot.toolCall.assistantCall.content}
-                    toolContent={currentSnapshot.toolCall.toolResult?.content}
-                    assistantTimestamp={currentSnapshot.toolCall.assistantCall.timestamp}
-                    toolTimestamp={currentSnapshot.timestamp}
-                    isSuccess={!currentSnapshot.toolCall.toolResult?.error}
-                    isStreaming={currentSnapshot.toolCall.toolResult?.content === 'STREAMING'}
-                  />
+                  <div className="space-y-4">
+                    <ToolView
+                      name={currentSnapshot.toolCall.assistantCall.name || 'generic-tool'}
+                      assistantContent={currentSnapshot.toolCall.assistantCall.content}
+                      toolContent={currentSnapshot.toolCall.toolResult?.content}
+                      assistantTimestamp={currentSnapshot.toolCall.assistantCall.timestamp}
+                      toolTimestamp={currentSnapshot.timestamp}
+                      isSuccess={!currentSnapshot.toolCall.toolResult?.error}
+                      isStreaming={currentSnapshot.toolCall.toolResult?.content === 'STREAMING'}
+                    />
+                    
+                    {/* Artifact Integration */}
+                    <div className="px-4">
+                      <ArtifactIntegration
+                        toolName={currentSnapshot.toolCall.assistantCall.name || 'Tool'}
+                        toolContent={currentSnapshot.toolCall.toolResult?.content}
+                        assistantContent={currentSnapshot.toolCall.assistantCall.content}
+                        isStreaming={currentSnapshot.toolCall.toolResult?.content === 'STREAMING'}
+                        isSuccess={!currentSnapshot.toolCall.toolResult?.error}
+                      />
+                    </div>
+                  </div>
                 ) : null}
               </div>
             )}
