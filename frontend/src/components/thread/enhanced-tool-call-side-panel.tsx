@@ -2,7 +2,7 @@
 
 import { Project } from '@/lib/api';
 import { getToolIcon, getUserFriendlyToolName } from '@/components/thread/utils';
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Slider } from '@/components/ui/slider';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ApiMessageType } from '@/components/thread/types';
@@ -11,7 +11,9 @@ import {
   Minimize2, Play, RotateCcw, FileText, Image, Globe, BarChart3, BookOpen, 
   Plus, CheckCircle, Clock, AlertCircle, PlayCircle, PauseCircle, 
   Activity, Zap, Target, TrendingUp, Brain, Layers, Settings, Monitor,
-  List, CheckSquare, Square, ArrowRight, Timer, Gauge
+  List, CheckSquare, Square, ArrowRight, Timer, Gauge, Download, Share2,
+  Copy, Eye, File, FileSpreadsheet, Presentation, Video, Music, Archive,
+  Database, Code, Folder
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { useIsMobile } from '@/hooks/use-mobile';
@@ -22,6 +24,8 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { ToolView } from './tool-views/wrapper';
 import { motion, AnimatePresence } from 'framer-motion';
+import LiveCrawlingPreview from './live-crawling-preview';
+import BottomProgressMonitor from './bottom-progress-monitor';
 
 export interface ToolCallInput {
   assistantCall: {
@@ -47,7 +51,392 @@ interface ToolCallSidePanelProps {
   messages?: ApiMessageType[];
   agentStatus: string;
   project?: Project;
-  renderAssistantMessage?: (
+  renderAssistantMessage?: (message: ApiMessageType) => React.ReactNode;
+}
+
+interface ArtifactFile {
+  id: string;
+  name: string;
+  type: 'document' | 'image' | 'webpage' | 'visualization' | 'playbook' | 'spreadsheet' | 'presentation' | 'video' | 'audio' | 'archive' | 'database' | 'code';
+  size?: string;
+  url?: string;
+  content?: string;
+  preview?: string;
+  downloadUrl?: string;
+}
+
+const getFileIcon = (type: string) => {
+  switch (type) {
+    case 'document':
+      return <FileText className="h-5 w-5 text-blue-600" />;
+    case 'image':
+      return <Image className="h-5 w-5 text-orange-600" />;
+    case 'webpage':
+      return <Globe className="h-5 w-5 text-pink-600" />;
+    case 'visualization':
+      return <BarChart3 className="h-5 w-5 text-purple-600" />;
+    case 'playbook':
+      return <BookOpen className="h-5 w-5 text-green-600" />;
+    case 'spreadsheet':
+      return <FileSpreadsheet className="h-5 w-5 text-emerald-600" />;
+    case 'presentation':
+      return <Presentation className="h-5 w-5 text-red-600" />;
+    case 'video':
+      return <Video className="h-5 w-5 text-indigo-600" />;
+    case 'audio':
+      return <Music className="h-5 w-5 text-yellow-600" />;
+    case 'archive':
+      return <Archive className="h-5 w-5 text-slate-600" />;
+    case 'database':
+      return <Database className="h-5 w-5 text-cyan-600" />;
+    case 'code':
+      return <Code className="h-5 w-5 text-gray-600" />;
+    default:
+      return <File className="h-5 w-5 text-gray-600" />;
+  }
+};
+
+const getFileTypeFromName = (filename: string): ArtifactFile['type'] => {
+  const ext = filename.toLowerCase().split('.').pop();
+  switch (ext) {
+    case 'pdf':
+    case 'doc':
+    case 'docx':
+    case 'txt':
+    case 'md':
+      return 'document';
+    case 'jpg':
+    case 'jpeg':
+    case 'png':
+    case 'gif':
+    case 'svg':
+      return 'image';
+    case 'html':
+    case 'htm':
+      return 'webpage';
+    case 'csv':
+    case 'xlsx':
+    case 'xls':
+      return 'spreadsheet';
+    case 'ppt':
+    case 'pptx':
+      return 'presentation';
+    case 'mp4':
+    case 'avi':
+    case 'mov':
+      return 'video';
+    case 'mp3':
+    case 'wav':
+    case 'flac':
+      return 'audio';
+    case 'zip':
+    case 'tar':
+    case 'gz':
+      return 'archive';
+    case 'sql':
+    case 'db':
+    case 'sqlite':
+      return 'database';
+    case 'js':
+    case 'ts':
+    case 'py':
+    case 'java':
+    case 'cpp':
+      return 'code';
+    default:
+      return 'document';
+  }
+};
+
+export const EnhancedToolCallSidePanel: React.FC<ToolCallSidePanelProps> = ({
+  isOpen,
+  onClose,
+  toolCalls,
+  currentIndex,
+  onNavigate,
+  externalNavigateToIndex,
+  messages = [],
+  agentStatus,
+  project,
+  renderAssistantMessage
+}) => {
+  const isMobile = useIsMobile();
+  const [activeTab, setActiveTab] = useState('artifacts');
+  const [isMinimized, setIsMinimized] = useState(false);
+  const [showProgressMonitor, setShowProgressMonitor] = useState(false);
+  const [progressSteps, setProgressSteps] = useState([]);
+  const [currentProgressStep, setCurrentProgressStep] = useState(0);
+  const [isProgressPaused, setIsProgressPaused] = useState(false);
+  const [crawlingSteps, setCrawlingSteps] = useState([]);
+  const [isCrawlingActive, setIsCrawlingActive] = useState(false);
+
+  // Sample artifacts for demonstration
+  const [artifacts, setArtifacts] = useState<ArtifactFile[]>([
+    {
+      id: '1',
+      name: 'Business_Report.pdf',
+      type: 'document',
+      size: '2.4 MB',
+      preview: 'Executive summary of Q4 business performance...',
+      downloadUrl: '/api/download/business-report.pdf'
+    },
+    {
+      id: '2',
+      name: 'Sales_Data.xlsx',
+      type: 'spreadsheet',
+      size: '1.8 MB',
+      preview: 'Monthly sales figures and analytics...',
+      downloadUrl: '/api/download/sales-data.xlsx'
+    },
+    {
+      id: '3',
+      name: 'Presentation.pptx',
+      type: 'presentation',
+      size: '5.2 MB',
+      preview: 'Q4 Results Presentation - 24 slides',
+      downloadUrl: '/api/download/presentation.pptx'
+    }
+  ]);
+
+  // Initialize progress steps for demo
+  useEffect(() => {
+    if (agentStatus === 'running') {
+      setProgressSteps([
+        { id: '1', title: 'Initializing', description: 'Setting up crawling environment', status: 'completed', duration: 1200 },
+        { id: '2', title: 'Loading Page', description: 'Navigating to target website', status: 'completed', duration: 2300 },
+        { id: '3', title: 'Extracting Data', description: 'Scraping content from page', status: 'running', duration: null },
+        { id: '4', title: 'Processing', description: 'Analyzing extracted information', status: 'pending', duration: null },
+        { id: '5', title: 'Finalizing', description: 'Saving results and cleanup', status: 'pending', duration: null }
+      ]);
+      setCrawlingSteps([
+        { id: '1', title: 'Page Load', description: 'Loading target webpage', status: 'completed', url: 'https://example.com' },
+        { id: '2', title: 'Element Detection', description: 'Finding data elements', status: 'running', url: 'https://example.com' },
+        { id: '3', title: 'Data Extraction', description: 'Extracting content', status: 'pending', url: 'https://example.com' }
+      ]);
+      setShowProgressMonitor(true);
+      setIsCrawlingActive(true);
+    }
+  }, [agentStatus]);
+
+  const handleDownload = async (file: ArtifactFile) => {
+    try {
+      if (file.downloadUrl) {
+        // Create a temporary link and trigger download
+        const link = document.createElement('a');
+        link.href = file.downloadUrl;
+        link.download = file.name;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+      } else {
+        // Fallback: open in new tab
+        window.open(file.url || '#', '_blank');
+      }
+    } catch (error) {
+      console.error('Download failed:', error);
+    }
+  };
+
+  const handleShare = async (file: ArtifactFile) => {
+    try {
+      if (navigator.share) {
+        await navigator.share({
+          title: file.name,
+          text: file.preview || `Sharing ${file.name}`,
+          url: file.url || window.location.href
+        });
+      } else {
+        // Fallback: copy to clipboard
+        const shareText = `${file.name}\n${file.preview || ''}\n${file.url || window.location.href}`;
+        await navigator.clipboard.writeText(shareText);
+        // You could show a toast notification here
+      }
+    } catch (error) {
+      console.error('Share failed:', error);
+    }
+  };
+
+  const handleCopy = async (file: ArtifactFile) => {
+    try {
+      const textToCopy = file.content || file.preview || file.name;
+      await navigator.clipboard.writeText(textToCopy);
+      // You could show a toast notification here
+    } catch (error) {
+      console.error('Copy failed:', error);
+    }
+  };
+
+  if (!isOpen) return null;
+
+  return (
+    <>
+      <AnimatePresence>
+        <motion.div
+          className="fixed inset-y-0 right-0 z-50 w-full sm:w-96 bg-white shadow-xl border-l"
+          initial={{ x: "100%" }}
+          animate={{ x: 0 }}
+          exit={{ x: "100%" }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+        >
+          {/* Header */}
+          <div className="flex items-center justify-between p-4 border-b bg-gradient-to-r from-blue-50 to-indigo-50">
+            <div className="flex items-center space-x-3">
+              <Brain className="h-6 w-6 text-blue-600" />
+              <div>
+                <h2 className="font-semibold text-gray-900">Helium's Brain</h2>
+                <p className="text-sm text-gray-600">All artifacts in one place</p>
+              </div>
+            </div>
+            
+            <div className="flex items-center space-x-2">
+              <Button size="sm" variant="ghost" onClick={() => setIsMinimized(!isMinimized)}>
+                {isMinimized ? <Maximize2 className="h-4 w-4" /> : <Minimize2 className="h-4 w-4" />}
+              </Button>
+              <Button size="sm" variant="ghost" onClick={onClose}>
+                <X className="h-4 w-4" />
+              </Button>
+            </div>
+          </div>
+
+          {!isMinimized && (
+            <div className="flex-1 flex flex-col h-full">
+              {/* Tabs */}
+              <Tabs value={activeTab} onValueChange={setActiveTab} className="flex-1 flex flex-col">
+                <TabsList className="grid w-full grid-cols-2 m-4 mb-0">
+                  <TabsTrigger value="artifacts" className="flex items-center space-x-2">
+                    <Folder className="h-4 w-4" />
+                    <span>Artifacts</span>
+                  </TabsTrigger>
+                  <TabsTrigger value="preview" className="flex items-center space-x-2">
+                    <Monitor className="h-4 w-4" />
+                    <span>Live Preview</span>
+                  </TabsTrigger>
+                </TabsList>
+
+                {/* Artifacts Tab */}
+                <TabsContent value="artifacts" className="flex-1 overflow-hidden m-4 mt-2">
+                  <div className="h-full overflow-y-auto space-y-3">
+                    {artifacts.map((file) => (
+                      <motion.div
+                        key={file.id}
+                        className="group relative bg-white border rounded-lg p-4 hover:shadow-md transition-all duration-200"
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        whileHover={{ scale: 1.02 }}
+                      >
+                        <div className="flex items-start space-x-3">
+                          <div className="flex-shrink-0">
+                            {getFileIcon(file.type)}
+                          </div>
+                          
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-medium text-gray-900 truncate">{file.name}</h4>
+                            <p className="text-sm text-gray-600 mt-1 line-clamp-2">{file.preview}</p>
+                            {file.size && (
+                              <p className="text-xs text-gray-500 mt-2">{file.size}</p>
+                            )}
+                          </div>
+                        </div>
+
+                        {/* Action Buttons - Show on Hover */}
+                        <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <div className="flex items-center space-x-1 bg-white/90 backdrop-blur-sm rounded-lg p-1 shadow-sm">
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-8 w-8 p-0"
+                              onClick={() => handleDownload(file)}
+                              title="Download"
+                            >
+                              <Download className="h-3 w-3" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-8 w-8 p-0"
+                              onClick={() => handleShare(file)}
+                              title="Share"
+                            >
+                              <Share2 className="h-3 w-3" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="ghost"
+                              className="h-8 w-8 p-0"
+                              onClick={() => handleCopy(file)}
+                              title="Copy"
+                            >
+                              <Copy className="h-3 w-3" />
+                            </Button>
+                          </div>
+                        </div>
+
+                        {/* File Type Badge */}
+                        <div className="absolute bottom-2 right-2">
+                          <Badge variant="outline" className="text-xs capitalize">
+                            {file.type}
+                          </Badge>
+                        </div>
+                      </motion.div>
+                    ))}
+
+                    {artifacts.length === 0 && (
+                      <div className="flex flex-col items-center justify-center h-64 text-gray-500">
+                        <Folder className="h-12 w-12 mb-4 text-gray-400" />
+                        <p className="text-center">No artifacts yet</p>
+                        <p className="text-sm text-center mt-1">Files will appear here as they are created</p>
+                      </div>
+                    )}
+                  </div>
+                </TabsContent>
+
+                {/* Live Preview Tab */}
+                <TabsContent value="preview" className="flex-1 overflow-hidden m-0">
+                  <LiveCrawlingPreview
+                    isActive={isCrawlingActive}
+                    currentUrl="https://example.com"
+                    steps={crawlingSteps}
+                    onPause={() => setIsCrawlingActive(false)}
+                    onResume={() => setIsCrawlingActive(true)}
+                    onStop={() => {
+                      setIsCrawlingActive(false);
+                      setShowProgressMonitor(false);
+                    }}
+                    isPaused={!isCrawlingActive}
+                  />
+                </TabsContent>
+              </Tabs>
+            </div>
+          )}
+        </motion.div>
+      </AnimatePresence>
+
+      {/* Bottom Progress Monitor */}
+      <BottomProgressMonitor
+        isVisible={showProgressMonitor}
+        isActive={isCrawlingActive}
+        steps={progressSteps}
+        currentStepIndex={currentProgressStep}
+        onStepChange={setCurrentProgressStep}
+        onPlay={() => setIsProgressPaused(false)}
+        onPause={() => setIsProgressPaused(true)}
+        onStop={() => {
+          setShowProgressMonitor(false);
+          setIsCrawlingActive(false);
+        }}
+        onClose={() => setShowProgressMonitor(false)}
+        isPaused={isProgressPaused}
+        isMinimized={false}
+        onToggleMinimize={() => {}}
+        autoProgress={true}
+        playbackSpeed={1}
+        onSpeedChange={() => {}}
+      />
+    </>
+  );
+};
+
+export default EnhancedToolCallSidePanel;
     assistantContent?: string,
     toolContent?: string,
   ) => React.ReactNode;

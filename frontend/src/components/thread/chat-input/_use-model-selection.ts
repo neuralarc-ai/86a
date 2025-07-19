@@ -36,7 +36,9 @@ export const MODELS = {
     priority: 110, 
     recommended: true,
     lowQuality: false,
-    description: 'Helio - Custom lightweight business model optimized for enterprise tasks'
+    description: 'Helio - Custom lightweight business model optimized for enterprise tasks',
+    display_name: 'Helio Business Model',
+    short_name: 'helio'
   },
   // Premium high-priority models
   'claude-sonnet-4': { 
@@ -118,13 +120,6 @@ export const MODELS = {
   },
   
   // Free tier models
-  'helio': { 
-    tier: 'free', 
-    priority: 70,
-    recommended: true,
-    lowQuality: false,
-    description: 'Helio - Custom lightweight business model optimized for enterprise tasks'
-  },
   'deepseek-r1': { 
     tier: 'free', 
     priority: 60,
@@ -270,6 +265,15 @@ export const useModelSelection = () => {
     if (!modelsData?.models || isLoadingModels) {
       models = [
         { 
+          id: 'helio', 
+          label: 'Helio Business Model', 
+          requiresSubscription: false,
+          description: MODELS['helio']?.description || 'Custom lightweight business model optimized for enterprise tasks',
+          priority: MODELS['helio']?.priority || 110,
+          top: true,
+          recommended: true
+        },
+        { 
           id: DEFAULT_FREE_MODEL_ID, 
           label: 'DeepSeek', 
           requiresSubscription: false,
@@ -277,11 +281,11 @@ export const useModelSelection = () => {
           priority: MODELS[DEFAULT_FREE_MODEL_ID]?.priority || 50
         },
         { 
-          id: DEFAULT_PREMIUM_MODEL_ID, 
+          id: 'claude-sonnet-4', 
           label: 'Claude Sonnet 4', 
-          requiresSubscription: true, 
-          description: MODELS[DEFAULT_PREMIUM_MODEL_ID]?.description || MODEL_TIERS.premium.baseDescription,
-          priority: MODELS[DEFAULT_PREMIUM_MODEL_ID]?.priority || 100
+          requiresSubscription: false, 
+          description: MODELS['claude-sonnet-4']?.description || MODEL_TIERS.free.baseDescription,
+          priority: MODELS['claude-sonnet-4']?.priority || 100
         },
       ];
     } else {
