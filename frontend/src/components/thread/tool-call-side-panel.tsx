@@ -6,7 +6,6 @@ import React from 'react';
 import { Slider } from '@/components/ui/slider';
 import { Skeleton } from '@/components/ui/skeleton';
 import { ApiMessageType } from '@/components/thread/types';
-import { ManusArtifactImplementation } from './manus-artifact-implementation';
 import { 
   CircleDashed, X, ChevronLeft, ChevronRight, Computer, Radio, Maximize2, 
   Minimize2, Play, RotateCcw, FileText, Image, Globe, BarChart3, BookOpen, 
@@ -23,8 +22,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
-import { ToolView } from './tool-views/wrapper';
+import { ToolView } from './tool-views/wrapper/ToolViewRegistry';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export interface ToolCallInput {
@@ -158,8 +156,6 @@ export function ToolCallSidePanel({
   const [isInitialized, setIsInitialized] = React.useState(false);
   const [selectedArtifactId, setSelectedArtifactId] = React.useState<string | null>(null);
   const [showReplayOptions, setShowReplayOptions] = React.useState(false);
-  const [activeTab, setActiveTab] = React.useState('artifacts');
-  const [processMonitorExpanded, setProcessMonitorExpanded] = React.useState(true);
 
   const isMobile = useIsMobile();
 
@@ -498,98 +494,134 @@ export function ToolCallSidePanel({
             </div>
           </div>
 
-          {/* Enhanced Content Area with Tabs */}
+          {/* Enhanced Content Area with Live Preview */}
           <div className="flex-1 overflow-hidden">
-            <Tabs value={activeTab} onValueChange={setActiveTab} className="h-full flex flex-col">
-              <TabsList className="grid w-full grid-cols-3 mx-4 mt-4">
-                <TabsTrigger value="artifacts" className="text-xs">
-                  <Globe className="h-3 w-3 mr-1" />
-                  Artifacts
-                </TabsTrigger>
-                <TabsTrigger value="live" className="text-xs">
-                  <Monitor className="h-3 w-3 mr-1" />
-                  Live Preview
-                </TabsTrigger>
-                <TabsTrigger value="tasks" className="text-xs">
-                  <List className="h-3 w-3 mr-1" />
-                  Tasks
-                </TabsTrigger>
-              </TabsList>
-
-              <div className="flex-1 overflow-hidden">
-                <TabsContent value="artifacts" className="h-full m-0 p-0">
-                  {/* Manus-Style Artifact Implementation */}
-                  <ManusArtifactImplementation
-                    agentId={agentName || 'helium-agent'}
-                    taskPlan={currentSnapshot ? {
-                      goal: `Processing ${getUserFriendlyToolName(currentSnapshot.toolCall.assistantCall.name || 'Tool')}`,
-                      complexity: 'medium' as const,
-                      phases: currentSnapshot.processSteps.map((step, index) => ({
-                        id: index + 1,
-                        title: step.name,
-                        description: step.description || `Execute ${step.name}`,
-                        status: step.status === 'completed' ? 'completed' : 
-                               step.status === 'in-progress' ? 'in_progress' : 
-                               step.status === 'error' ? 'failed' : 'pending',
-                        progress: step.progress || 0,
-                        estimatedTime: step.duration ? `${step.duration}ms` : undefined,
-                        requiredCapabilities: [currentSnapshot.toolCall.assistantCall.name || 'general'],
-                        dependencies: index > 0 ? [index] : [],
-                        successCriteria: [`Complete ${step.name} successfully`]
-                      })),
-                      currentPhase: currentSnapshot.processSteps.findIndex(step => step.status === 'in-progress') + 1 || 1,
-                      status: currentSnapshot.toolCall.toolResult?.content === 'STREAMING' ? 'active' : 'completed',
-                      estimatedTotalDuration: '2-5 minutes',
-                      successMetrics: ['Task completion', 'Quality output', 'Performance metrics'],
-                      createdAt: new Date(currentSnapshot.timestamp),
-                      updatedAt: new Date()
-                    } : undefined}
-                    files={currentSnapshot ? [{
-                      id: currentSnapshot.id,
-                      name: `${getUserFriendlyToolName(currentSnapshot.toolCall.assistantCall.name || 'output')}.${currentSnapshot.artifactType === 'code' ? 'tsx' : 'txt'}`,
-                      type: currentSnapshot.artifactType as any,
-                      size: currentSnapshot.toolCall.toolResult?.content ? 
-                            `${Math.round(currentSnapshot.toolCall.toolResult.content.length / 1024)}KB` : '0KB',
-                      path: `/artifacts/${currentSnapshot.id}`,
-                      content: currentSnapshot.toolCall.toolResult?.content || currentSnapshot.toolCall.assistantCall.content || '',
-                      lastModified: new Date(currentSnapshot.timestamp),
-                      status: currentSnapshot.toolCall.toolResult?.content === 'STREAMING' ? 'creating' : 'ready'
-                    }] : []}
-                    isActive={agentStatus === 'running'}
-                    onPhaseAdvance={(fromPhase, toPhase) => {
-                      console.log(`Phase advanced from ${fromPhase} to ${toPhase}`);
-                    }}
-                    onTaskComplete={() => {
-                      console.log('Task completed');
-                    }}
-                    onInterrupt={() => {
-                      console.log('Agent interrupted');
-                    }}
-                    className="h-full"
+            {currentSnapshot && (
+              <div className="h-full overflow-auto">
+                {/* Live Preview for Web Operations */}
+                {(currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('browser') || 
+                  currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('web') ||
+                  currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('crawl') ||
+                  currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('scrape')) && 
+                  currentSnapshot.toolCall.toolResult?.content === 'STREAMING' && (
+                  <div className="h-full bg-gray-900 p-4">
+                    {/* Live Screen Scraping Preview */}
+                    <div className="bg-white rounded-lg h-full relative overflow-hidden">
+                      {/* Browser Window Header */}
+                      <div className="bg-gray-200 p-2 flex items-center gap-2 border-b">
+                        <div className="flex gap-1">
+                          <div className="w-3 h-3 bg-red-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-yellow-500 rounded-full"></div>
+                          <div className="w-3 h-3 bg-green-500 rounded-full"></div>
+                        </div>
+                        <div className="flex-1 bg-white rounded px-3 py-1 text-sm text-gray-700">
+                          {currentSnapshot.toolCall.assistantCall.content?.match(/https?:\/\/[^\s]+/)?.[0] || 'https://example.com'}
+                        </div>
+                      </div>
+                      
+                      {/* Live Scraping Content */}
+                      <div className="p-4 h-full relative">
+                        {/* Animated Mouse Cursor */}
+                        <div 
+                          className="absolute w-4 h-4 pointer-events-none z-50 transition-all duration-1000 ease-in-out"
+                          style={{
+                            left: `${20 + (Date.now() / 50) % 60}%`,
+                            top: `${30 + Math.sin(Date.now() / 1000) * 20}%`,
+                            transform: 'rotate(-15deg)'
+                          }}
+                        >
+                          <svg viewBox="0 0 24 24" fill="currentColor" className="w-4 h-4 text-black">
+                            <path d="M13.64 21.97c-.16-.3-.26-.64-.26-1.02V11.31l6.05 5.79c.75.71.75 1.91 0 2.62l-5.79 5.79c-.71.75-1.91.75-2.62 0l-5.79-5.79c-.75-.71-.75-1.91 0-2.62L11.31 10.95H2.05c-.38 0-.72-.1-1.02-.26C.4 10.5 0 9.97 0 9.36V2.64C0 1.18 1.18 0 2.64 0h6.72c.61 0 1.14.4 1.33 1.03.16.3.26.64.26 1.02v8.64l5.79-5.79c.71-.75 1.91-.75 2.62 0l5.79 5.79c.75.71.75 1.91 0 2.62l-5.79 5.79z"/>
+                          </svg>
+                        </div>
+                        
+                        {/* Simulated Page Content with Highlighting */}
+                        <div className="space-y-4">
+                          <div className="h-8 bg-blue-100 rounded animate-pulse"></div>
+                          <div className="grid grid-cols-3 gap-4">
+                            <div className="h-20 bg-gray-100 rounded relative">
+                              <div 
+                                className="absolute inset-0 bg-yellow-200 opacity-50 rounded transition-opacity duration-500"
+                                style={{ opacity: Math.sin(Date.now() / 800) > 0 ? 0.5 : 0 }}
+                              ></div>
+                            </div>
+                            <div className="h-20 bg-gray-100 rounded relative">
+                              <div 
+                                className="absolute inset-0 bg-green-200 opacity-50 rounded transition-opacity duration-700"
+                                style={{ opacity: Math.sin(Date.now() / 1200) > 0 ? 0.5 : 0 }}
+                              ></div>
+                            </div>
+                            <div className="h-20 bg-gray-100 rounded"></div>
+                          </div>
+                          
+                          {/* Text Content with Progressive Highlighting */}
+                          <div className="space-y-2">
+                            {[1, 2, 3, 4, 5].map((line, index) => (
+                              <div key={line} className="h-4 bg-gray-100 rounded relative overflow-hidden">
+                                <div 
+                                  className="absolute left-0 top-0 h-full bg-blue-200 transition-all duration-2000 ease-in-out"
+                                  style={{ 
+                                    width: `${Math.min(100, Math.max(0, ((Date.now() / 100) % 500) - (index * 100)))}%` 
+                                  }}
+                                ></div>
+                              </div>
+                            ))}
+                          </div>
+                          
+                          {/* Data Extraction Indicators */}
+                          <div className="grid grid-cols-2 gap-4 mt-6">
+                            <div className="border-2 border-dashed border-blue-300 p-3 rounded">
+                              <div className="text-xs text-blue-600 font-medium mb-2">Extracting Links</div>
+                              <div className="space-y-1">
+                                {[1, 2, 3].map(item => (
+                                  <div key={item} className="h-2 bg-blue-100 rounded animate-pulse"></div>
+                                ))}
+                              </div>
+                            </div>
+                            <div className="border-2 border-dashed border-green-300 p-3 rounded">
+                              <div className="text-xs text-green-600 font-medium mb-2">Extracting Text</div>
+                              <div className="space-y-1">
+                                {[1, 2, 3].map(item => (
+                                  <div key={item} className="h-2 bg-green-100 rounded animate-pulse"></div>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        {/* Crawling Status Overlay */}
+                        <div className="absolute top-4 right-4 bg-black bg-opacity-75 text-white px-3 py-2 rounded-lg">
+                          <div className="flex items-center gap-2">
+                            <div className="w-2 h-2 bg-green-400 rounded-full animate-pulse"></div>
+                            <span className="text-sm">Live Crawling</span>
+                          </div>
+                          <div className="text-xs text-gray-300 mt-1">
+                            Step {Math.floor(Date.now() / 2000) % 5 + 1} of 5
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                )}
+                
+                {/* Original Tool View for Non-Web Operations or Completed Operations */}
+                {!(currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('browser') || 
+                   currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('web') ||
+                   currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('crawl') ||
+                   currentSnapshot.toolCall.assistantCall.name?.toLowerCase().includes('scrape')) ||
+                 currentSnapshot.toolCall.toolResult?.content !== 'STREAMING' ? (
+                  <ToolView
+                    name={currentSnapshot.toolCall.assistantCall.name || 'generic-tool'}
+                    assistantContent={currentSnapshot.toolCall.assistantCall.content}
+                    toolContent={currentSnapshot.toolCall.toolResult?.content}
+                    assistantTimestamp={currentSnapshot.toolCall.assistantCall.timestamp}
+                    toolTimestamp={currentSnapshot.timestamp}
+                    isSuccess={!currentSnapshot.toolCall.toolResult?.error}
+                    isStreaming={currentSnapshot.toolCall.toolResult?.content === 'STREAMING'}
                   />
-                </TabsContent>
-
-                <TabsContent value="live" className="h-full m-0 p-4">
-                  <div className="h-full flex items-center justify-center text-muted-foreground">
-                    <div className="text-center">
-                      <Globe className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p>Live preview will appear here</p>
-                      <p className="text-sm mt-2">Real-time browser simulation during web operations</p>
-                    </div>
-                  </div>
-                </TabsContent>
-
-                <TabsContent value="tasks" className="h-full m-0 p-4">
-                  <div className="h-full overflow-auto space-y-4">
-                    <div className="text-center text-muted-foreground">
-                      <List className="h-12 w-12 mx-auto mb-4 opacity-50" />
-                      <p>Task management coming soon</p>
-                      <p className="text-sm mt-2">Enhanced task tracking and management</p>
-                    </div>
-                  </div>
-                </TabsContent>
+                ) : null}
               </div>
-            </Tabs>
+            )}
           </div>
 
           {/* Enhanced Progress Footer */}
